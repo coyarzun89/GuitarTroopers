@@ -14,6 +14,7 @@
 #import "SimpleEnemy.h"
 #import "Helicopter.h"
 #import "Enemy.h"
+#import "LevelManager.h"
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
@@ -52,8 +53,10 @@
 -(void)gameLogic:(ccTime)dt {
     
     [[Helicopter new] initWithScene:self];
+    int minTime = [LevelManager sharedInstance].curLevel.minTime;
+    int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
     [self unschedule:@selector(gameLogic)];
-    [self schedule:@selector(gameLogic:) interval: rand() % 5 + 2];
+    [self schedule:@selector(gameLogic:) interval:rand() % maxTime + minTime];
 }
 
 - (id) init
@@ -67,8 +70,10 @@
         player = [CCSprite spriteWithFile:@"shooter.png"];
         player.position = ccp(winSize.width/2, player.contentSize.height/2);
         [self addChild:player];
-        
-        [self schedule:@selector(gameLogic:) interval: rand() % 5 + 2];
+        int minTime = [LevelManager sharedInstance].curLevel.minTime;
+        int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
+        [self schedule:@selector(gameLogic:) interval:rand() % maxTime + minTime];
+        //[self schedule:@selector(gameLogic:) interval: rand() % 5 + 2];
    
         monsters = [[NSMutableArray alloc] init];
         projectiles = [[NSMutableArray alloc] init];
@@ -169,7 +174,7 @@
             [self removeChild:monster.monster cleanup:YES];
             
             monstersDestroyed++;
-            if (monstersDestroyed > 30) {
+            if (monstersDestroyed > 3) {
                 CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
                 [[CCDirector sharedDirector] replaceScene:gameOverScene];
             }
