@@ -14,8 +14,10 @@
 @property (nonatomic, assign) int levelNum;
 @property (nonatomic, assign) int minTime;
 @property (nonatomic, assign) int maxTime;
+@property (nonatomic, assign) int minEnemy;
+@property (nonatomic, assign) int maxEnemy;
 @property (nonatomic, assign) ccColor4B backgroundColor;
 
-- (id)initWithLevelNum:(int)levelNum minTime:(int)minTime maxTime:(int)maxTime backgroundColor:(ccColor4B)backgroundColor;
+- (id)initWithLevelNum:(int)levelNum minTime:(int)minTime maxTime:(int)maxTime minEnemy:(int)minEnemy maxEnemy:(int)maxEnemy backgroundColor:(ccColor4B)backgroundColor;
 
 @end

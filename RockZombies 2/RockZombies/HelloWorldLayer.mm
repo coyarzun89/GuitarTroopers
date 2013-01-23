@@ -72,6 +72,8 @@
         [self addChild:player];
         int minTime = [LevelManager sharedInstance].curLevel.minTime;
         int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
+        
+        int maxEnemies = [LevelManager sharedInstance].curLevel.maxEnemy;
         [self schedule:@selector(gameLogic:) interval:rand() % maxTime + minTime];
         //[self schedule:@selector(gameLogic:) interval: rand() % 5 + 2];
    

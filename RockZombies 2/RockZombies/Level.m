@@ -10,11 +10,13 @@
 
 @implementation Level
 
-- (id)initWithLevelNum:(int)levelNum minTime:(int)minTime maxTime:(int)maxTime backgroundColor:(ccColor4B)backgroundColor {
+- (id)initWithLevelNum:(int)levelNum minTime:(int)minTime maxTime:(int)maxTime minEnemy:(int)minEnemy maxEnemy:(int)maxEnemy backgroundColor:(ccColor4B)backgroundColor {
     if ((self = [super init])) {
         self.levelNum = levelNum;
         self.minTime = minTime;
         self.maxTime = maxTime;
+        self.minEnemy = minEnemy;
+        self.maxEnemy = maxEnemy;
         self.backgroundColor = backgroundColor;
     }
     return self;
