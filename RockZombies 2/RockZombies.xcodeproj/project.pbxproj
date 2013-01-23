@@ -69,7 +69,7 @@
 		62F374BD16A098B000ED2718 /* Helicopter.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F374BC16A098B000ED2718 /* Helicopter.m */; };
 		F923112B16B056F100F96E2F /* LevelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F923112A16B056F100F96E2F /* LevelManager.m */; };
 		F923112E16B0574800F96E2F /* Level.m in Sources */ = {isa = PBXBuildFile; fileRef = F923112D16B0574800F96E2F /* Level.m */; };
-		F923113016B059B600F96E2F /* levelData.plist in Resources */ = {isa = PBXBuildFile; fileRef = F923112F16B059B600F96E2F /* levelData.plist */; };
+		F923113216B09DFB00F96E2F /* levelData.plist in Resources */ = {isa = PBXBuildFile; fileRef = F923113116B09DFB00F96E2F /* levelData.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -558,7 +558,7 @@
 		F923112A16B056F100F96E2F /* LevelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelManager.m; sourceTree = "<group>"; };
 		F923112C16B0574800F96E2F /* Level.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Level.h; sourceTree = "<group>"; };
 		F923112D16B0574800F96E2F /* Level.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Level.m; sourceTree = "<group>"; };
-		F923112F16B059B600F96E2F /* levelData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = levelData.plist; path = "../../../Downloads/Cocos2DSimpleGame 4/Cocos2DSimpleGame/levelData.plist"; sourceTree = "<group>"; };
+		F923113116B09DFB00F96E2F /* levelData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = levelData.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -669,11 +669,11 @@
 				625A9A8A16A1F8ED00B2C1B4 /* enemyLeftToRight-ipad.png */,
 				625A9A8716A1F44900B2C1B4 /* helicopterRightToLeft-ipad.png */,
 				625A9A8516A1F43800B2C1B4 /* enemyRightToLeft-ipad.png */,
+				F923113116B09DFB00F96E2F /* levelData.plist */,
 				1958DE47169E570100A3343B /* background-music-aac.caf */,
 				1958DE48169E570100A3343B /* pew-pew-lei.caf */,
 				1958DE49169E570100A3343B /* Player.png */,
 				19AB0A5A168552C600601699 /* Default.png */,
-				F923112F16B059B600F96E2F /* levelData.plist */,
 				19AB0A5C168552C600601699 /* Default-Landscape~ipad.png */,
 				19AB0A5E168552C600601699 /* fps_images.png */,
 				19AB0A60168552C700601699 /* fps_images-hd.png */,
@@ -1303,7 +1303,7 @@
 				62E7914916AE1C000037DB85 /* Projectile-ipadhd.png in Resources */,
 				62E7940616AF119F0037DB85 /* Progreso-ipad.png in Resources */,
 				62E7940716AF119F0037DB85 /* Progreso-ipadhd.png in Resources */,
-				F923113016B059B600F96E2F /* levelData.plist in Resources */,
+				F923113216B09DFB00F96E2F /* levelData.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
