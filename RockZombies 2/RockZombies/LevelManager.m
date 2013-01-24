@@ -59,6 +59,7 @@
     NSDictionary *level04 = [levelData valueForKey:@"level04"];
     NSDictionary *level05 = [levelData valueForKey:@"level05"];
     NSDictionary *level06 = [levelData valueForKey:@"level06"];
+    
     //NSString *path = [[NSBundle mainBundle] pathForResource:
     //                  @"levels" ofType:@"plist"];
     
@@ -71,17 +72,17 @@
     
     if ((self = [super init])) {
         _curLevelIdx = 0;
-        Level * level1 = [[Level alloc] initWithLevelNum:1 minTime:[[level01 valueForKey:@"minTime"] intValue] maxTime:[[level01 valueForKey:@"maxTime"] intValue] minEnemy:[[level01 valueForKey:@"minEnemy"] intValue] maxEnemy:[[level01 valueForKey:@"maxEnemy"] intValue] backgroundColor:ccc4(255, 255, 255, 255)];
+        Level * level1 = [[Level alloc] initWithLevelNum:1 minTime:[[level01 valueForKey:@"minTime"] intValue] maxTime:[[level01 valueForKey:@"maxTime"] intValue] minEnemy:[[level01 valueForKey:@"minEnemies"] intValue] maxEnemy:[[level01 valueForKey:@"maxEnemies"] intValue] backgroundColor:ccc4(255, 255, 255, 255)];
         
-        Level * level2 = [[Level alloc] initWithLevelNum:2 minTime:[[level02 valueForKey:@"minTime"] intValue] maxTime:[[level02 valueForKey:@"maxTime"] intValue] minEnemy:[[level02 valueForKey:@"minEnemy"] intValue] maxEnemy:[[level02 valueForKey:@"maxEnemy"] intValue] backgroundColor:ccc4(100, 150, 20, 255)];
+        Level * level2 = [[Level alloc] initWithLevelNum:2 minTime:[[level02 valueForKey:@"minTime"] intValue] maxTime:[[level02 valueForKey:@"maxTime"] intValue] minEnemy:[[level02 valueForKey:@"minEnemies"] intValue] maxEnemy:[[level02 valueForKey:@"maxEnemies"] intValue] backgroundColor:ccc4(100, 150, 20, 255)];
         
-        Level * level3 = [[Level alloc] initWithLevelNum:3 minTime:[[level03 valueForKey:@"minTime"] intValue] maxTime:[[level03 valueForKey:@"maxTime"] intValue] minEnemy:[[level03 valueForKey:@"minEnemy"] intValue] maxEnemy:[[level03 valueForKey:@"maxEnemy"] intValue] backgroundColor:ccc4(100, 0, 20, 255)];
+        Level * level3 = [[Level alloc] initWithLevelNum:3 minTime:[[level03 valueForKey:@"minTime"] intValue] maxTime:[[level03 valueForKey:@"maxTime"] intValue] minEnemy:[[level03 valueForKey:@"minEnemies"] intValue] maxEnemy:[[level03 valueForKey:@"maxEnemies"] intValue] backgroundColor:ccc4(100, 0, 20, 255)];
         
-        Level * level4 = [[Level alloc] initWithLevelNum:4 minTime:[[level04 valueForKey:@"minTime"] intValue] maxTime:[[level04 valueForKey:@"maxTime"] intValue] minEnemy:[[level04 valueForKey:@"minEnemy"] intValue] maxEnemy:[[level04 valueForKey:@"maxEnemy"] intValue] backgroundColor:ccc4(100, 250, 20, 255)];
+        Level * level4 = [[Level alloc] initWithLevelNum:4 minTime:[[level04 valueForKey:@"minTime"] intValue] maxTime:[[level04 valueForKey:@"maxTime"] intValue] minEnemy:[[level04 valueForKey:@"minEnemies"] intValue] maxEnemy:[[level04 valueForKey:@"maxEnemies"] intValue] backgroundColor:ccc4(100, 250, 20, 255)];
         
-        Level * level5 = [[Level alloc] initWithLevelNum:5 minTime:[[level05 valueForKey:@"minTime"] intValue] maxTime:[[level05 valueForKey:@"maxTime"] intValue] minEnemy:[[level05 valueForKey:@"minEnemy"] intValue] maxEnemy:[[level05 valueForKey:@"maxEnemy"] intValue] backgroundColor:ccc4(250, 250, 20, 255)];
+        Level * level5 = [[Level alloc] initWithLevelNum:5 minTime:[[level05 valueForKey:@"minTime"] intValue] maxTime:[[level05 valueForKey:@"maxTime"] intValue] minEnemy:[[level05 valueForKey:@"minEnemies"] intValue] maxEnemy:[[level05 valueForKey:@"maxEnemies"] intValue] backgroundColor:ccc4(250, 250, 20, 255)];
         
-        Level * level6 = [[Level alloc] initWithLevelNum:6 minTime:[[level06 valueForKey:@"minTime"] intValue] maxTime:[[level06 valueForKey:@"maxTime"] intValue] minEnemy:[[level06 valueForKey:@"minEnemy"] intValue] maxEnemy:[[level06 valueForKey:@"maxEnemy"] intValue] backgroundColor:ccc4(250, 250, 20, 255)];
+        Level * level6 = [[Level alloc] initWithLevelNum:6 minTime:[[level06 valueForKey:@"minTime"] intValue] maxTime:[[level06 valueForKey:@"maxTime"] intValue] minEnemy:[[level06 valueForKey:@"minEnemies"] intValue] maxEnemy:[[level06 valueForKey:@"maxEnemies"] intValue] backgroundColor:ccc4(250, 250, 20, 255)];
         _levels = @[level1, level2, level3, level4, level5, level6];
     }
     return self;

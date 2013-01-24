@@ -20,6 +20,6 @@
 
 @property Way way;
 @property (unsafe_unretained) CCSprite * helicopter;
--(id)initWithScene:(HelloWorldLayer *)mainLayer;
-
+-(id) initWithScene:(HelloWorldLayer *)mainLayer minEnemies:(int) minEnemies maxEnemies:(int) maxEnemies andEnemies:(NSMutableArray *) enemies;
+-(int) selectEnemyFromDictionary:(NSMutableDictionary *) enemies;
 @end

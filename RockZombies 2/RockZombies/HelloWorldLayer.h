@@ -23,10 +23,14 @@
     CCSprite *_player;
     CCSprite *_nextProjectile;
     CCProgressTimer * _playerLifeBar;
+    int _maxEnemies;
+    int _minEnemies;
+    NSMutableArray * _enemiesList;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
+-(NSMutableArray *) enemiesGenerator:(NSMutableDictionary *) enemies;
 @property (strong, nonatomic) NSMutableArray * monsters;
 @property (unsafe_unretained) CCSprite * player;
 @property (unsafe_unretained) NSMutableArray * helicopters;
@@ -35,5 +39,8 @@
 @property (strong, nonatomic) NSMutableArray * projectiles;
 @property (strong, nonatomic) NSMutableArray * enemyProjectiles;
 @property CCProgressTimer * playerLifeBar;
+@property int maxEnemies;
+@property int minEnemies;
+@property NSMutableArray * enemiesList;
 
 @end

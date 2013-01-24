@@ -32,6 +32,9 @@
 @synthesize projectiles;
 @synthesize playerLifeBar;
 @synthesize enemyProjectiles;
+@synthesize maxEnemies;
+@synthesize minEnemies;
+@synthesize enemiesList;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -52,16 +55,29 @@
 
 -(void)gameLogic:(ccTime)dt {
     
-    [[Helicopter new] initWithScene:self];
+    [[Helicopter new] initWithScene:self minEnemies:minEnemies maxEnemies:maxEnemies andEnemies:enemiesList];
     int minTime = [LevelManager sharedInstance].curLevel.minTime;
     int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
     [self unschedule:@selector(gameLogic)];
+    
     [self schedule:@selector(gameLogic:) interval:rand() % maxTime + minTime];
+    
 }
 
 - (id) init
 {
     if ((self = [super initWithColor:ccc4(255,255,255,255)])) {
+        
+        
+        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+        
+        //add keyed data
+        [dictionary setObject:@"15" forKey:@"0"];
+        [dictionary setObject:@"70" forKey:@"1"];
+        [dictionary setObject:@"15" forKey:@"2"];
+        
+        enemiesList = [self enemiesGenerator:dictionary];
+
         CGSize winSize = [CCDirector sharedDirector].winSize;
         CCSprite *fondo = [CCSprite spriteWithFile:@"fondo.jpg"];
         fondo.position = ccp(winSize.width/2, winSize.height/2);
@@ -73,10 +89,10 @@
         int minTime = [LevelManager sharedInstance].curLevel.minTime;
         int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
         
-        int maxEnemies = [LevelManager sharedInstance].curLevel.maxEnemy;
+        maxEnemies = [LevelManager sharedInstance].curLevel.maxEnemy;
+        minEnemies = [LevelManager sharedInstance].curLevel.minEnemy;
         [self schedule:@selector(gameLogic:) interval:rand() % maxTime + minTime];
-        //[self schedule:@selector(gameLogic:) interval: rand() % 5 + 2];
-   
+        
         monsters = [[NSMutableArray alloc] init];
         projectiles = [[NSMutableArray alloc] init];
         enemyProjectiles = [[NSMutableArray alloc] init];
@@ -188,7 +204,6 @@
         [self removeChild:projectile cleanup:YES];
     }
     
-    NSLog(@"Balas enemigas: %d", enemyProjectiles.count);
     NSMutableArray *enemyProjectilesToDelete = [[NSMutableArray alloc] init];
     for (CCSprite *projectile in enemyProjectiles)
         if (CGRectIntersectsRect(projectile.boundingBox, player.boundingBox)){
@@ -216,4 +231,22 @@
     AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
     [[app navController] dismissModalViewControllerAnimated:YES];
 }
+
+-(NSMutableArray *) enemiesGenerator:(NSMutableDictionary *) enemies
+{
+    int enemyChoosen;
+    int totalProbabilities = 0;
+    int probability;
+    NSMutableArray * enemyWithProbability = [[NSMutableArray alloc] init];
+    for(int i = 0; i < enemies.count; i++)
+    {
+        probability = [[enemies objectForKey:[NSString stringWithFormat:@"%d",i]] intValue]; //Verificar tipo de dato devuelto
+        
+        for(int j = 0; j < probability; j++)
+            [enemyWithProbability addObject:[NSNumber numberWithInt:i]];
+        totalProbabilities += probability;
+    }
+    return enemyWithProbability;
+}
+
 @end
