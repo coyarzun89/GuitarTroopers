@@ -13,4 +13,6 @@
 +(CCScene *) sceneWithWon:(BOOL)won;
 - (id)initWithWon:(BOOL)won;
 
+@property Boolean touchScreen;
+
 @end

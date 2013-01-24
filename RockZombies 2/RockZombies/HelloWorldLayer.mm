@@ -82,6 +82,13 @@
         CCSprite *fondo = [CCSprite spriteWithFile:@"fondo.jpg"];
         fondo.position = ccp(winSize.width/2, winSize.height/2);
         [self addChild:fondo];
+        
+        enemiesKilled = [NSString stringWithFormat:@"Enemies kills %d!", monstersDestroyed];
+        label = [CCLabelTTF labelWithString:enemiesKilled fontName:@"Arial" fontSize:16];
+        label.color = ccc3(255,255,255);
+        label.position = ccp(winSize.width-100, 40);
+        [self addChild:label];
+
         self.isTouchEnabled = YES;
         player = [CCSprite spriteWithFile:@"shooter.png"];
         player.position = ccp(winSize.width/2, player.contentSize.height/2);
@@ -194,10 +201,18 @@
             monstersDestroyed++;
             if (monstersDestroyed > 3) {
                 CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
+                
                 [[CCDirector sharedDirector] replaceScene:gameOverScene];
             }
         }
     }
+    enemiesKilled = [NSString stringWithFormat:@"Enemies kills %d!", monstersDestroyed];
+    label.string=enemiesKilled;
+    //
+    //label = [CCLabelTTF labelWithString:enemiesKilled fontName:@"Arial" fontSize:16];
+    //label.color = ccc3(255,255,255);
+    //label.position = ccp(400, 40);
+    //[self addChild:label];
     
     for (CCSprite *projectile in projectilesToDelete) {
         [projectiles removeObject:projectile];

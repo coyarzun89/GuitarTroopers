@@ -19,6 +19,8 @@
     NSMutableArray * _helicopters;
     NSMutableArray * _projectiles;
     NSMutableArray * _enemyProjectiles;
+    NSString * enemiesKilled;
+    CCLabelTTF * label;
     int _monstersDestroyed;
     CCSprite *_player;
     CCSprite *_nextProjectile;
@@ -42,5 +44,7 @@
 @property int maxEnemies;
 @property int minEnemies;
 @property NSMutableArray * enemiesList;
+@property NSString * enemiesKilled;
+@property CCLabelTTF * label;
 
 @end

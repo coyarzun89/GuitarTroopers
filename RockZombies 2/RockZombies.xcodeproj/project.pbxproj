@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1958DE45169E562000A3343B /* GameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958DE44169E562000A3343B /* GameOverLayer.m */; };
+		1958DE45169E562000A3343B /* GameOverLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1958DE44169E562000A3343B /* GameOverLayer.mm */; };
 		1958DE4C169E570100A3343B /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1958DE47169E570100A3343B /* background-music-aac.caf */; };
 		1958DE4D169E570100A3343B /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1958DE48169E570100A3343B /* pew-pew-lei.caf */; };
 		1958DE4E169E570100A3343B /* Player.png in Resources */ = {isa = PBXBuildFile; fileRef = 1958DE49169E570100A3343B /* Player.png */; };
@@ -477,7 +477,7 @@
 
 /* Begin PBXFileReference section */
 		1958DE43169E562000A3343B /* GameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverLayer.h; sourceTree = "<group>"; };
-		1958DE44169E562000A3343B /* GameOverLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverLayer.m; sourceTree = "<group>"; };
+		1958DE44169E562000A3343B /* GameOverLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameOverLayer.mm; sourceTree = "<group>"; };
 		1958DE47169E570100A3343B /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
 		1958DE48169E570100A3343B /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
 		1958DE49169E570100A3343B /* Player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Player.png; sourceTree = "<group>"; };
@@ -632,7 +632,7 @@
 				62F374BB16A098B000ED2718 /* Helicopter.h */,
 				62F374BC16A098B000ED2718 /* Helicopter.m */,
 				1958DE43169E562000A3343B /* GameOverLayer.h */,
-				1958DE44169E562000A3343B /* GameOverLayer.m */,
+				1958DE44169E562000A3343B /* GameOverLayer.mm */,
 				19AB0BE61685532200601699 /* FFTBufferManager.cpp */,
 				19AB0BE71685532200601699 /* FFTBufferManager.h */,
 				19AB0BD0168552C900601699 /* AppDelegate.h */,
@@ -1330,7 +1330,7 @@
 				19AB0BFF16857FEF00601699 /* CAXException.cpp in Sources */,
 				19AB0C061688CA5100601699 /* CADebugPrintf.cpp in Sources */,
 				19AB0C091688CB1B00601699 /* aurio_helper.cpp in Sources */,
-				1958DE45169E562000A3343B /* GameOverLayer.m in Sources */,
+				1958DE45169E562000A3343B /* GameOverLayer.mm in Sources */,
 				62F374B516A0889500ED2718 /* SimpleEnemy.mm in Sources */,
 				62F374BD16A098B000ED2718 /* Helicopter.m in Sources */,
 				62E7914516AE191C0037DB85 /* Enemy.m in Sources */,
