@@ -4,16 +4,21 @@
 <dict>
 	<key>level01</key>
 	<dict>
-		<key>Enemy1</key>
-		<integer>100</integer>
-		<key>Enemy2</key>
-		<integer>0</integer>
-		<key>Enemy3</key>
-		<integer>0</integer>
-		<key>Enemy4</key>
-		<integer>0</integer>
-		<key>Enemy5</key>
-		<integer>0</integer>
+		<key>enemies</key>
+		<dict>
+			<key>0</key>
+			<string>0</string>
+			<key>1</key>
+			<string>100</string>
+			<key>2</key>
+			<string>0</string>
+			<key>3</key>
+			<string>0</string>
+			<key>4</key>
+			<string>0</string>
+			<key>5</key>
+			<string>0</string>
+		</dict>
 		<key>minEnemies</key>
 		<integer>0</integer>
 		<key>maxEnemies</key>
@@ -25,16 +30,21 @@
 	</dict>
 	<key>level02</key>
 	<dict>
-		<key>Enemy1</key>
-		<integer>90</integer>
-		<key>Enemy2</key>
-		<integer>10</integer>
-		<key>Enemy3</key>
-		<integer>0</integer>
-		<key>Enemy4</key>
-		<integer>0</integer>
-		<key>Enemy5</key>
-		<integer>0</integer>
+		<key>enemies</key>
+		<dict>
+			<key>0</key>
+			<string>0</string>
+			<key>1</key>
+			<string>100</string>
+			<key>2</key>
+			<string>0</string>
+			<key>3</key>
+			<string>0</string>
+			<key>4</key>
+			<string>0</string>
+			<key>5</key>
+			<string>0</string>
+		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
 		<key>maxEnemies</key>
@@ -46,16 +56,21 @@
 	</dict>
 	<key>level03</key>
 	<dict>
-		<key>Enemy1</key>
-		<integer>80</integer>
-		<key>Enemy2</key>
-		<integer>20</integer>
-		<key>Enemy3</key>
-		<integer>0</integer>
-		<key>Enemy4</key>
-		<integer>0</integer>
-		<key>Enemy5</key>
-		<integer>0</integer>
+		<key>enemies</key>
+		<dict>
+			<key>0</key>
+			<string>0</string>
+			<key>1</key>
+			<string>100</string>
+			<key>2</key>
+			<string>0</string>
+			<key>3</key>
+			<string>0</string>
+			<key>4</key>
+			<string>0</string>
+			<key>5</key>
+			<string>0</string>
+		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
 		<key>maxEnemies</key>
@@ -67,16 +82,21 @@
 	</dict>
 	<key>level04</key>
 	<dict>
-		<key>Enemy1</key>
-		<integer>70</integer>
-		<key>Enemy2</key>
-		<integer>30</integer>
-		<key>Enemy3</key>
-		<integer>0</integer>
-		<key>Enemy4</key>
-		<integer>0</integer>
-		<key>Enemy5</key>
-		<integer>0</integer>
+		<key>enemies</key>
+		<dict>
+			<key>0</key>
+			<string>0</string>
+			<key>1</key>
+			<string>100</string>
+			<key>2</key>
+			<string>0</string>
+			<key>3</key>
+			<string>0</string>
+			<key>4</key>
+			<string>0</string>
+			<key>5</key>
+			<string>0</string>
+		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
 		<key>maxEnemies</key>
@@ -88,16 +108,21 @@
 	</dict>
 	<key>level05</key>
 	<dict>
-		<key>Enemy1</key>
-		<integer>60</integer>
-		<key>Enemy2</key>
-		<integer>40</integer>
-		<key>Enemy3</key>
-		<integer>0</integer>
-		<key>Enemy4</key>
-		<integer>0</integer>
-		<key>Enemy5</key>
-		<integer>0</integer>
+		<key>enemies</key>
+		<dict>
+			<key>0</key>
+			<string>0</string>
+			<key>1</key>
+			<string>100</string>
+			<key>2</key>
+			<string>0</string>
+			<key>3</key>
+			<string>0</string>
+			<key>4</key>
+			<string>0</string>
+			<key>5</key>
+			<string>0</string>
+		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
 		<key>maxEnemies</key>
@@ -109,16 +134,21 @@
 	</dict>
 	<key>level06</key>
 	<dict>
-		<key>Enemy1</key>
-		<integer>50</integer>
-		<key>Enemy2</key>
-		<integer>50</integer>
-		<key>Enemy3</key>
-		<integer>0</integer>
-		<key>Enemy4</key>
-		<integer>0</integer>
-		<key>Enemy5</key>
-		<integer>0</integer>
+		<key>enemies</key>
+		<dict>
+			<key>0</key>
+			<string>0</string>
+			<key>1</key>
+			<string>100</string>
+			<key>2</key>
+			<string>0</string>
+			<key>3</key>
+			<string>0</string>
+			<key>4</key>
+			<string>0</string>
+			<key>5</key>
+			<string>0</string>
+		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
 		<key>maxEnemies</key>
@@ -130,16 +160,21 @@
 	</dict>
 	<key>level07</key>
 	<dict>
-		<key>Enemy1</key>
-		<integer>40</integer>
-		<key>Enemy2</key>
-		<integer>50</integer>
-		<key>Enemy3</key>
-		<integer>10</integer>
-		<key>Enemy4</key>
-		<integer>0</integer>
-		<key>Enemy5</key>
-		<integer>0</integer>
+		<key>enemies</key>
+		<dict>
+			<key>0</key>
+			<string>0</string>
+			<key>1</key>
+			<string>100</string>
+			<key>2</key>
+			<string>0</string>
+			<key>3</key>
+			<string>0</string>
+			<key>4</key>
+			<string>0</string>
+			<key>5</key>
+			<string>0</string>
+		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
 		<key>maxEnemies</key>
@@ -151,16 +186,21 @@
 	</dict>
 	<key>level08</key>
 	<dict>
-		<key>Enemy1</key>
-		<integer>35</integer>
-		<key>Enemy2</key>
-		<integer>45</integer>
-		<key>Enemy3</key>
-		<integer>20</integer>
-		<key>Enemy4</key>
-		<integer>0</integer>
-		<key>Enemy5</key>
-		<integer>0</integer>
+		<key>enemies</key>
+		<dict>
+			<key>0</key>
+			<string>0</string>
+			<key>1</key>
+			<string>100</string>
+			<key>2</key>
+			<string>0</string>
+			<key>3</key>
+			<string>0</string>
+			<key>4</key>
+			<string>0</string>
+			<key>5</key>
+			<string>0</string>
+		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
 		<key>maxEnemies</key>
@@ -172,16 +212,21 @@
 	</dict>
 	<key>level09</key>
 	<dict>
-		<key>Enemy1</key>
-		<integer>30</integer>
-		<key>Enemy2</key>
-		<integer>40</integer>
-		<key>Enemy3</key>
-		<integer>30</integer>
-		<key>Enemy4</key>
-		<integer>0</integer>
-		<key>Enemy5</key>
-		<integer>0</integer>
+		<key>enemies</key>
+		<dict>
+			<key>0</key>
+			<string>0</string>
+			<key>1</key>
+			<string>100</string>
+			<key>2</key>
+			<string>0</string>
+			<key>3</key>
+			<string>0</string>
+			<key>4</key>
+			<string>0</string>
+			<key>5</key>
+			<string>0</string>
+		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
 		<key>maxEnemies</key>
@@ -193,16 +238,21 @@
 	</dict>
 	<key>level10</key>
 	<dict>
-		<key>Enemy1</key>
-		<integer>25</integer>
-		<key>Enemy2</key>
-		<integer>35</integer>
-		<key>Enemy3</key>
-		<integer>40</integer>
-		<key>Enemy4</key>
-		<integer>0</integer>
-		<key>Enemy5</key>
-		<integer>0</integer>
+		<key>enemies</key>
+		<dict>
+			<key>0</key>
+			<string>0</string>
+			<key>1</key>
+			<string>100</string>
+			<key>2</key>
+			<string>0</string>
+			<key>3</key>
+			<string>0</string>
+			<key>4</key>
+			<string>0</string>
+			<key>5</key>
+			<string>0</string>
+		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
 		<key>maxEnemies</key>

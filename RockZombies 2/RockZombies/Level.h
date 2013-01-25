@@ -17,7 +17,8 @@
 @property (nonatomic, assign) int minEnemy;
 @property (nonatomic, assign) int maxEnemy;
 @property (nonatomic, assign) ccColor4B backgroundColor;
+@property NSMutableDictionary *enemiesList;
 
-- (id)initWithLevelNum:(int)levelNum minTime:(int)minTime maxTime:(int)maxTime minEnemy:(int)minEnemy maxEnemy:(int)maxEnemy backgroundColor:(ccColor4B)backgroundColor;
+- (id)initWithLevelNum:(int)levelNum minTime:(int)minTime maxTime:(int)maxTime minEnemy:(int)minEnemy maxEnemy:(int)maxEnemy backgroundColor:(ccColor4B)backgroundColor andEnemiesList:(NSMutableDictionary *) enemiesList;
 
 @end

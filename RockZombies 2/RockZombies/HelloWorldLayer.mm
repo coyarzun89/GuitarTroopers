@@ -69,13 +69,7 @@
     if ((self = [super initWithColor:ccc4(255,255,255,255)])) {
         
         
-        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-        
-        //add keyed data
-        [dictionary setObject:@"15" forKey:@"0"];
-        [dictionary setObject:@"70" forKey:@"1"];
-        [dictionary setObject:@"15" forKey:@"2"];
-        
+        NSMutableDictionary *dictionary = [LevelManager sharedInstance].curLevel.enemiesList;
         enemiesList = [self enemiesGenerator:dictionary];
 
         CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -257,8 +251,10 @@
     {
         probability = [[enemies objectForKey:[NSString stringWithFormat:@"%d",i]] intValue]; //Verificar tipo de dato devuelto
         
-        for(int j = 0; j < probability; j++)
+        for(int j = 0; j < probability; j++){
             [enemyWithProbability addObject:[NSNumber numberWithInt:i]];
+            NSLog(@"%@", [enemyWithProbability objectAtIndex:[enemyWithProbability count] - 1]);
+        }
         totalProbabilities += probability;
     }
     return enemyWithProbability;
