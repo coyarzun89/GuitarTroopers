@@ -13,9 +13,14 @@
 
 @synthesize way;
 @synthesize helicopter;
+@synthesize enemiesList;
+@synthesize enemiesProbability;
 
--(id) initWithScene:(HelloWorldLayer *)mainLayer minEnemies:(int) minEnemies maxEnemies:(int) maxEnemies andEnemies:(NSMutableArray *) enemies
+-(id) initWithScene:(HelloWorldLayer *)mainLayer minEnemies:(int) minEnemies maxEnemies:(int) maxEnemies EnemiesList:(NSMutableArray *) enemiesList andEnemiesProbability:(NSMutableArray *) enemiesProbability
 {
+    self.enemiesProbability = enemiesProbability;
+    self.enemiesList = enemiesList;
+    
     if(arc4random() % 2 == 1){
         way = LeftToRight;
         helicopter = [CCSprite spriteWithFile:@"helicopterLeftToRight.png"];
@@ -57,20 +62,27 @@
     float delay = 0;
     int numEnemies = arc4random() % (maxEnemies -  minEnemies) + minEnemies + 1;
     
+    
     for(int i = 0; i <= numEnemies; i++){
         do{
             delay = arc4random() % (actualDuration * 1000)/(float)1000;
         }while(delay/actualDuration > 0.35 && delay/actualDuration < 0.65);
-        [self performSelector:@selector(launchEnemyWithLayer:) withObject:mainLayer afterDelay:delay];
-        NSLog(@" Enemigo Escogido: %d", [[enemies objectAtIndex:arc4random() % 100] intValue]);
+        [self performSelector:@selector(launchEnemyNumber:) withObject: mainLayer afterDelay:delay];
+        NSLog(@" Enemigo Escogido: %d", [[enemiesProbability objectAtIndex:arc4random() % 100] intValue]);
     }
-    
+    self.mainLayer = mainLayer;
     return self;
 }
 
--(void) launchEnemyWithLayer:(HelloWorldLayer *)mainLayer
+-(void) launchEnemyNumber:(HelloWorldLayer *) mainLayer
 {
-    [[SimpleEnemy alloc] initWithScene:mainLayer Color: [UIColor blackColor] Note:1 PosX: helicopter.position.x PosY: helicopter.position.y andWay: way];
+    int choosenEnemy = [[enemiesProbability objectAtIndex:arc4random() % 100] intValue];
+    NSLog(@"Numero random: %d tipos de enemigos: %d", choosenEnemy, [enemiesList count]);
+    for(id enemy in enemiesList)
+        if(choosenEnemy == [enemy enemyType])
+            [[Enemy alloc] initWithScene: mainLayer Type:[enemy enemyType] PosX:helicopter.position.x PosY:helicopter.position.y Life:[[enemy lifeBar] percentage] Damage:[enemy damage] Sprite:[enemy sprite]];
+    //[[Enemy alloc] initWithScene:mainLayer PosX: helicopter.position.x PosY: helicopter.position.y Life:100 Damage:20 Sprite:@"Algo"];
+             
 }
 
 @end

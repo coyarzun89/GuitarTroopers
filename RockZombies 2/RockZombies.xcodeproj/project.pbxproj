@@ -44,6 +44,7 @@
 		19AB0BFF16857FEF00601699 /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19AB0BFB16857FEF00601699 /* CAXException.cpp */; };
 		19AB0C061688CA5100601699 /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19AB0C041688CA5100601699 /* CADebugPrintf.cpp */; };
 		19AB0C091688CB1B00601699 /* aurio_helper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19AB0C071688CB1A00601699 /* aurio_helper.cpp */; };
+		62012E3716B222F100B407D0 /* EnemiesReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 62012E3616B222F000B407D0 /* EnemiesReader.m */; };
 		6236590116A33221007AFBD3 /* libChipmunk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A9E3616A200EC00B2C1B4 /* libChipmunk.a */; };
 		6236590216A33221007AFBD3 /* libcocos2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A9E3816A200EC00B2C1B4 /* libcocos2d.a */; };
 		6236590316A33221007AFBD3 /* libCocosDenshion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A9E3C16A200EC00B2C1B4 /* libCocosDenshion.a */; };
@@ -60,12 +61,11 @@
 		625A9A8C16A1F8ED00B2C1B4 /* enemyLeftToRight-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 625A9A8A16A1F8ED00B2C1B4 /* enemyLeftToRight-ipad.png */; };
 		625A9F3016A22C4E00B2C1B4 /* shooter-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 625A9F2F16A22C4E00B2C1B4 /* shooter-ipad.png */; };
 		6284EB1716A206740025A0CA /* fondo-ipad.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6284EB1616A206740025A0CA /* fondo-ipad.jpg */; };
-		62E7914516AE191C0037DB85 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E7914416AE191C0037DB85 /* Enemy.m */; };
 		62E7914816AE1C000037DB85 /* Projectile-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E7914616AE1C000037DB85 /* Projectile-ipad.png */; };
 		62E7914916AE1C000037DB85 /* Projectile-ipadhd.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E7914716AE1C000037DB85 /* Projectile-ipadhd.png */; };
 		62E7940616AF119F0037DB85 /* Progreso-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E7940416AF119F0037DB85 /* Progreso-ipad.png */; };
 		62E7940716AF119F0037DB85 /* Progreso-ipadhd.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E7940516AF119F0037DB85 /* Progreso-ipadhd.png */; };
-		62F374B516A0889500ED2718 /* SimpleEnemy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 62F374B416A0889500ED2718 /* SimpleEnemy.mm */; };
+		62F374B516A0889500ED2718 /* Enemy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 62F374B416A0889500ED2718 /* Enemy.mm */; };
 		62F374BD16A098B000ED2718 /* Helicopter.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F374BC16A098B000ED2718 /* Helicopter.m */; };
 		F923112B16B056F100F96E2F /* LevelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F923112A16B056F100F96E2F /* LevelManager.m */; };
 		F923112E16B0574800F96E2F /* Level.m in Sources */ = {isa = PBXBuildFile; fileRef = F923112D16B0574800F96E2F /* Level.m */; };
@@ -532,6 +532,8 @@
 		19AB0C051688CA5100601699 /* CADebugPrintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugPrintf.h; sourceTree = "<group>"; };
 		19AB0C071688CB1A00601699 /* aurio_helper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aurio_helper.cpp; sourceTree = "<group>"; };
 		19AB0C081688CB1A00601699 /* aurio_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aurio_helper.h; sourceTree = "<group>"; };
+		62012E3516B222F000B407D0 /* EnemiesReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemiesReader.h; sourceTree = "<group>"; };
+		62012E3616B222F000B407D0 /* EnemiesReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnemiesReader.m; sourceTree = "<group>"; };
 		6236590616A34111007AFBD3 /* fondo-ipadhd.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "fondo-ipadhd.jpg"; sourceTree = "<group>"; };
 		6236590816A34267007AFBD3 /* shooter-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shooter-ipadhd.png"; sourceTree = "<group>"; };
 		6236590A16A342FF007AFBD3 /* enemyLeftToRight-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enemyLeftToRight-ipadhd.png"; sourceTree = "<group>"; };
@@ -545,14 +547,12 @@
 		625A9A8A16A1F8ED00B2C1B4 /* enemyLeftToRight-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enemyLeftToRight-ipad.png"; sourceTree = "<group>"; };
 		625A9F2F16A22C4E00B2C1B4 /* shooter-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shooter-ipad.png"; sourceTree = "<group>"; };
 		6284EB1616A206740025A0CA /* fondo-ipad.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "fondo-ipad.jpg"; sourceTree = "<group>"; };
-		62E7914316AE191C0037DB85 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
-		62E7914416AE191C0037DB85 /* Enemy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enemy.m; sourceTree = "<group>"; };
 		62E7914616AE1C000037DB85 /* Projectile-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Projectile-ipad.png"; sourceTree = "<group>"; };
 		62E7914716AE1C000037DB85 /* Projectile-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Projectile-ipadhd.png"; sourceTree = "<group>"; };
 		62E7940416AF119F0037DB85 /* Progreso-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Progreso-ipad.png"; path = "Resources/Progreso-ipad.png"; sourceTree = "<group>"; };
 		62E7940516AF119F0037DB85 /* Progreso-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Progreso-ipadhd.png"; path = "Resources/Progreso-ipadhd.png"; sourceTree = "<group>"; };
-		62F374B316A0889500ED2718 /* SimpleEnemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleEnemy.h; sourceTree = "<group>"; };
-		62F374B416A0889500ED2718 /* SimpleEnemy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleEnemy.mm; sourceTree = "<group>"; };
+		62F374B316A0889500ED2718 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
+		62F374B416A0889500ED2718 /* Enemy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Enemy.mm; sourceTree = "<group>"; };
 		62F374BB16A098B000ED2718 /* Helicopter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helicopter.h; sourceTree = "<group>"; };
 		62F374BC16A098B000ED2718 /* Helicopter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helicopter.m; sourceTree = "<group>"; };
 		F923112916B056F100F96E2F /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
@@ -625,10 +625,10 @@
 		19AB0A58168552C600601699 /* RockZombies */ = {
 			isa = PBXGroup;
 			children = (
-				62E7914316AE191C0037DB85 /* Enemy.h */,
-				62E7914416AE191C0037DB85 /* Enemy.m */,
-				62F374B316A0889500ED2718 /* SimpleEnemy.h */,
-				62F374B416A0889500ED2718 /* SimpleEnemy.mm */,
+				62012E3516B222F000B407D0 /* EnemiesReader.h */,
+				62012E3616B222F000B407D0 /* EnemiesReader.m */,
+				62F374B316A0889500ED2718 /* Enemy.h */,
+				62F374B416A0889500ED2718 /* Enemy.mm */,
 				62F374BB16A098B000ED2718 /* Helicopter.h */,
 				62F374BC16A098B000ED2718 /* Helicopter.m */,
 				1958DE43169E562000A3343B /* GameOverLayer.h */,
@@ -1331,11 +1331,11 @@
 				19AB0C061688CA5100601699 /* CADebugPrintf.cpp in Sources */,
 				19AB0C091688CB1B00601699 /* aurio_helper.cpp in Sources */,
 				1958DE45169E562000A3343B /* GameOverLayer.mm in Sources */,
-				62F374B516A0889500ED2718 /* SimpleEnemy.mm in Sources */,
+				62F374B516A0889500ED2718 /* Enemy.mm in Sources */,
 				62F374BD16A098B000ED2718 /* Helicopter.m in Sources */,
-				62E7914516AE191C0037DB85 /* Enemy.m in Sources */,
 				F923112B16B056F100F96E2F /* LevelManager.m in Sources */,
 				F923112E16B0574800F96E2F /* Level.m in Sources */,
+				62012E3716B222F100B407D0 /* EnemiesReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

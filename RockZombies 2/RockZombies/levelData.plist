@@ -7,17 +7,17 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<string>0</string>
+			<integer>50</integer>
 			<key>1</key>
-			<string>100</string>
+			<integer>0</integer>
 			<key>2</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>3</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>4</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>5</key>
-			<string>0</string>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>0</integer>
@@ -33,17 +33,17 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>1</key>
-			<string>100</string>
+			<integer>100</integer>
 			<key>2</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>3</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>4</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>5</key>
-			<string>0</string>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -59,17 +59,17 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>1</key>
-			<string>100</string>
+			<integer>0</integer>
 			<key>2</key>
-			<string>0</string>
+			<integer>100</integer>
 			<key>3</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>4</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>5</key>
-			<string>0</string>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -85,17 +85,17 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>1</key>
-			<string>100</string>
+			<integer>0</integer>
 			<key>2</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>3</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>4</key>
-			<string>0</string>
+			<integer>100</integer>
 			<key>5</key>
-			<string>0</string>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -111,17 +111,17 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>1</key>
-			<string>100</string>
+			<integer>0</integer>
 			<key>2</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>3</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>4</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>5</key>
-			<string>0</string>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -137,17 +137,17 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>1</key>
-			<string>100</string>
+			<integer>0</integer>
 			<key>2</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>3</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>4</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>5</key>
-			<string>0</string>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -163,17 +163,17 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>1</key>
-			<string>100</string>
+			<integer>0</integer>
 			<key>2</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>3</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>4</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>5</key>
-			<string>0</string>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -189,17 +189,17 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>1</key>
-			<string>100</string>
+			<integer>0</integer>
 			<key>2</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>3</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>4</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>5</key>
-			<string>0</string>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -215,17 +215,17 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>1</key>
-			<string>100</string>
+			<integer>0</integer>
 			<key>2</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>3</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>4</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>5</key>
-			<string>0</string>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -241,17 +241,17 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>1</key>
-			<string>100</string>
+			<integer>0</integer>
 			<key>2</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>3</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>4</key>
-			<string>0</string>
+			<integer>0</integer>
 			<key>5</key>
-			<string>0</string>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>

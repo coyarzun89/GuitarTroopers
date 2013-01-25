@@ -12,6 +12,7 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 
+
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayerColor
 {
@@ -27,6 +28,7 @@
     CCProgressTimer * _playerLifeBar;
     int _maxEnemies;
     int _minEnemies;
+    NSMutableArray * _enemiesProbability;
     NSMutableArray * _enemiesList;
 }
 
@@ -43,8 +45,9 @@
 @property CCProgressTimer * playerLifeBar;
 @property int maxEnemies;
 @property int minEnemies;
-@property NSMutableArray * enemiesList;
+@property NSMutableArray * enemiesProbability;
 @property NSString * enemiesKilled;
 @property CCLabelTTF * label;
+@property NSMutableArray * enemiesList;
 
 @end

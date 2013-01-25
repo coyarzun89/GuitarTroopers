@@ -10,16 +10,24 @@
 #import "cocos2d.h"
 #import "GameOverLayer.h"
 #import "HelloWorldLayer.h"
-#import "SimpleEnemy.h"
+#import "Enemy.h"
 
 @interface Helicopter : NSObject {
 
     Way _way;
     CCSprite * _helicopter;
+    HelloWorldLayer * mainLayer;
+    NSMutableArray * _enemiesList;
+    NSMutableArray * _enemiesProbability;
 }
 
 @property Way way;
 @property (unsafe_unretained) CCSprite * helicopter;
--(id) initWithScene:(HelloWorldLayer *)mainLayer minEnemies:(int) minEnemies maxEnemies:(int) maxEnemies andEnemies:(NSMutableArray *) enemies;
+@property HelloWorldLayer * mainLayer;
+@property NSMutableArray * enemiesList;
+@property NSMutableArray * enemiesProbability;
+
+
+-(id) initWithScene:(HelloWorldLayer *)mainLayer minEnemies:(int) minEnemies maxEnemies:(int) maxEnemies EnemiesList:(NSMutableArray *)enemiesList andEnemiesProbability:(NSMutableArray *)enemiesProbability;
 -(int) selectEnemyFromDictionary:(NSMutableDictionary *) enemies;
 @end

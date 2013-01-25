@@ -11,10 +11,11 @@
 #import "HelloWorldLayer.h"
 #import "SimpleAudioEngine.h"
 #import "GameOverLayer.h"
-#import "SimpleEnemy.h"
+#import "Enemy.h"
 #import "Helicopter.h"
 #import "Enemy.h"
 #import "LevelManager.h"
+#import "EnemiesReader.h"
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
@@ -34,6 +35,7 @@
 @synthesize enemyProjectiles;
 @synthesize maxEnemies;
 @synthesize minEnemies;
+@synthesize enemiesProbability;
 @synthesize enemiesList;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
@@ -55,7 +57,7 @@
 
 -(void)gameLogic:(ccTime)dt {
     
-    [[Helicopter new] initWithScene:self minEnemies:minEnemies maxEnemies:maxEnemies andEnemies:enemiesList];
+    [[Helicopter new] initWithScene:self minEnemies:minEnemies maxEnemies:maxEnemies EnemiesList:enemiesList andEnemiesProbability:enemiesProbability];
     int minTime = [LevelManager sharedInstance].curLevel.minTime;
     int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
     [self unschedule:@selector(gameLogic)];
@@ -70,7 +72,9 @@
         
         
         NSMutableDictionary *dictionary = [LevelManager sharedInstance].curLevel.enemiesList;
-        enemiesList = [self enemiesGenerator:dictionary];
+        enemiesProbability = [self enemiesGenerator:dictionary];
+        
+        enemiesList = [[[EnemiesReader alloc] initWithScece:self] enemiesList];
 
         CGSize winSize = [CCDirector sharedDirector].winSize;
         CCSprite *fondo = [CCSprite spriteWithFile:@"fondo.jpg"];
@@ -249,8 +253,8 @@
     NSMutableArray * enemyWithProbability = [[NSMutableArray alloc] init];
     for(int i = 0; i < enemies.count; i++)
     {
-        probability = [[enemies objectForKey:[NSString stringWithFormat:@"%d",i]] intValue]; //Verificar tipo de dato devuelto
-        
+        probability = [[enemies objectForKey:[NSString stringWithFormat:@"%d",i]] intValue];
+
         for(int j = 0; j < probability; j++){
             [enemyWithProbability addObject:[NSNumber numberWithInt:i]];
             NSLog(@"%@", [enemyWithProbability objectAtIndex:[enemyWithProbability count] - 1]);
