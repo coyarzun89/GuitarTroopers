@@ -29,19 +29,21 @@
     self.damage = damage;
     self.enemyType = enemyType;
     lifeBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"Progreso.png"]];
-    //[lifeBar runAction:[CCProgressTo actionWithDuration:0.3f percent: 100]];
+
     self.remainingLife = Life;
     self.originalLife = Life;
     self.sprite = sprite;
 
   
     
-    [mainLayer addChild:lifeBar];
+    
     
     if( posX && posY)
     {
         monster = [CCSprite spriteWithFile:sprite];
         monster.position = ccp(posX, posY);
+        if(monster.position.x > mainLayer.player.position.x)
+            monster.flipX = 180;
         [mainLayer addChild:monster];
         // Determine speed of the monster
         int minDuration = 2.0;
@@ -64,7 +66,7 @@
         [lifeBar runAction:[CCSequence actions:[CCMoveTo actionWithDuration:actualDuration position:ccp(posX, 170)], nil]];
         CCAction* repeat  = [CCRepeatForever actionWithAction:[CCSequence actions: [CCMoveTo actionWithDuration:actualDuration position:ccp(posX, 100)], actionShoot, [CCDelayTime actionWithDuration:2], nil]];
         [monster runAction:repeat];
-        
+        [mainLayer addChild:lifeBar];
         [[mainLayer monsters] addObject:self];
    
     }

@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>level01</key>
+<array>
 	<dict>
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<integer>50</integer>
+			<integer>20</integer>
 			<key>1</key>
-			<integer>50</integer>
+			<integer>20</integer>
 			<key>2</key>
-			<integer>0</integer>
+			<integer>20</integer>
 			<key>3</key>
-			<integer>0</integer>
+			<integer>20</integer>
 			<key>4</key>
-			<integer>0</integer>
-			<key>5</key>
-			<integer>0</integer>
+			<integer>20</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -28,7 +25,6 @@
 		<key>maxTime</key>
 		<integer>6</integer>
 	</dict>
-	<key>level02</key>
 	<dict>
 		<key>enemies</key>
 		<dict>
@@ -42,8 +38,6 @@
 			<integer>0</integer>
 			<key>4</key>
 			<integer>0</integer>
-			<key>5</key>
-			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -54,7 +48,6 @@
 		<key>maxTime</key>
 		<integer>5</integer>
 	</dict>
-	<key>level03</key>
 	<dict>
 		<key>enemies</key>
 		<dict>
@@ -67,8 +60,6 @@
 			<key>3</key>
 			<integer>0</integer>
 			<key>4</key>
-			<integer>0</integer>
-			<key>5</key>
 			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
@@ -80,7 +71,6 @@
 		<key>maxTime</key>
 		<integer>4</integer>
 	</dict>
-	<key>level04</key>
 	<dict>
 		<key>enemies</key>
 		<dict>
@@ -94,8 +84,6 @@
 			<integer>0</integer>
 			<key>4</key>
 			<integer>100</integer>
-			<key>5</key>
-			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -106,7 +94,6 @@
 		<key>maxTime</key>
 		<integer>3</integer>
 	</dict>
-	<key>level05</key>
 	<dict>
 		<key>enemies</key>
 		<dict>
@@ -120,8 +107,6 @@
 			<integer>0</integer>
 			<key>4</key>
 			<integer>100</integer>
-			<key>5</key>
-			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -132,7 +117,6 @@
 		<key>maxTime</key>
 		<integer>2</integer>
 	</dict>
-	<key>level06</key>
 	<dict>
 		<key>enemies</key>
 		<dict>
@@ -146,8 +130,6 @@
 			<integer>0</integer>
 			<key>4</key>
 			<integer>100</integer>
-			<key>5</key>
-			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -158,7 +140,6 @@
 		<key>maxTime</key>
 		<integer>2</integer>
 	</dict>
-	<key>level07</key>
 	<dict>
 		<key>enemies</key>
 		<dict>
@@ -172,8 +153,6 @@
 			<integer>0</integer>
 			<key>4</key>
 			<integer>100</integer>
-			<key>5</key>
-			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -184,7 +163,6 @@
 		<key>maxTime</key>
 		<integer>2</integer>
 	</dict>
-	<key>level08</key>
 	<dict>
 		<key>enemies</key>
 		<dict>
@@ -198,8 +176,6 @@
 			<integer>0</integer>
 			<key>4</key>
 			<integer>100</integer>
-			<key>5</key>
-			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -210,7 +186,6 @@
 		<key>maxTime</key>
 		<integer>2</integer>
 	</dict>
-	<key>level09</key>
 	<dict>
 		<key>enemies</key>
 		<dict>
@@ -224,8 +199,6 @@
 			<integer>0</integer>
 			<key>4</key>
 			<integer>100</integer>
-			<key>5</key>
-			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -236,7 +209,6 @@
 		<key>maxTime</key>
 		<integer>2</integer>
 	</dict>
-	<key>level10</key>
 	<dict>
 		<key>enemies</key>
 		<dict>
@@ -250,8 +222,6 @@
 			<integer>0</integer>
 			<key>4</key>
 			<integer>100</integer>
-			<key>5</key>
-			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
@@ -262,5 +232,5 @@
 		<key>maxTime</key>
 		<integer>2</integer>
 	</dict>
-</dict>
+</array>
 </plist>

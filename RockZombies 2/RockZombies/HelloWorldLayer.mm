@@ -65,7 +65,7 @@
     int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
     [self unschedule:@selector(gameLogic)];
     
-    [self schedule:@selector(gameLogic:) interval:rand() % maxTime + minTime];
+    [self schedule:@selector(gameLogic:) interval:arc4random() % maxTime + minTime];
     
 }
 

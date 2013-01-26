@@ -43,8 +43,11 @@
     if ((self = [super init])) {
         enemiesList = [[NSMutableArray alloc] init];
         NSDictionary *enemiesData = [self getDictionary:@"EnemiesData"];
-        for(id enemyId in enemiesData)
-            [enemiesList addObject:[[Enemy alloc] initWithScene:mainLayer Type: [[NSString stringWithFormat:@"%@",enemyId] intValue] PosX:nil PosY:nil Life:[[enemyId  valueForKey: @"HP"] intValue]  Damage:[[enemyId  valueForKey: @"Damage"] intValue]  Sprite:[enemyId  valueForKey: @"spriteNormal"]]];
+        int i = 0;
+        for(id enemyId in enemiesData){
+            [enemiesList addObject:[[Enemy alloc] initWithScene:mainLayer Type: [[NSString stringWithFormat:@"%d",i] intValue] PosX:nil PosY:nil Life:[[enemyId  valueForKey: @"HP"] intValue]  Damage:[[enemyId  valueForKey: @"Damage"] intValue]  Sprite:[enemyId  valueForKey: @"spriteNormal"]]];
+            i++;
+        }
         }
     return self;
 }

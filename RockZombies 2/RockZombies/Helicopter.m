@@ -62,14 +62,15 @@
     float delay = 0;
     int numEnemies;
     if(maxEnemies != minEnemies)
-        numEnemies = arc4random() % (maxEnemies + 1 -  minEnemies) + minEnemies ;
+        numEnemies = arc4random() % (maxEnemies -  minEnemies) + minEnemies ;
     else
         numEnemies = minEnemies;
-    
+    if(numEnemies == 0)
+        NSLog(@"Alerta");
     for(int i = 0; i < numEnemies; i++){
         do{
             delay = arc4random() % (actualDuration * 1000)/(float)1000;
-        }while(delay/actualDuration > 0.35 && delay/actualDuration < 0.65);
+        }while(delay/actualDuration > 0.35 && delay/actualDuration < 0.65 || delay/actualDuration < 0.15 || delay/actualDuration  > 0.85);
         [self performSelector:@selector(launchEnemyNumber:) withObject: mainLayer afterDelay:delay];
         NSLog(@" Enemigo Escogido: %d", [[enemiesProbability objectAtIndex:arc4random() % 100] intValue]);
     }

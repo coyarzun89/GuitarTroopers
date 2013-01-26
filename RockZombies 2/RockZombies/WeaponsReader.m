@@ -26,7 +26,6 @@
     if (!plist) {
         NSLog(@"Error reading plist from file '%s'", [localizedPath UTF8String]);
     }
-    
     return plist;
 }
 

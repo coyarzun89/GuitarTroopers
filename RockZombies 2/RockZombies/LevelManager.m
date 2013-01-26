@@ -52,17 +52,17 @@
 - (id)init {
     // Path to the plist (in the application bundle)
     
-    NSDictionary *levelData = [self getDictionary:@"levelData"];
-    NSDictionary *levelData01 = [levelData valueForKey:@"level01"];
-    NSDictionary *levelData02 = [levelData valueForKey:@"level02"];
-    NSDictionary *levelData03 = [levelData valueForKey:@"level03"];
-    NSDictionary *levelData04 = [levelData valueForKey:@"level04"];
-    NSDictionary *levelData05 = [levelData valueForKey:@"level05"];
-    NSDictionary *levelData06 = [levelData valueForKey:@"level06"];
-    NSDictionary *levelData07 = [levelData valueForKey:@"level07"];
-    NSDictionary *levelData08 = [levelData valueForKey:@"level08"];
-    NSDictionary *levelData09 = [levelData valueForKey:@"level09"];
-    NSDictionary *levelData10 = [levelData valueForKey:@"level10"];
+    NSArray *levelData = [self getDictionary:@"levelData"];
+    NSDictionary *levelData01 = [levelData objectAtIndex:0];
+    NSDictionary *levelData02 = [levelData objectAtIndex:1];
+    NSDictionary *levelData03 = [levelData objectAtIndex:2];
+    NSDictionary *levelData04 = [levelData objectAtIndex:3];
+    NSDictionary *levelData05 = [levelData objectAtIndex:4];
+    NSDictionary *levelData06 = [levelData objectAtIndex:5];
+    NSDictionary *levelData07 = [levelData objectAtIndex:6];
+    NSDictionary *levelData08 = [levelData objectAtIndex:7];
+    NSDictionary *levelData09 = [levelData objectAtIndex:8];
+    NSDictionary *levelData10 = [levelData objectAtIndex:9];
     
     //NSString *path = [[NSBundle mainBundle] pathForResource:
     //                  @"levels" ofType:@"plist"];

@@ -8,7 +8,7 @@
 		<key>Damage</key>
 		<integer>10</integer>
 		<key>spriteNormal</key>
-		<string>enemyLeftToRight.png</string>
+		<string>Enemy0.png</string>
 		<key>spriteShooting</key>
 		<string></string>
 	</dict>
@@ -18,7 +18,7 @@
 		<key>Damage</key>
 		<integer>50</integer>
 		<key>spriteNormal</key>
-		<string>enemyRightToLeft.png</string>
+		<string>Enemy1.png</string>
 		<key>spriteShooting</key>
 		<string></string>
 	</dict>
@@ -28,7 +28,7 @@
 		<key>Damage</key>
 		<integer>25</integer>
 		<key>spriteNormal</key>
-		<string>enemyRightToLeft.png</string>
+		<string>Enemy2.png</string>
 		<key>spriteShooting</key>
 		<string></string>
 	</dict>
@@ -38,17 +38,7 @@
 		<key>Damage</key>
 		<integer>40</integer>
 		<key>spriteNormal</key>
-		<string>enemyLeftToRight.png</string>
-		<key>spriteShooting</key>
-		<string></string>
-	</dict>
-	<dict>
-		<key>HP</key>
-		<integer>55</integer>
-		<key>Damage</key>
-		<integer>50</integer>
-		<key>spriteNormal</key>
-		<string>enemyRightToLeft.png</string>
+		<string>Enemy3.png</string>
 		<key>spriteShooting</key>
 		<string></string>
 	</dict>
