@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "HelloWorldLayer.h"
-#import <UIKit/UIColor.h>
 #import "Enemy.h"
+#import "Projectile.h"
 
 typedef enum{
     LeftToRight,
@@ -26,19 +26,22 @@ typedef enum{
     int enemyType;
     int damage;
     NSString * sprite;
+    int _remainingLife;
+    int _OriginalLife;
 }
 
 @property int note;
 @property NSMutableArray * enemyProjectiles;
 @property (strong, nonatomic) NSMutableArray * projectiles;
-@property int life;
+@property int remainingLife;
 @property CCSprite *monster;
 @property CCProgressTimer * lifeBar;
 @property int enemyType;
 @property int damage;
 @property NSString * sprite;;
+@property int originalLife;
 
--(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)type PosX:(int)posX PosY:(int)posY Life:(int)life Damage:(int)damage Sprite:(NSString *) sprite;
+-(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)type PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite;
 
 
 

@@ -6,12 +6,11 @@
 //
 //
 
+#import "WeaponsReader.h"
 
-#import "EnemiesReader.h"
+@implementation WeaponsReader
 
-@implementation EnemiesReader
-
-@synthesize enemiesList;
+@synthesize weaponsList;
 
 
 - (id)readPlist:(NSString *)fileName {
@@ -39,13 +38,13 @@
     return (NSDictionary *)[self readPlist:fileName];
 }
 
-- (id)initWithScece:(HelloWorldLayer *) mainLayer {
+- (id)initWithScene:(HelloWorldLayer *) mainLayer {
     if ((self = [super init])) {
-        enemiesList = [[NSMutableArray alloc] init];
-        NSDictionary *enemiesData = [self getDictionary:@"EnemiesData"];
-        for(id enemyId in enemiesData)
-            [enemiesList addObject:[[Enemy alloc] initWithScene:mainLayer Type: [[NSString stringWithFormat:@"%@",enemyId] intValue] PosX:nil PosY:nil Life:[[enemyId  valueForKey: @"HP"] intValue]  Damage:[[enemyId  valueForKey: @"Damage"] intValue]  Sprite:[enemyId  valueForKey: @"spriteNormal"]]];
-        }
+        weaponsList = [[NSMutableArray alloc] init];
+        NSArray *weaponsData = [self getArray:@"WeaponsData"];
+        for(id weaponId in weaponsData) 
+            [weaponsList addObject:[[WeaponAux alloc] initWithDamage:[[weaponId valueForKey: @"Damage"]intValue] RutaSprite:[weaponId valueForKey: @"Sprite"]]];
+    }
     return self;
 }
 

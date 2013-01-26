@@ -13,6 +13,7 @@
 #import "cocos2d.h"
 
 
+
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayerColor
 {
@@ -30,6 +31,8 @@
     int _minEnemies;
     NSMutableArray * _enemiesProbability;
     NSMutableArray * _enemiesList;
+    NSMutableArray * _weaponsList;
+    int selectedWeapon;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
@@ -49,5 +52,7 @@
 @property NSString * enemiesKilled;
 @property CCLabelTTF * label;
 @property NSMutableArray * enemiesList;
+@property NSMutableArray * weaponsList;
+@property int selectedWeapon;
 
 @end

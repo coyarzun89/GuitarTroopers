@@ -16,6 +16,7 @@
 #import "Enemy.h"
 #import "LevelManager.h"
 #import "EnemiesReader.h"
+#import "WeaponsReader.h"
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
@@ -37,6 +38,8 @@
 @synthesize minEnemies;
 @synthesize enemiesProbability;
 @synthesize enemiesList;
+@synthesize weaponsList;
+@synthesize selectedWeapon;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -70,11 +73,13 @@
 {
     if ((self = [super initWithColor:ccc4(255,255,255,255)])) {
         
-        
+        selectedWeapon = 0;
         NSMutableDictionary *dictionary = [LevelManager sharedInstance].curLevel.enemiesList;
         enemiesProbability = [self enemiesGenerator:dictionary];
         
         enemiesList = [[[EnemiesReader alloc] initWithScece:self] enemiesList];
+        
+        weaponsList = [[[WeaponsReader alloc] initWithScene:self] weaponsList];
 
         CGSize winSize = [CCDirector sharedDirector].winSize;
         CCSprite *fondo = [CCSprite spriteWithFile:@"fondo.jpg"];
@@ -122,56 +127,21 @@
     // Choose one of the touches to work with
     UITouch *touch = [touches anyObject];
     CGPoint location = [self convertTouchToNodeSpace:touch];
+
     
-    // Set up initial location of projectile
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    CCSprite *projectile = [CCSprite spriteWithFile:@"Projectile.png" rect:CGRectMake(0, 0, 20, 20)];
-    projectile.position = ccp(winSize.width/2, 20);
     
-    // Determine offset of location to projectile
-    CGPoint offset = ccpSub(location, projectile.position);
-    // Bail out if you are shooting down or backwards
-    if (offset.y <= player.position.y) return;
-    // Ok to add now - we've double checked position
+    if(location.y > winSize.height * 3.0 / 4.0) /*Aquí la implementación del cambio de arma*/
+        if(selectedWeapon < [weaponsList count] - 1)
+            selectedWeapon++;
+        else
+            selectedWeapon = 0;
+    NSLog(@"Arma: %d", selectedWeapon);
     
-    int realY = winSize.height+(projectile.contentSize.height/2);
-    float ratio = (float) offset.x / (float) offset.y;
-    int realX = (realY * ratio) + projectile.position.x;
-    CGPoint realDest = ccp(realX, realY);
-    
-    // Determine the length of how far you're shooting
-    int offRealX = realX - projectile.position.x;
-    int offRealY = realY - projectile.position.y;
-    float length = sqrtf((offRealX*offRealX)+(offRealY*offRealY));
-    float velocity = 480/1; // 480pixels/1sec
-    float realMoveDuration = length/velocity;
-    
-    // Determine angle to face
-    float angleRadians = atanf((float)offRealX / (float)offRealY);
-    float angleDegrees = CC_RADIANS_TO_DEGREES(angleRadians);
-    float cocosAngle =  angleDegrees;
-    float rotateDegreesPerSecond = 180 / 0.3; // Would take 0.5 seconds to rotate 180 degrees, or half a circle
-    float degreesDiff = player.rotation - cocosAngle;
-    float rotateDuration = fabs(degreesDiff / rotateDegreesPerSecond);
-    [player runAction:
-     [CCSequence actions:
-      [CCRotateTo actionWithDuration:rotateDuration angle:cocosAngle],
-      [CCCallBlock actionWithBlock:^{
-         // OK to add now - rotation is finished!
-         [self addChild:projectile];
-         [projectiles addObject:projectile];
-     }],
-      nil]];
-    
-    // Move projectile to actual endpoint
-    [projectile runAction:
-     [CCSequence actions:
-      [CCMoveTo actionWithDuration:0.5 position:realDest],
-      [CCCallBlockN actionWithBlock:^(CCNode *node) {
-         [projectiles removeObject:node];
-         [node removeFromParentAndCleanup:YES];
-     }],
-      nil]];
+    WeaponAux *selectedProjectile = [weaponsList objectAtIndex:selectedWeapon];
+    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y];
+    [self addChild:[projectile sprite]];
+    [projectiles addObject:[projectile sprite]];
     
     [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
 }
@@ -185,10 +155,14 @@
         for (Enemy *monster in monsters)
             if (CGRectIntersectsRect(projectile.boundingBox, monster.monster.boundingBox))
             {
-                int remainLife = monster.lifeBar.percentage - 50;
-                [monster.lifeBar runAction:[CCProgressFromTo actionWithDuration:0.3f from: monster.lifeBar.percentage to: monster.lifeBar.percentage - 50]];
+                NSLog(@"Vida antes del disparo: %d", monster.remainingLife);
+                monster.remainingLife -=  50;
+                NSLog(@"Vida Porcentual antes del disparo: %f", monster.lifeBar.percentage);
+                [monster.lifeBar runAction:[CCProgressFromTo actionWithDuration:0.3f from: monster.lifeBar.percentage to: monster.remainingLife * [monster originalLife] / 100.0]];
+                
+                NSLog(@"Vida Restante Porcentual: %f", monster.lifeBar.percentage);
                 [projectilesToDelete addObject:projectile];
-                if(remainLife <= 0)
+                if(monster.remainingLife <= 0)
                     [monstersToDelete addObject:monster];
             }
                 
@@ -206,11 +180,6 @@
     }
     enemiesKilled = [NSString stringWithFormat:@"Enemies kills %d!", monstersDestroyed];
     label.string=enemiesKilled;
-    //
-    //label = [CCLabelTTF labelWithString:enemiesKilled fontName:@"Arial" fontSize:16];
-    //label.color = ccc3(255,255,255);
-    //label.position = ccp(400, 40);
-    //[self addChild:label];
     
     for (CCSprite *projectile in projectilesToDelete) {
         [projectiles removeObject:projectile];

@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>0</key>
+<array>
 	<dict>
 		<key>HP</key>
 		<integer>15</integer>
 		<key>Damage</key>
-		<integer>5</integer>
+		<integer>10</integer>
 		<key>spriteNormal</key>
 		<string>enemyLeftToRight.png</string>
 		<key>spriteShooting</key>
 		<string></string>
 	</dict>
-	<key>1</key>
 	<dict>
 		<key>HP</key>
-		<integer>25</integer>
+		<integer>110</integer>
 		<key>Damage</key>
-		<integer>15</integer>
+		<integer>50</integer>
 		<key>spriteNormal</key>
 		<string>enemyRightToLeft.png</string>
 		<key>spriteShooting</key>
 		<string></string>
 	</dict>
-	<key>2</key>
 	<dict>
 		<key>HP</key>
 		<integer>35</integer>
@@ -35,7 +32,6 @@
 		<key>spriteShooting</key>
 		<string></string>
 	</dict>
-	<key>3</key>
 	<dict>
 		<key>HP</key>
 		<integer>45</integer>
@@ -46,7 +42,6 @@
 		<key>spriteShooting</key>
 		<string></string>
 	</dict>
-	<key>4</key>
 	<dict>
 		<key>HP</key>
 		<integer>55</integer>
@@ -57,5 +52,5 @@
 		<key>spriteShooting</key>
 		<string></string>
 	</dict>
-</dict>
+</array>
 </plist>

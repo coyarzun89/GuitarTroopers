@@ -67,6 +67,11 @@
 		62E7940716AF119F0037DB85 /* Progreso-ipadhd.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E7940516AF119F0037DB85 /* Progreso-ipadhd.png */; };
 		62F374B516A0889500ED2718 /* Enemy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 62F374B416A0889500ED2718 /* Enemy.mm */; };
 		62F374BD16A098B000ED2718 /* Helicopter.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F374BC16A098B000ED2718 /* Helicopter.m */; };
+		62FBC32516B3610200CE136E /* Projectile.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FBC32416B3610200CE136E /* Projectile.m */; };
+		62FBC32716B3775A00CE136E /* WeaponsData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62FBC32616B3775A00CE136E /* WeaponsData.plist */; };
+		62FBC32D16B3789500CE136E /* WeaponsReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FBC32B16B3789500CE136E /* WeaponsReader.m */; };
+		62FBC33016B37B1700CE136E /* WeaponAux.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FBC32F16B37B1700CE136E /* WeaponAux.m */; };
+		62FBC33216B3BBAE00CE136E /* Missile.gif in Resources */ = {isa = PBXBuildFile; fileRef = 62FBC33116B3BBAE00CE136E /* Missile.gif */; };
 		F923112B16B056F100F96E2F /* LevelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F923112A16B056F100F96E2F /* LevelManager.m */; };
 		F923112E16B0574800F96E2F /* Level.m in Sources */ = {isa = PBXBuildFile; fileRef = F923112D16B0574800F96E2F /* Level.m */; };
 		F923113216B09DFB00F96E2F /* levelData.plist in Resources */ = {isa = PBXBuildFile; fileRef = F923113116B09DFB00F96E2F /* levelData.plist */; };
@@ -555,6 +560,14 @@
 		62F374B416A0889500ED2718 /* Enemy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Enemy.mm; sourceTree = "<group>"; };
 		62F374BB16A098B000ED2718 /* Helicopter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helicopter.h; sourceTree = "<group>"; };
 		62F374BC16A098B000ED2718 /* Helicopter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helicopter.m; sourceTree = "<group>"; };
+		62FBC32316B3610200CE136E /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
+		62FBC32416B3610200CE136E /* Projectile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Projectile.m; sourceTree = "<group>"; };
+		62FBC32616B3775A00CE136E /* WeaponsData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = WeaponsData.plist; sourceTree = "<group>"; };
+		62FBC32B16B3789500CE136E /* WeaponsReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponsReader.m; sourceTree = "<group>"; };
+		62FBC32C16B3789500CE136E /* WeaponsReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponsReader.h; sourceTree = "<group>"; };
+		62FBC32E16B37B1700CE136E /* WeaponAux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponAux.h; sourceTree = "<group>"; };
+		62FBC32F16B37B1700CE136E /* WeaponAux.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponAux.m; sourceTree = "<group>"; };
+		62FBC33116B3BBAE00CE136E /* Missile.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Missile.gif; sourceTree = "<group>"; };
 		F923112916B056F100F96E2F /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
 		F923112A16B056F100F96E2F /* LevelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelManager.m; sourceTree = "<group>"; };
 		F923112C16B0574800F96E2F /* Level.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Level.h; sourceTree = "<group>"; };
@@ -625,6 +638,10 @@
 		19AB0A58168552C600601699 /* RockZombies */ = {
 			isa = PBXGroup;
 			children = (
+				62FBC32E16B37B1700CE136E /* WeaponAux.h */,
+				62FBC32F16B37B1700CE136E /* WeaponAux.m */,
+				62FBC32316B3610200CE136E /* Projectile.h */,
+				62FBC32416B3610200CE136E /* Projectile.m */,
 				62012E3516B222F000B407D0 /* EnemiesReader.h */,
 				62012E3616B222F000B407D0 /* EnemiesReader.m */,
 				62F374B316A0889500ED2718 /* Enemy.h */,
@@ -645,6 +662,8 @@
 				F923112C16B0574800F96E2F /* Level.h */,
 				F923112D16B0574800F96E2F /* Level.m */,
 				19AB0BD7168552C900601699 /* IntroLayer.mm */,
+				62FBC32C16B3789500CE136E /* WeaponsReader.h */,
+				62FBC32B16B3789500CE136E /* WeaponsReader.m */,
 				19AB0A59168552C600601699 /* Resources */,
 				19AB0A73168552C700601699 /* libs */,
 				19AB0BCC168552C900601699 /* Supporting Files */,
@@ -655,8 +674,10 @@
 		19AB0A59168552C600601699 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				62FBC32616B3775A00CE136E /* WeaponsData.plist */,
 				F923113116B09DFB00F96E2F /* levelData.plist */,
 				F9475AFA16B179D000BBD667 /* EnemiesData.plist */,
+				62FBC33116B3BBAE00CE136E /* Missile.gif */,
 				62E7940416AF119F0037DB85 /* Progreso-ipad.png */,
 				62E7940516AF119F0037DB85 /* Progreso-ipadhd.png */,
 				62E7914616AE1C000037DB85 /* Projectile-ipad.png */,
@@ -1308,6 +1329,8 @@
 				62E7940716AF119F0037DB85 /* Progreso-ipadhd.png in Resources */,
 				F923113216B09DFB00F96E2F /* levelData.plist in Resources */,
 				F9475AFB16B179D000BBD667 /* EnemiesData.plist in Resources */,
+				62FBC32716B3775A00CE136E /* WeaponsData.plist in Resources */,
+				62FBC33216B3BBAE00CE136E /* Missile.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1336,6 +1359,9 @@
 				F923112B16B056F100F96E2F /* LevelManager.m in Sources */,
 				F923112E16B0574800F96E2F /* Level.m in Sources */,
 				62012E3716B222F100B407D0 /* EnemiesReader.m in Sources */,
+				62FBC32516B3610200CE136E /* Projectile.m in Sources */,
+				62FBC32D16B3789500CE136E /* WeaponsReader.m in Sources */,
+				62FBC33016B37B1700CE136E /* WeaponAux.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

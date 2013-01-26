@@ -60,10 +60,13 @@
     
     [[mainLayer helicopters] addObject:helicopter];
     float delay = 0;
-    int numEnemies = arc4random() % (maxEnemies -  minEnemies) + minEnemies + 1;
+    int numEnemies;
+    if(maxEnemies != minEnemies)
+        numEnemies = arc4random() % (maxEnemies + 1 -  minEnemies) + minEnemies ;
+    else
+        numEnemies = minEnemies;
     
-    
-    for(int i = 0; i <= numEnemies; i++){
+    for(int i = 0; i < numEnemies; i++){
         do{
             delay = arc4random() % (actualDuration * 1000)/(float)1000;
         }while(delay/actualDuration > 0.35 && delay/actualDuration < 0.65);
@@ -80,7 +83,7 @@
     NSLog(@"Numero random: %d tipos de enemigos: %d", choosenEnemy, [enemiesList count]);
     for(id enemy in enemiesList)
         if(choosenEnemy == [enemy enemyType])
-            [[Enemy alloc] initWithScene: mainLayer Type:[enemy enemyType] PosX:helicopter.position.x PosY:helicopter.position.y Life:[[enemy lifeBar] percentage] Damage:[enemy damage] Sprite:[enemy sprite]];
+            [[Enemy alloc] initWithScene: mainLayer Type:[enemy enemyType] PosX:helicopter.position.x PosY:helicopter.position.y Life: [enemy remainingLife] Damage:[enemy damage] Sprite:[enemy sprite]];
     //[[Enemy alloc] initWithScene:mainLayer PosX: helicopter.position.x PosY: helicopter.position.y Life:100 Damage:20 Sprite:@"Algo"];
              
 }

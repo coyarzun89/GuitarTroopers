@@ -11,8 +11,6 @@
 
 @interface EnemiesReader : NSObject{
     NSMutableArray * _enemiesList;
-    
-    
 }
 
 @property NSMutableArray * enemiesList;
