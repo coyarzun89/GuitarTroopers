@@ -40,6 +40,7 @@
 @synthesize enemiesList;
 @synthesize weaponsList;
 @synthesize selectedWeapon;
+@synthesize chords;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -72,6 +73,8 @@
 - (id) init
 {
     if ((self = [super initWithColor:ccc4(255,255,255,255)])) {
+        
+        chords = [[NSMutableArray alloc] init];
         
         selectedWeapon = 0;
         NSMutableDictionary *dictionary = [LevelManager sharedInstance].curLevel.enemiesList;

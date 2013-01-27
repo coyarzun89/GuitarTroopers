@@ -33,6 +33,7 @@
     NSMutableArray * _enemiesList;
     NSMutableArray * _weaponsList;
     int selectedWeapon;
+    NSMutableArray * _chords;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
@@ -54,5 +55,6 @@
 @property NSMutableArray * enemiesList;
 @property NSMutableArray * weaponsList;
 @property int selectedWeapon;
+@property NSMutableArray * chords;
 
 @end
