@@ -23,6 +23,7 @@
 @synthesize sprite;
 @synthesize remainingLife;
 @synthesize originalLife;
+@synthesize originalPositionX;
 
 -(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)enemyType PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite
 {
@@ -33,11 +34,7 @@
     self.remainingLife = Life;
     self.originalLife = Life;
     self.sprite = sprite;
-
   
-    
-    
-    
     if( posX && posY)
     {
         monster = [CCSprite spriteWithFile:sprite];
@@ -68,7 +65,7 @@
         [monster runAction:repeat];
         [mainLayer addChild:lifeBar];
         [[mainLayer monsters] addObject:self];
-   
+        
     }
     return self;
 }

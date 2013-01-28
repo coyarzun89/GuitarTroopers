@@ -6,20 +6,20 @@
 		<key>enemies</key>
 		<dict>
 			<key>0</key>
-			<integer>20</integer>
+			<integer>100</integer>
 			<key>1</key>
-			<integer>20</integer>
+			<integer>0</integer>
 			<key>2</key>
-			<integer>20</integer>
+			<integer>0</integer>
 			<key>3</key>
-			<integer>20</integer>
+			<integer>0</integer>
 			<key>4</key>
-			<integer>20</integer>
+			<integer>0</integer>
 		</dict>
 		<key>minEnemies</key>
 		<integer>1</integer>
 		<key>maxEnemies</key>
-		<integer>1</integer>
+		<integer>3</integer>
 		<key>minTime</key>
 		<integer>3</integer>
 		<key>maxTime</key>

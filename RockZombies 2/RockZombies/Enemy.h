@@ -27,7 +27,9 @@ typedef enum{
     int damage;
     NSString * sprite;
     int _remainingLife;
-    int _OriginalLife;
+    int _originalLife;
+    int originalPositionX;
+    
 }
 
 @property int note;
@@ -40,6 +42,7 @@ typedef enum{
 @property int damage;
 @property NSString * sprite;;
 @property int originalLife;
+@property int originalPositionX;
 
 -(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)type PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite;
 

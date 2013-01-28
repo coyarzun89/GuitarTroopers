@@ -4,6 +4,16 @@
 <array>
 	<dict>
 		<key>HP</key>
+		<integer>45</integer>
+		<key>Damage</key>
+		<integer>40</integer>
+		<key>spriteNormal</key>
+		<string>Enemy3.png</string>
+		<key>spriteShooting</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>HP</key>
 		<integer>15</integer>
 		<key>Damage</key>
 		<integer>10</integer>

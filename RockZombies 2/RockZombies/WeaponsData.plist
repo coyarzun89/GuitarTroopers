@@ -4,6 +4,18 @@
 <array>
 	<dict>
 		<key>Damage</key>
+		<integer>10</integer>
+		<key>Sprite</key>
+		<string>Projectile.png</string>
+	</dict>
+	<dict>
+		<key>Damage</key>
+		<integer>10</integer>
+		<key>Sprite</key>
+		<string>Projectile.png</string>
+	</dict>
+	<dict>
+		<key>Damage</key>
 		<integer>50</integer>
 		<key>Sprite</key>
 		<string>Missile.gif</string>

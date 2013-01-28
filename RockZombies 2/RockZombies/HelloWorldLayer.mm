@@ -41,6 +41,8 @@
 @synthesize weaponsList;
 @synthesize selectedWeapon;
 @synthesize chords;
+@synthesize enemiesPositionsList;
+
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -60,8 +62,8 @@
 
 
 -(void)gameLogic:(ccTime)dt {
-    
-    [[Helicopter new] initWithScene:self minEnemies:minEnemies maxEnemies:maxEnemies EnemiesList:enemiesList andEnemiesProbability:enemiesProbability];
+    if([enemiesPositionsList count] > 0)
+        [[Helicopter new] initWithScene:self minEnemies:minEnemies maxEnemies:maxEnemies EnemiesList:enemiesList andEnemiesProbability:enemiesProbability];
     int minTime = [LevelManager sharedInstance].curLevel.minTime;
     int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
     [self unschedule:@selector(gameLogic)];
@@ -73,8 +75,15 @@
 - (id) init
 {
     if ((self = [super initWithColor:ccc4(255,255,255,255)])) {
+        CGSize winSize = [CCDirector sharedDirector].winSize;
         
-        chords = [[NSMutableArray alloc] init];
+        enemiesPositionsList = [[NSMutableArray alloc ] init];
+        for(int i = 0; i < 6; i ++)
+            [enemiesPositionsList addObject:[NSNumber numberWithFloat:i * ((winSize.width - 70)/13.0)]];
+        for(int i = 8; i < 14; i ++)
+            [enemiesPositionsList addObject:[NSNumber numberWithFloat:i * ((winSize.width - 70)/13.0)]];
+        
+        
         
         selectedWeapon = 0;
         NSMutableDictionary *dictionary = [LevelManager sharedInstance].curLevel.enemiesList;
@@ -83,8 +92,8 @@
         enemiesList = [[[EnemiesReader alloc] initWithScece:self] enemiesList];
         
         weaponsList = [[[WeaponsReader alloc] initWithScene:self] weaponsList];
-
-        CGSize winSize = [CCDirector sharedDirector].winSize;
+        
+        
         CCSprite *fondo = [CCSprite spriteWithFile:@"fondo.jpg"];
         fondo.position = ccp(winSize.width/2, winSize.height/2);
         [self addChild:fondo];
@@ -120,6 +129,19 @@
         playerLifeBar.percentage = 100;
         [self addChild:playerLifeBar];
         
+        chords = [[NSMutableArray alloc] init];
+        for(int i = 0; i < 6; i++)
+        {
+            CCSprite * chord;
+            if(i == 0)
+                chord = [CCSprite spriteWithFile: [NSString stringWithFormat:@"%d Selected.png", i]];
+            else
+                chord = [CCSprite spriteWithFile: [NSString stringWithFormat:@"%d.png", i]];
+            chord.position = ccp(winSize.width * (0.60 + 0.15 * (i / 3)), winSize.height * ( 0.03 * (i % 3)) + 20);
+            [chords addObject:chord];
+            [self addChild:chord];
+        }
+        
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background-music-aac.caf"];        
     }
     return self;
@@ -134,12 +156,29 @@
     
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
+    for(int i =0; i < 6; i++)
+        if(selectedWeapon == i){
+            [[CCTextureCache sharedTextureCache] removeTexture: [[chords objectAtIndex:i] texture]];
+            CCTexture2D* tex = [[CCTextureCache sharedTextureCache] addImage:[NSString stringWithFormat:@"%d.png", i]];
+            CGSize size = [tex contentSize];
+            [[chords objectAtIndex:i] setTexture: tex];
+            [[chords objectAtIndex:i] setTextureRect:CGRectMake(0.0f, 0.0f, size.width,size.height)];
+        }
+    
     if(location.y > winSize.height * 3.0 / 4.0) /*Aquí la implementación del cambio de arma*/
         if(selectedWeapon < [weaponsList count] - 1)
             selectedWeapon++;
         else
             selectedWeapon = 0;
-    NSLog(@"Arma: %d", selectedWeapon);
+    //NSLog(@"Arma: %d", selectedWeapon);
+    for(int i =0; i < 6; i++)
+        if(selectedWeapon == i){
+        [[CCTextureCache sharedTextureCache] removeTexture: [[chords objectAtIndex:i] texture]];
+        CCTexture2D* tex = [[CCTextureCache sharedTextureCache] addImage:[NSString stringWithFormat:@"%d Selected.png", i]];
+        CGSize size = [tex contentSize];
+        [[chords objectAtIndex:i] setTexture: tex];
+        [[chords objectAtIndex:i] setTextureRect:CGRectMake(0.0f, 0.0f, size.width,size.height)];
+    }
     
     WeaponAux *selectedProjectile = [weaponsList objectAtIndex:selectedWeapon];
     Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y];
@@ -151,6 +190,7 @@
 
 - (void)update:(ccTime)dt {
     
+    //NSLog(@"Número de enemigos: %d", [monsters count]);
     NSMutableArray *projectilesToDelete = [[NSMutableArray alloc] init];
     for (CCSprite *projectile in projectiles) {
         
@@ -172,7 +212,7 @@
         for (Enemy *monster in monstersToDelete) {
             [monsters removeObject:monster];
             [self removeChild:monster.monster cleanup:YES];
-            
+            [enemiesPositionsList addObject:[NSNumber numberWithFloat:monster.originalPositionX]];
             monstersDestroyed++;
             if (monstersDestroyed > 3) {
                 CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];

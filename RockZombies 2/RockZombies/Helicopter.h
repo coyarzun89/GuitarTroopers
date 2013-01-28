@@ -11,22 +11,22 @@
 #import "GameOverLayer.h"
 #import "HelloWorldLayer.h"
 #import "Enemy.h"
+#import "MTRandom.h"
 
 @interface Helicopter : NSObject {
 
     Way _way;
     CCSprite * _helicopter;
-    HelloWorldLayer * mainLayer;
     NSMutableArray * _enemiesList;
     NSMutableArray * _enemiesProbability;
+    float _originalPositionX;
 }
 
 @property Way way;
 @property (unsafe_unretained) CCSprite * helicopter;
-@property HelloWorldLayer * mainLayer;
 @property NSMutableArray * enemiesList;
 @property NSMutableArray * enemiesProbability;
-
+@property float originalPositionX;
 
 -(id) initWithScene:(HelloWorldLayer *)mainLayer minEnemies:(int) minEnemies maxEnemies:(int) maxEnemies EnemiesList:(NSMutableArray *)enemiesList andEnemiesProbability:(NSMutableArray *)enemiesProbability;
 -(int) selectEnemyFromDictionary:(NSMutableDictionary *) enemies;
