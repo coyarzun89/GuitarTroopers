@@ -165,11 +165,13 @@
             [[chords objectAtIndex:i] setTextureRect:CGRectMake(0.0f, 0.0f, size.width,size.height)];
         }
     
-    if(location.y > winSize.height * 3.0 / 4.0) /*Aquí la implementación del cambio de arma*/
+    if(location.y > winSize.height * 3.0 / 4.0) {/*Aquí la implementación del cambio de arma*/
         if(selectedWeapon < [weaponsList count] - 1)
             selectedWeapon++;
         else
             selectedWeapon = 0;
+    }
+    
     //NSLog(@"Arma: %d", selectedWeapon);
     for(int i =0; i < 6; i++)
         if(selectedWeapon == i){
@@ -189,6 +191,9 @@
 }
 
 - (void)update:(ccTime)dt {
+    
+    AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+    [app doFFT];
     
     //NSLog(@"Número de enemigos: %d", [monsters count]);
     NSMutableArray *projectilesToDelete = [[NSMutableArray alloc] init];

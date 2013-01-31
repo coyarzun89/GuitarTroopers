@@ -1,52 +1,3 @@
-/*
-
-    File: FFTBufferManager.cpp
-Abstract: This class manages buffering and computation for FFT analysis on input audio data. The methods provided are used to grab the audio, buffer it, and perform the FFT when sufficient data is available
- Version: 1.21
-
-Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
-Inc. ("Apple") in consideration of your agreement to the following
-terms, and your use, installation, modification or redistribution of
-this Apple software constitutes acceptance of these terms.  If you do
-not agree with these terms, please do not use, install, modify or
-redistribute this Apple software.
-
-In consideration of your agreement to abide by the following terms, and
-subject to these terms, Apple grants you a personal, non-exclusive
-license, under Apple's copyrights in this original Apple software (the
-"Apple Software"), to use, reproduce, modify and redistribute the Apple
-Software, with or without modifications, in source and/or binary forms;
-provided that if you redistribute the Apple Software in its entirety and
-without modifications, you must retain this notice and the following
-text and disclaimers in all such redistributions of the Apple Software.
-Neither the name, trademarks, service marks or logos of Apple Inc. may
-be used to endorse or promote products derived from the Apple Software
-without specific prior written permission from Apple.  Except as
-expressly stated in this notice, no other rights or licenses, express or
-implied, are granted by Apple herein, including but not limited to any
-patent rights that may be infringed by your derivative works or by other
-works in which the Apple Software may be incorporated.
-
-The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
-MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
-THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
-FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
-OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
-
-IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
-OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
-MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
-AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
-STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
-
-Copyright (C) 2010 Apple Inc. All Rights Reserved.
-
-
-*/
-
 #include "FFTBufferManager.h"
 #include <vector>
 #include <cmath>
@@ -55,13 +6,13 @@ Copyright (C) 2010 Apple Inc. All Rights Reserved.
 #define min(x,y) (x < y) ? x : y
 
 FFTBufferManager::FFTBufferManager(UInt32 inNumberFrames, UInt32 hwSampleRate) :
-	mNeedsAudioData(0),
-	mHasAudioData(0),
-	mNumberFrames(inNumberFrames),
-    mSampleRate(hwSampleRate),
-	mAudioBufferSize(inNumberFrames * sizeof(int32_t)),
-    mAudioBufferCurrentIndex(0)
-    
+mNeedsAudioData(0),
+mHasAudioData(0),
+mNumberFrames(inNumberFrames),
+mSampleRate(hwSampleRate),
+mAudioBufferSize(inNumberFrames * sizeof(int32_t)),
+mAudioBufferCurrentIndex(0)
+
 {
 	mAudioBuffer = (int32_t*)malloc(mAudioBufferSize * sizeof(int32_t));
 	mSpectrumAnalysis = SpectrumAnalysisCreate(mNumberFrames);
@@ -76,6 +27,35 @@ FFTBufferManager::FFTBufferManager(UInt32 inNumberFrames, UInt32 hwSampleRate) :
     }
     for (int i = 1; i <= 60; i++)
         guitarFrequencySpectrum[i + 59 - 1] = guitarFrequencySpectrum[59 - 1] * pow(2, ((double)i / 12));
+    
+    CT = (double**)malloc(6*sizeof(double*));
+    for(int i = 0; i < 6; i++){
+        CT[i] = (double*)malloc(25*sizeof(double));
+        for(int j = 0; j < 25; j++){
+            switch (i){
+                case 0: //eHigh
+                    CT[0][j] = guitarFrequencySpectrum[j + 25 - 1];
+                    break;
+                case 1: //B
+                    CT[1][j] = guitarFrequencySpectrum[j + 20 - 1];
+                    break;
+                case 2: //G
+                    CT[2][j] = guitarFrequencySpectrum[j + 16 - 1];
+                    break;
+                case 3: //D
+                    CT[3][j] = guitarFrequencySpectrum[j + 11 - 1];
+                    break;
+                case 4: //A
+                    CT[4][j] = guitarFrequencySpectrum[j + 6 - 1];
+                    break;
+                case 5: //eLow
+                    CT[5][j] = guitarFrequencySpectrum[j + 1 - 1];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 FFTBufferManager::~FFTBufferManager()
@@ -103,153 +83,198 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
 {
 	if (HasNewAudioData())
 	{
+        // Borramos la frecuencia anterior
+        currentFrequency = -1;
+        
         // Realizamos una FFT
 		SpectrumAnalysisProcess(mSpectrumAnalysis, mAudioBuffer, outFFTData, false);
         
         // Variables Auxiliares
-        double num = 4804.6875;
+        int lengthFFT = mNumberFrames / 2;
+        double maxFreq = 4804.6875;
         double duration = ((double)mNumberFrames / (double)mSampleRate);
-        double bw = ((double)mSampleRate / (double)mNumberFrames) / 2;
+        double bw = ((double)mSampleRate / (double)mNumberFrames);
+        int lengthUsefulFFT = (int)(maxFreq*duration);
         
-        long promedio = 0;
-        for(int i = 0; i < mNumberFrames/2; i++)
-            promedio += outFFTData[i];
+        // Cálculo de la intensidad promedio de la señal
+        double intensidad = 0;
+        for(int i = 0; i < lengthFFT - 1; i++)
+            intensidad += outFFTData[i];
+        intensidad /= (double)lengthFFT;
         
-        promedio = promedio / mNumberFrames / 2;
-        currentFrequency = -1;
+        //printf("%lf\n", bw);
         
         // 35 con el iRig
-        if(promedio > 35){
-            // Se trunca la data, ya que la primera parte del espectro no sirve.
-            outFFTData[0] = 0;
-            outFFTData[1] = 0;
-            outFFTData[2] = 0;
-            outFFTData[3] = 0;
-            outFFTData[4] = 0;
-            outFFTData[5] = 0;
-            outFFTData[6] = 0;
+        // 100 ambiente leve ruido, guitarra electrica
+        if(intensidad > 25){
+            double* aBuscar = (double*)malloc(14*sizeof(double));
+            for(int i = 0; i <= 12; i++)
+                aBuscar[i] = CT[0][i];
+            aBuscar[13] = CT[5][0];
             
-            // Variables auxiliares.
-            int n2 = (int)(num*duration);
-            int32_t* result;
-            result = (int32_t*)malloc(n2* sizeof(int32_t));
+            intensidad *= (double)lengthFFT;
             
-            // Se trunca la data, ya que la primera parte del espectro no sirve.
-            for(int i = 0; i < n2; i++)
-                if(i <= 7)
-                    result[i] = 0;
-                else
-                    result[i] = outFFTData[i];
-            
-            // Se obtiene el máximo peak del espectro.
-            int32_t maxIndex = 0;
-            for(int i = 0; i < mNumberFrames/2; i++)
-                if(outFFTData[maxIndex] < outFFTData[i])
-                    maxIndex = i;
+            // Copiamos la FFT a un arreglo auxiliar, considerando solo hasta la maxFreq determinada
+            // Se escala la magnitud a valores entre 0 y 1
+            double* result = (double*)malloc(lengthUsefulFFT * sizeof(double));
+            //std::vector<double> result;
+            for(int i = 0; i < lengthUsefulFFT; i++){
+                double value = ((double)outFFTData[i])/((double)(intensidad));
+                result[i] = (/*i <= 5 || */value <= 0.005)? (double)0 : value;
+                //printf("%lf\t", result[i]);
+            }
+            //printf("\n");
             
             
             
-            //Se obtienen los peaks del espectro.
-            int32_t* sen2;
-            sen2 = (int32_t*)malloc(n2*sizeof(int32_t));
-            sen2[0] = 0;
-            sen2[n2-1] = 0;
-            for(int i = 1; i < n2 - 1; i++)
-                if(result[i] > result[i-1] && result[i] > result[i+1]){
-                    sen2[i] = result[i];
-                    if(sen2[i] < (int32_t)(0.3 * (float)outFFTData[maxIndex]))
-                        sen2[i] = 0;
+            // Se obtienen los peaks del espectro, el proceso se hace mediante vecindad definida
+            // por la variable threshold, es decir, tiene que ser máximo local en un radio
+            double* sen2 = (double*)malloc(lengthUsefulFFT*sizeof(double));
+            int32_t threshold = 4;
+            for(int i = 0; i < threshold; i++){
+                sen2[i] = 0;
+                sen2[lengthUsefulFFT - 1 - i] = 0;
+            }
+            
+            int skip = 1;
+            for(int i = threshold; i < lengthUsefulFFT - 1 - threshold; i += skip){
+                if(result[i] > 0){
+                    bool isMax = true;
+                    
+                    for(int j = -threshold; j <= threshold; j++){
+                        if(j != 0 && result[i] < result[i+j]){
+                            isMax = false;
+                            break;
+                        }
+                    }
+                    
+                    if(isMax){
+                        sen2[i] = result[i];
+                        skip = threshold;
+                        //printf("%d\t", i);
+                    }
+                }else{
+                    sen2[i] = 0;
+                    skip = 1;
                 }
-            
-            //currentFrequency = maxIndex * bw;
+            }
+            //printf("\n");
             
             // Se transforman los peaks recolectados a sus valores en frecuencia
             std::vector<double> h;
-            for(int i = 0; i < n2; i++){
-                if(sen2[i] > 0){
-                    bool encontrado = false;
-                    for(int j = 0; j < h.size(); j++)
-                        if(h[j] == ((float)(i+1))*bw)
-                            encontrado = true;
-                    if(!encontrado)
-                        h.push_back(((float)(i+1))*bw);
-                }
-            }
-            h.push_back( ((double)440) / pow(2, ((float)29 / 12)));
+            h.push_back(((double)8)*bw);
+            h.push_back(((double)10)*bw);
+            for(int i = 0; i < lengthUsefulFFT - threshold - 1; i++)
+                if(sen2[i] > 0.005)
+                    h.push_back(((double)i)*bw);
             
-            //currentFrequency = h.size();
-            
+            //printf("\n");
             
             // Transformamos las frecuencias obtenidas al espectro canónico de la guitarra.
-            for(int i = 0; i < h.size(); i++){
-                int a3 = 0;
-                for(int j = 1; j < 118; j++){
-                    if(a3 < 1 && abs(h[i] - GetFrequency(j)) < abs(h[i] - GetFrequency(j + 1))){
-                        replace(h.begin(), h.end(), h[i], GetFrequency(j));
-                        a3 = 2;
+            for(int i = 0; i < h.size(); i++)
+                for(int j = 1; j < 118; j++)
+                    if(h[i] > GetFrequency(j) && h[i] < GetFrequency(j + 1)){
+                        if(abs(h[i] - GetFrequency(j)) < abs(h[i] - GetFrequency(j + 1)))
+                            h[i] = GetFrequency(j);
+                        else
+                            h[i] = GetFrequency(j+1);
+                        break;
                     }
-                }
-            }
+            
+            
             
             // Limpieza de repetidos
             sort(h.begin(), h.end());
             h.erase(unique(h.begin(), h.end()), h.end());
             
-            // Busqueda de los peaks más significativo
-            int count[] = {0,0,0};
-            double maxFreq[] = {0.0, 0.0, 0.0};
-            int maxIndexFreq[] = {0, 0, 0};
-            for (int i = 1; i < n2 - 1; i++){
-                if(maxFreq[0] < result[i]){
-                	maxFreq[2] = maxFreq[1];
-                	maxFreq[1] = maxFreq[0];
-                	maxFreq[0] = result[i];
-                	maxIndexFreq[2] = maxIndexFreq[1];
-                	maxIndexFreq[1] = maxIndexFreq[0];
-                	maxIndexFreq[0] = i;
-                }else if(maxFreq[1] < result[i]){
-                	maxFreq[2] = maxFreq[1];
-                	maxFreq[1] = result[i];
-                	maxIndexFreq[2] = maxIndexFreq[1];
-                	maxIndexFreq[1] = i;
-                }else if(maxFreq[2] < result[i]){
-                	maxFreq[2] = result[i];
-                	maxIndexFreq[2] = i;
-                }
-	    	}
-            maxFreq[0] = maxIndexFreq[0] * bw;
-            maxFreq[1] = maxIndexFreq[1] * bw;
-            maxFreq[2] = maxIndexFreq[2] * bw;
+            //for(int i = 0; i < h.size(); i++)
+            //    printf("%.1f ", h[i]);
+            //printf("\n");
             
             // Conteo de armonicos
-            for (int i = 0; i < 3; i++)
-            	for (int k = 1; k <= 12; k++)
-            		for (int m = 1; m < h.size(); m++)
-            			if (abs(k * maxFreq[i] - h[m]) < h[m] * 0.0289)
+            /*int32_t* count;
+             count = (int32_t*)malloc(h.size()* sizeof(int32_t));
+             for (int i = 0; i < h.size(); i++){
+             count[i] = 1;
+             for (int k = 2; k <= 20; k++){
+             for (int m = 1; m < h.size(); m++){
+             if (abs(k * h[i] - h[m]) < h[m] * 0.0289){
+             count[i]++;
+             break;
+             }
+             
+             }
+             if (h[i] < 110 && k == 4 && count[i] < 4){
+             count[i] = 0;
+             break;
+             }else if (h[i] >= 110 && h[i] <= 165 && k == 4 && count[i] < 4){
+             count[i] = 0;
+             break;
+             }else if(h[i] > 165 && h[i] <= 660 && k == 4 && count[i] < 4){
+             count[i] = 0;
+             break;
+             }else if(h[i] > 660){
+             count[i] = 0;
+             break;
+             }
+             }
+             }*/
+            
+            int32_t* count;
+            count = (int32_t*)malloc(14* sizeof(int32_t));
+            for (int i = 0; i < 14; i++){
+                count[i] = 1;
+            	for (int k = 2; k <= 20; k++){
+            		for (int m = 1; m < h.size(); m++){
+            			if (abs(k * aBuscar[i] - h[m]) < h[m] * 0.0289){
             				count[i]++;
+                            break;
+                        }
+                    }
+                    
+                    if (aBuscar[i] < 110 && k == 6 && count[i] < 6){
+                        count[i] = 0;
+                        break;
+                    }else if (aBuscar[i] >= 110 && aBuscar[i] <= 165 && k == 3 && count[i] < 3 ){
+                        count[i] = 0;
+                        break;
+                    }else if(aBuscar[i] > 165 && aBuscar[i] <= 660 && k == 3 && count[i] < 3){
+                        count[i] = 0;
+                        break;
+                    }else if(aBuscar[i] > 660){
+                        count[i] = 0;
+                        break;
+                    }
+                }
+            }
             
             // Busqueda de la fundametal
             int maxIndexFinal = 0;
-            int maxCountFinal = 0;
-            for(int i = 0; i < 3; i++)
+            int maxCountFinal = -1;
+            for(int i = 0; i < 14; i++)
             	if(maxCountFinal < count[i]){
             		maxCountFinal = count[i];
             		maxIndexFinal = i;
             	}
             
+            int32_t numberConflicts = 0;
+            for(int i = 0; i < 14; i++)
+            	if(maxCountFinal == count[i])
+                    numberConflicts++;
+            
             // Calculo de la diferencia
-            if(maxCountFinal > 3)
-                currentFrequency = maxFreq[maxIndexFinal];
+            if(maxCountFinal > 2)
+                currentFrequency = aBuscar[maxIndexFinal];
             else
                 currentFrequency = -1;
             
-            if(currentFrequency == 330)
-                currentFrequency = 80085;
+            if(currentFrequency > 0 && numberConflicts < 2)
+                printf("Frecuency: %.1f (%d) - %d\n", currentFrequency, maxCountFinal, numberConflicts);
             
             // Se libera la data
             free(sen2);
-            //free(diffsen2);
             free(result);
+            free(count);
         }
         
         // GOGOGOGOGO
