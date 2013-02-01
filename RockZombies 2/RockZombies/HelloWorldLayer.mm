@@ -191,10 +191,6 @@
 }
 
 - (void)update:(ccTime)dt {
-    
-    AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-    [app doFFT];
-    
     //NSLog(@"Número de enemigos: %d", [monsters count]);
     NSMutableArray *projectilesToDelete = [[NSMutableArray alloc] init];
     for (CCSprite *projectile in projectiles) {

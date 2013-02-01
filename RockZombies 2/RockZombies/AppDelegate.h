@@ -29,7 +29,7 @@
 	BOOL						unitHasBeenCreated;
     
     BOOL						mute;
-    
+    BOOL                        shouldRecord;
     FFTBufferManager*			fftBufferManager;
 	DCRejectionFilter*			dcFilter;
     CAStreamBasicDescription	thruFormat;
@@ -47,6 +47,7 @@
 @property (nonatomic, assign)	BOOL						unitIsRunning;
 @property (nonatomic, assign)	BOOL						unitHasBeenCreated;
 @property (nonatomic, assign)	BOOL					mute;
+@property (nonatomic, assign)	BOOL					shouldRecord;
 @property (nonatomic, assign)	AURenderCallbackStruct	inputProc;
 
 - (void)doFFT;
