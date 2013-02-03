@@ -23,6 +23,7 @@
 @synthesize fftBufferManager;
 @synthesize mute;
 @synthesize inputProc;
+@synthesize shouldRecord;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -39,7 +40,6 @@
 							   numberOfSamples:0];
     
 	director_ = (CCDirectorIOS*) [CCDirector sharedDirector];
-    
 	director_.wantsFullScreenLayout = YES;
     
 	// Display FSP and SPF
@@ -93,7 +93,7 @@
     
     // mute should be on at launch
 	self.mute = YES;
-    
+    self.shouldRecord = YES;
     // Initialize our remote i/o unit
 	
 	inputProc.inputProc = PerformThru;
@@ -153,6 +153,7 @@
 	
     
     [CDAudioManager initAsynchronously:kAMM_PlayAndRecord];
+    [NSThread detachNewThreadSelector:@selector(soundProcess) toTarget:self withObject:nil];
     
     // and add the scene to the stack. The director will run it when it automatically when the view is displayed.
 	[director_ pushScene: [IntroLayer scene]];
@@ -362,6 +363,7 @@ static OSStatus	PerformThru(
 // application will be killed
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    self.shouldRecord = NO;
 	CC_DIRECTOR_END();
 }
 
@@ -395,6 +397,16 @@ static OSStatus	PerformThru(
 
 - (NSUInteger) fftLength{
     return fftLength;
+}
+
+- (void)startTheBackgroundJob {
+    [self performSelectorOnMainThread:@selector(soundProcess) withObject:nil waitUntilDone:NO];
+}
+
+- (void)soundProcess {
+    while ([self shouldRecord])
+        [self doFFT];
+    [NSThread exit];
 }
 
 @end
