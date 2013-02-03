@@ -18,17 +18,7 @@ typedef enum{
 } Way;
 
 @interface Enemy : NSObject {
-    int _note;
-    NSMutableArray * _enemyProjectiles;
-    NSMutableArray * _projectiles;
-    CCSprite *_monster;
-    CCProgressTimer * _lifeBar;
-    int enemyType;
-    int damage;
-    NSString * sprite;
-    int _remainingLife;
-    int _originalLife;
-    int originalPositionX;
+
     
 }
 
@@ -43,8 +33,10 @@ typedef enum{
 @property NSString * sprite;;
 @property int originalLife;
 @property int originalPositionX;
+@property NSNumber * chord;
+@property CCLabelTTF * palabra;
 
--(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)type PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite;
+-(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)type PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite Chord:(NSNumber *) Chord;
 
 
 

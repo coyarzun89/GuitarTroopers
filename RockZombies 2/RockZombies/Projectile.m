@@ -14,9 +14,12 @@
 @synthesize sprite;
 @synthesize offRealX;
 @synthesize offRealY;
+@synthesize chord;
 
--(id) initWithLayer:(HelloWorldLayer *) mainLayer SpriteRute:(NSString *) SpriteRute Damage:(int) Damage InitialPosX:(int) InitialPosX InicialPosY:(int)InitialPosY FinalPosX:(int)FinalPosX FinalPosY:(int)FinalPosY
+-(id) initWithLayer:(HelloWorldLayer *) mainLayer SpriteRute:(NSString *) SpriteRute Damage:(int) Damage InitialPosX:(int) InitialPosX InicialPosY:(int)InitialPosY FinalPosX:(int)FinalPosX FinalPosY:(int)FinalPosY Chord:(int) Chord
 {
+    self.chord = Chord;
+    
     CGPoint location = CGPointMake(FinalPosX, FinalPosY);
     
     sprite = [CCSprite spriteWithFile: SpriteRute];
@@ -45,23 +48,6 @@
         realY = -(sprite.contentSize.height/2);
         realDest = ccp(realX, realY);
     }
-    
-    
-    /*
-    else if( FinalPosX < InitialPosX)
-    {
-        realY = winSize.width+(sprite.contentSize.width/2);
-        ratio = (float) offset.x / (float) offset.y;
-        realX = (realY * ratio) + sprite.position.x;
-        realDest = ccp(-realX, -realY);
-    }
-    else if( InitialPosX < FinalPosX)
-    {
-        realX = winSize.width + (sprite.contentSize.width/2);
-        ratio = (float) offset.x / (float) offset.y;
-        realY = (realX * ratio) + sprite.position.y ;
-        realDest = ccp(-realY, -realX);
-    }*/
     
     // Determine the length of how far you're shooting
     offRealX = realX - sprite.position.x;

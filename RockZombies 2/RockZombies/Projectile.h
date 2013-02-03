@@ -11,16 +11,14 @@
 #import "HelloWorldLayer.h"
 
 @interface Projectile : NSObject {
-    CCSprite * _sprite;
-    int damage;
-    int offRealX;
-    int offRealY;
+   
 }
 
 @property CCSprite * sprite;
 @property int offRealX;
 @property int offRealY;
+@property int chord;
 
--(id) initWithLayer:(HelloWorldLayer *) mainLayer SpriteRute:(NSString *) SpriteRute Damage:(int) Damage InitialPosX:(int) InitialPosX InicialPosY:(int)InitialPosY FinalPosX:(int)FinalPosX FinalPosY:(int)FinalPosY;
+-(id) initWithLayer:(HelloWorldLayer *) mainLayer SpriteRute:(NSString *) SpriteRute Damage:(int) Damage InitialPosX:(int) InitialPosX InicialPosY:(int)InitialPosY FinalPosX:(int)FinalPosX FinalPosY:(int)FinalPosY Chord:(int) Chord;
 
 @end

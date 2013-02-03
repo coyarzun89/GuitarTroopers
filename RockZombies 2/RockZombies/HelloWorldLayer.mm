@@ -42,6 +42,7 @@
 @synthesize selectedWeapon;
 @synthesize chords;
 @synthesize enemiesPositionsList;
+@synthesize chordsList;
 
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
@@ -83,8 +84,10 @@
         for(int i = 8; i < 14; i ++)
             [enemiesPositionsList addObject:[NSNumber numberWithFloat:i * ((winSize.width - 70)/13.0)]];
         
-        
-        
+        chordsList = [[NSMutableArray alloc ] init];
+        for(int i = 0; i < 12; i ++)
+            [chordsList addObject:[NSNumber numberWithInt: i]];
+                
         selectedWeapon = 0;
         NSMutableDictionary *dictionary = [LevelManager sharedInstance].curLevel.enemiesList;
         enemiesProbability = [self enemiesGenerator:dictionary];
@@ -152,7 +155,6 @@
     // Choose one of the touches to work with
     UITouch *touch = [touches anyObject];
     CGPoint location = [self convertTouchToNodeSpace:touch];
-
     
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
@@ -172,7 +174,6 @@
             selectedWeapon = 0;
     }
     
-    //NSLog(@"Arma: %d", selectedWeapon);
     for(int i =0; i < 6; i++)
         if(selectedWeapon == i){
         [[CCTextureCache sharedTextureCache] removeTexture: [[chords objectAtIndex:i] texture]];
@@ -183,9 +184,9 @@
     }
     
     WeaponAux *selectedProjectile = [weaponsList objectAtIndex:selectedWeapon];
-    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y];
+    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Chord:0];
     [self addChild:[projectile sprite]];
-    [projectiles addObject:[projectile sprite]];
+    [projectiles addObject: projectile];
     
     [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
 }
@@ -197,31 +198,29 @@
     
     //NSLog(@"Número de enemigos: %d", [monsters count]);
     NSMutableArray *projectilesToDelete = [[NSMutableArray alloc] init];
-    for (CCSprite *projectile in projectiles) {
+    for (Projectile * projectile in projectiles) {
         
         NSMutableArray *monstersToDelete = [[NSMutableArray alloc] init];
         for (Enemy *monster in monsters)
-            if (CGRectIntersectsRect(projectile.boundingBox, monster.monster.boundingBox))
+            if (CGRectIntersectsRect([projectile sprite].boundingBox, monster.monster.boundingBox) && [projectile chord] == [monster.chord intValue])
             {
-                NSLog(@"Vida antes del disparo: %d", monster.remainingLife);
                 monster.remainingLife -=  50;
-                NSLog(@"Vida Porcentual antes del disparo: %f", monster.lifeBar.percentage);
                 [monster.lifeBar runAction:[CCProgressFromTo actionWithDuration:0.3f from: monster.lifeBar.percentage to: monster.remainingLife * [monster originalLife] / 100.0]];
                 
-                NSLog(@"Vida Restante Porcentual: %f", monster.lifeBar.percentage);
                 [projectilesToDelete addObject:projectile];
                 if(monster.remainingLife <= 0)
                     [monstersToDelete addObject:monster];
             }
-                
         for (Enemy *monster in monstersToDelete) {
             [monsters removeObject:monster];
             [self removeChild:monster.monster cleanup:YES];
+            [self removeChild:monster.lifeBar cleanup:YES];
+            [self removeChild:monster.palabra cleanup:YES];
+            [chordsList addObject: monster.chord];
             [enemiesPositionsList addObject:[NSNumber numberWithFloat:monster.originalPositionX]];
             monstersDestroyed++;
             if (monstersDestroyed > 3) {
                 CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
-                
                 [[CCDirector sharedDirector] replaceScene:gameOverScene];
             }
         }
@@ -229,24 +228,22 @@
     enemiesKilled = [NSString stringWithFormat:@"Enemies kills %d!", monstersDestroyed];
     label.string=enemiesKilled;
     
-    for (CCSprite *projectile in projectilesToDelete) {
+    for (id projectile in projectilesToDelete) {
         [projectiles removeObject:projectile];
-        [self removeChild:projectile cleanup:YES];
+        [self removeChild: [projectile sprite] cleanup:YES];
     }
     
     NSMutableArray *enemyProjectilesToDelete = [[NSMutableArray alloc] init];
-    for (CCSprite *projectile in enemyProjectiles)
-        if (CGRectIntersectsRect(projectile.boundingBox, player.boundingBox)){
+    for (id projectile in enemyProjectiles)
+        if (CGRectIntersectsRect([projectile sprite].boundingBox, player.boundingBox)){
             [playerLifeBar runAction:[CCProgressFromTo actionWithDuration:0.3f from: playerLifeBar.percentage to: playerLifeBar.percentage - 10]];
             [enemyProjectilesToDelete addObject:projectile];
         }
-    for (CCSprite *projectile in enemyProjectilesToDelete) {
+    for (id projectile in enemyProjectilesToDelete) {
         [enemyProjectiles removeObject:projectile];
-        [self removeChild:projectile cleanup:YES];
+        [self removeChild: [projectile sprite] cleanup:YES];
     }
 }
-
-
 
 #pragma mark GameKit delegate
 

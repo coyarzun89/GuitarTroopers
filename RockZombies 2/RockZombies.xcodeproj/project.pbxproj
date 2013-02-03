@@ -71,7 +71,6 @@
 		6260FD5416B4A4FF00957A48 /* 4.png in Resources */ = {isa = PBXBuildFile; fileRef = 6260FD4816B4A4FF00957A48 /* 4.png */; };
 		6260FD5516B4A4FF00957A48 /* 5 Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 6260FD4916B4A4FF00957A48 /* 5 Selected.png */; };
 		6260FD5616B4A4FF00957A48 /* 5.png in Resources */ = {isa = PBXBuildFile; fileRef = 6260FD4A16B4A4FF00957A48 /* 5.png */; };
-		6260FDD616B5CAA800957A48 /* MTRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6260FDD516B5CAA800957A48 /* MTRandom.m */; };
 		6284EB1716A206740025A0CA /* fondo-ipad.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6284EB1616A206740025A0CA /* fondo-ipad.jpg */; };
 		62E7914816AE1C000037DB85 /* Projectile-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E7914616AE1C000037DB85 /* Projectile-ipad.png */; };
 		62E7914916AE1C000037DB85 /* Projectile-ipadhd.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E7914716AE1C000037DB85 /* Projectile-ipadhd.png */; };
@@ -578,8 +577,6 @@
 		6260FD4816B4A4FF00957A48 /* 4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 4.png; path = Resources/4.png; sourceTree = "<group>"; };
 		6260FD4916B4A4FF00957A48 /* 5 Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "5 Selected.png"; path = "Resources/5 Selected.png"; sourceTree = "<group>"; };
 		6260FD4A16B4A4FF00957A48 /* 5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 5.png; path = Resources/5.png; sourceTree = "<group>"; };
-		6260FDD416B5CAA800957A48 /* MTRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTRandom.h; sourceTree = "<group>"; };
-		6260FDD516B5CAA800957A48 /* MTRandom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTRandom.m; sourceTree = "<group>"; };
 		6284EB1616A206740025A0CA /* fondo-ipad.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "fondo-ipad.jpg"; sourceTree = "<group>"; };
 		62E7914616AE1C000037DB85 /* Projectile-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Projectile-ipad.png"; sourceTree = "<group>"; };
 		62E7914716AE1C000037DB85 /* Projectile-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Projectile-ipadhd.png"; sourceTree = "<group>"; };
@@ -813,7 +810,6 @@
 		19AB0C001687C6E000601699 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				6260FDD316B5CAA800957A48 /* MTRandom */,
 				19AB0C071688CB1A00601699 /* aurio_helper.cpp */,
 				19AB0C081688CB1A00601699 /* aurio_helper.h */,
 				19AB0BEA1685535100601699 /* fft */,
@@ -884,15 +880,6 @@
 				6257851F16A0B8BB0083FEC1 /* Bug1159.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		6260FDD316B5CAA800957A48 /* MTRandom */ = {
-			isa = PBXGroup;
-			children = (
-				6260FDD416B5CAA800957A48 /* MTRandom.h */,
-				6260FDD516B5CAA800957A48 /* MTRandom.m */,
-			);
-			path = MTRandom;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1435,7 +1422,6 @@
 				62FBC32516B3610200CE136E /* Projectile.m in Sources */,
 				62FBC32D16B3789500CE136E /* WeaponsReader.m in Sources */,
 				62FBC33016B37B1700CE136E /* WeaponAux.m in Sources */,
-				6260FDD616B5CAA800957A48 /* MTRandom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

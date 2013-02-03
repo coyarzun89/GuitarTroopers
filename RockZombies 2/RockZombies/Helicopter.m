@@ -15,7 +15,6 @@
 @synthesize helicopter;
 @synthesize enemiesList;
 @synthesize enemiesProbability;
-@synthesize originalPositionX;
 
 -(id) initWithScene:(HelloWorldLayer *)mainLayer minEnemies:(int) minEnemies maxEnemies:(int) maxEnemies EnemiesList:(NSMutableArray *) enemiesList andEnemiesProbability:(NSMutableArray *) enemiesProbability
 {
@@ -71,38 +70,33 @@
     if(numEnemies == 0)
         NSLog(@"Alerta");
     for(int i = 0; i < numEnemies; i++){
-       /* do{
-            MTRandom *random = [[MTRandom alloc] initWithSeed:arc4random()];
-            delay = [random randomDoubleFrom:0 to:actualDuration];
-            for(id enemy in [mainLayer monsters])
-                if((winSize.width + helicopter.contentSize.width)/(float)actualDuration * delay - helicopter.contentSize.width/2 < [enemy monster].position.x + [enemy monster].contentSize.width && (winSize.width + helicopter.contentSize.width)/(float)actualDuration * delay - helicopter.contentSize.width/2 > [enemy monster].position.x - [enemy monster].contentSize.width){
-                    NSLog(@"Posición a reiniciar: %f", (winSize.width + helicopter.contentSize.width)/(float)actualDuration * delay - helicopter.contentSize.width/2);
-                    NSLog(@"Posición enemigo con el que choca: %f", [enemy monster].position.x);
-                    delay = -1;
-                    break;
-                }
-        }while(delay == -1 || delay/actualDuration > 0.4 && delay/actualDuration < 0.6 || delay/actualDuration < 0.12 || delay/actualDuration  > 0.88);*/
-        int randomPositionIndex = arc4random()%[[mainLayer enemiesPositionsList] count];
-        self.originalPositionX = [[[mainLayer enemiesPositionsList] objectAtIndex:randomPositionIndex] floatValue];
-        [[mainLayer enemiesPositionsList] removeObjectAtIndex:randomPositionIndex];
-        delay = (originalPositionX + helicopter.contentSize.width/2 + 70) * actualDuration / (winSize.width + helicopter.contentSize.width);
+
+        NSMutableArray * auxArray = [[NSMutableArray alloc] init];
         
-        [self performSelector:@selector(launchEnemyNumber:) withObject: mainLayer afterDelay:delay];
-        NSLog(@"Posición calculada: %f", (winSize.width + helicopter.contentSize.width)/(float)actualDuration * delay - helicopter.contentSize.width/2);
+        int randomPositionIndex = arc4random()%[[mainLayer enemiesPositionsList] count];
+        [auxArray addObject: [[mainLayer enemiesPositionsList] objectAtIndex:randomPositionIndex]];
+        [[mainLayer enemiesPositionsList] removeObjectAtIndex:randomPositionIndex];
+        delay = ([[auxArray objectAtIndex:0] intValue] + helicopter.contentSize.width/2 + 70) * actualDuration / (winSize.width + helicopter.contentSize.width);
+        
+        int randomChordIndex = arc4random() % [[mainLayer chordsList] count];
+        [auxArray addObject: [NSNumber numberWithInt: [[[mainLayer chordsList] objectAtIndex: randomChordIndex] intValue]]];
+        [[mainLayer chordsList] removeObjectAtIndex: randomChordIndex];
+        [auxArray addObject:mainLayer];
+        
+        [self performSelector:@selector(launchEnemyNumber:) withObject: auxArray afterDelay:delay];
     }
     
     return self;
 }
 
--(void) launchEnemyNumber:(HelloWorldLayer *) mainLayer
+-(void) launchEnemyNumber:(NSMutableArray *) auxArray
 {
     int choosenEnemy = [[enemiesProbability objectAtIndex:arc4random() % 100] intValue];
-    NSLog(@"Numero random: %d tipos de enemigos: %d", choosenEnemy, [enemiesList count]);
+    NSLog(@"Valor chord: %@", [auxArray objectAtIndex:1]);
     for(id enemy in enemiesList)
         if(choosenEnemy == [enemy enemyType]){
             NSLog(@"Posición Real: %f", helicopter.position.x);
-            [[Enemy alloc] initWithScene: mainLayer Type:[enemy enemyType] PosX:helicopter.position.x PosY:helicopter.position.y Life: [enemy remainingLife] Damage:[enemy damage] Sprite:[enemy sprite]].originalPositionX = self.originalPositionX;
-
+            [[Enemy alloc] initWithScene: [auxArray objectAtIndex:2] Type:[enemy enemyType] PosX:helicopter.position.x PosY:helicopter.position.y Life: [enemy remainingLife] Damage:[enemy damage] Sprite:[enemy sprite] Chord: [auxArray objectAtIndex:1] ].originalPositionX = [[auxArray objectAtIndex:0] intValue];
         }
     
 }
