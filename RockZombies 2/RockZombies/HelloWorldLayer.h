@@ -41,7 +41,7 @@
 +(CCScene *) scene;
 -(NSMutableArray *) enemiesGenerator:(NSMutableDictionary *) enemies;
 -(id) shootWithFret:(NSNumber *)Fret;
--(id) weaponChange;
+-(void) weaponChange;
 
 @property (strong, nonatomic) NSMutableArray * monsters;
 @property (unsafe_unretained) CCSprite * player;

@@ -107,14 +107,14 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
         
         //printf("%lf\n", intensidad);
 
-        if(0.5*intensidad > prevIntensidad){
+        if(0.25*intensidad > prevIntensidad){
             prevFreq = -1;
             prevIntensidad = intensidad;
         }
         
         // 35 con el iRig
         // 100 ambiente leve ruido, guitarra electrica
-        if(intensidad > 30){
+        if(intensidad > 20){
 
             double* aBuscar = (double*)malloc(14*sizeof(double));
             for(int i = 0; i <= 12; i++)
@@ -246,14 +246,13 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                 currentFrequency = -1;
             
             if(currentFrequency == CT[0][0] && currentFrequency != prevFreq){
-                printf("Cambio de Arma!!!!\n");
                 [delegateLayer weaponChange];
-                printf("Fin del cambio de arma!!!!\n");
                 prevFreq = currentFrequency;
             }
             
             if(currentFrequency > 0 && currentFrequency != CT[0][0] &&  currentFrequency != prevFreq && numberConflicts < 2){
                 //printf("Frecuency: %.1f (%d) - %d\n", currentFrequency, maxCountFinal, numberConflicts);
+                printf("Disparar a %d\n", maxIndexFinal);
                 [delegateLayer shootWithFret:[NSNumber numberWithInt:maxIndexFinal]];
                 prevFreq = currentFrequency;
             }

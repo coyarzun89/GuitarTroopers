@@ -153,7 +153,6 @@
 	
     
     [CDAudioManager initAsynchronously:kAMM_PlayAndRecord];
-    [NSThread detachNewThreadSelector:@selector(soundProcess) toTarget:self withObject:nil];
     
     // and add the scene to the stack. The director will run it when it automatically when the view is displayed.
 	[director_ pushScene: [IntroLayer scene]];
@@ -401,12 +400,6 @@ static OSStatus	PerformThru(
 
 - (NSUInteger) fftLength{
     return fftLength;
-}
-
-- (void)soundProcess {
-    while ([self shouldRecord])
-        [self doFFT];
-    [NSThread exit];
 }
 
 @end

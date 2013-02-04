@@ -197,7 +197,7 @@
 
 
 
--(id) weaponChange
+-(void) weaponChange
 {
     for(int i =0; i < 6; i++)
         if(selectedWeapon == i){
@@ -245,6 +245,10 @@
 }
 
 - (void)update:(ccTime)dt {
+    
+    AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+    [app doFFT];
+    
     //NSLog(@"Número de enemigos: %d", [monsters count]);
     NSMutableArray *projectilesToDelete = [[NSMutableArray alloc] init];
     for (Projectile * projectile in projectiles) {
