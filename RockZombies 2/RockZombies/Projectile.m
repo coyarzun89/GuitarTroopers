@@ -15,6 +15,7 @@
 @synthesize offRealX;
 @synthesize offRealY;
 @synthesize fret;
+@synthesize originalTime;
 
 -(id) initWithLayer:(HelloWorldLayer *) mainLayer SpriteRute:(NSString *) SpriteRute Damage:(int) Damage InitialPosX:(int) InitialPosX InicialPosY:(int)InitialPosY FinalPosX:(int)FinalPosX FinalPosY:(int)FinalPosY Fret:(int) Fret
 {
@@ -55,16 +56,12 @@
     float length = sqrtf((offRealX*offRealX)+(offRealY*offRealY));
     float velocity = 480/1; // 480pixels/1sec
     float realMoveDuration = length/velocity;
+    originalTime = realMoveDuration;
     
     // Move projectile to actual endpoint
     [sprite runAction:
-     [CCSequence actions:
-      [CCMoveTo actionWithDuration:realMoveDuration position:realDest],
-      [CCCallBlockN actionWithBlock:^(CCNode *node) {
-         [[mainLayer projectiles] removeObject:node];
-         [node removeFromParentAndCleanup:YES];
-     }],
-      nil]];
+    
+     [CCMoveTo actionWithDuration:realMoveDuration position:realDest]];
    
     return self;
 }

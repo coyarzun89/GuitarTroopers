@@ -147,7 +147,7 @@
             [chords addObject:chord];
             [self addChild:chord];
         }
-        
+         [self schedule:@selector(moveEnemies) interval:0.2];
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background-music-aac.caf"];        
     }
     return self;
@@ -245,6 +245,18 @@
     return self;
 }
 
+-(void) moveEnemies
+{
+    for (Projectile * projectile in projectiles)
+        for (Enemy *monster in monsters)
+            if ([projectile fret] == [monster.fret intValue]){
+                [projectile.sprite stopAllActions];
+                NSLog(@"Tiempo: %f", DistanceBetweenTwoPoints(projectile.sprite.position, monster.monster.position) / DistanceBetweenTwoPoints(player.position, monster.monster.position) * projectile.originalTime);
+                [projectile.sprite runAction: [CCMoveTo actionWithDuration: DistanceBetweenTwoPoints(projectile.sprite.position, monster.monster.position) / DistanceBetweenTwoPoints(player.position, monster.monster.position) /** projectile.originalTime*/ position:monster.monster.position]];
+            }
+}
+
+
 - (void)update:(ccTime)dt {
     
     AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
@@ -331,5 +343,12 @@
     }
     return enemyWithProbability;
 }
+
+CGFloat DistanceBetweenTwoPoints(CGPoint point1,CGPoint point2)
+{
+    CGFloat dx = point2.x - point1.x;
+    CGFloat dy = point2.y - point1.y;
+    return sqrt(dx*dx + dy*dy );
+};
 
 @end

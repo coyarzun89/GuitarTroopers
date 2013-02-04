@@ -18,6 +18,7 @@
 @property int offRealX;
 @property int offRealY;
 @property int fret;
+@property float originalTime;
 
 -(id) initWithLayer:(HelloWorldLayer *) mainLayer SpriteRute:(NSString *) SpriteRute Damage:(int) Damage InitialPosX:(int) InitialPosX InicialPosY:(int)InitialPosY FinalPosX:(int)FinalPosX FinalPosY:(int)FinalPosY Fret:(int) Fret;
 
