@@ -212,10 +212,10 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                     if (aBuscar[i] < 110 && k == 7 && count[i] < 7){
                         count[i] = 0;
                         break;
-                    }else if (aBuscar[i] >= 110 && aBuscar[i] <= 165 && k == 3 && count[i] < 3 ){
+                    }else if (aBuscar[i] >= 110 && aBuscar[i] <= 165 && k == 5 && count[i] < 5){
                         count[i] = 0;
                         break;
-                    }else if(aBuscar[i] > 165 && aBuscar[i] <= 660 && k == 3 && count[i] < 3){
+                    }else if(aBuscar[i] > 165 && aBuscar[i] <= 660 && k == 4 && count[i] < 4){
                         count[i] = 0;
                         break;
                     }else if(aBuscar[i] > 660){
