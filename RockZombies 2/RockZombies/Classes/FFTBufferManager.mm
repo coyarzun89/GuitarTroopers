@@ -118,7 +118,7 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
 
             double* aBuscar = (double*)malloc(14*sizeof(double));
             for(int i = 0; i <= 12; i++)
-                aBuscar[i] = CT[5][i];
+                aBuscar[i] = CT[[delegateLayer selectedWeapon]][i];
             aBuscar[13] = CT[0][0];
             
             intensidad *= (double)lengthFFT;
