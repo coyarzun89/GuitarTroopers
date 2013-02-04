@@ -88,7 +88,7 @@
         for(int i = 0; i < 12; i ++)
             [chordsList addObject:[NSNumber numberWithInt: i]];
                 
-        selectedWeapon = 0;
+        selectedWeapon = 1;
         NSMutableDictionary *dictionary = [LevelManager sharedInstance].curLevel.enemiesList;
         enemiesProbability = [self enemiesGenerator:dictionary];
         
@@ -150,6 +150,7 @@
     return self;
 }
 
+
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
     // Choose one of the touches to work with
@@ -176,13 +177,62 @@
     
     for(int i =0; i < 6; i++)
         if(selectedWeapon == i){
-        [[CCTextureCache sharedTextureCache] removeTexture: [[chords objectAtIndex:i] texture]];
-        CCTexture2D* tex = [[CCTextureCache sharedTextureCache] addImage:[NSString stringWithFormat:@"%d Selected.png", i]];
-        CGSize size = [tex contentSize];
-        [[chords objectAtIndex:i] setTexture: tex];
-        [[chords objectAtIndex:i] setTextureRect:CGRectMake(0.0f, 0.0f, size.width,size.height)];
-    }
+            [[CCTextureCache sharedTextureCache] removeTexture: [[chords objectAtIndex:i] texture]];
+            CCTexture2D* tex = [[CCTextureCache sharedTextureCache] addImage:[NSString stringWithFormat:@"%d Selected.png", i]];
+            CGSize size = [tex contentSize];
+            [[chords objectAtIndex:i] setTexture: tex];
+            [[chords objectAtIndex:i] setTextureRect:CGRectMake(0.0f, 0.0f, size.width,size.height)];
+        }
     
+    WeaponAux *selectedProjectile = [weaponsList objectAtIndex:selectedWeapon];
+    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Chord:0];
+    [self addChild:[projectile sprite]];
+    [projectiles addObject: projectile];
+    
+    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+}
+
+
+
+-(id) weaponChange
+{
+    for(int i =0; i < 6; i++)
+        if(selectedWeapon == i){
+            [[CCTextureCache sharedTextureCache] removeTexture: [[chords objectAtIndex:i] texture]];
+            CCTexture2D* tex = [[CCTextureCache sharedTextureCache] addImage:[NSString stringWithFormat:@"%d.png", i]];
+            CGSize size = [tex contentSize];
+            [[chords objectAtIndex:i] setTexture: tex];
+            [[chords objectAtIndex:i] setTextureRect:CGRectMake(0.0f, 0.0f, size.width,size.height)];
+        }
+    /*Aquí la implementación del cambio de arma*/
+        if(selectedWeapon < [weaponsList count] - 1)
+            selectedWeapon++;
+        else
+            selectedWeapon = 1;
+    
+    for(int i =0; i < 6; i++)
+        if(selectedWeapon == i){
+            [[CCTextureCache sharedTextureCache] removeTexture: [[chords objectAtIndex:i] texture]];
+            CCTexture2D* tex = [[CCTextureCache sharedTextureCache] addImage:[NSString stringWithFormat:@"%d Selected.png", i]];
+            CGSize size = [tex contentSize];
+            [[chords objectAtIndex:i] setTexture: tex];
+            [[chords objectAtIndex:i] setTextureRect:CGRectMake(0.0f, 0.0f, size.width,size.height)];
+        }
+}
+
+-(id) shootWithChord:(NSNumber *)Chord {
+    
+    CGPoint location;
+    
+    for(Enemy *enemy in enemiesList) /*Si hay un enemigo que corresponda a la nota tocada, la bala irá hacia él)*/
+        if(enemy.chord == Chord)
+            location = enemy.monster.position;
+    
+    if(!CGPointEqualToPoint(location, CGPointZero)) /*Si no hay enemigos que correspondan a la nota, (0, 0) se considera no inicializado)*/
+        return self;
+    
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+        
     WeaponAux *selectedProjectile = [weaponsList objectAtIndex:selectedWeapon];
     Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Chord:0];
     [self addChild:[projectile sprite]];

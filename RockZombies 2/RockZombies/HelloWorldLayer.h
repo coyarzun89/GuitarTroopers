@@ -40,7 +40,8 @@
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 -(NSMutableArray *) enemiesGenerator:(NSMutableDictionary *) enemies;
--(id) shootWithChord:(int)Chord;
+-(id) shootWithChord:(NSNumber *)Chord;
+-(id) weaponChange;
 
 @property (strong, nonatomic) NSMutableArray * monsters;
 @property (unsafe_unretained) CCSprite * player;
