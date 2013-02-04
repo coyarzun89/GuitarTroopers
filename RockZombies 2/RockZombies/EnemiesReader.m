@@ -45,7 +45,7 @@
         NSDictionary *enemiesData = [self getDictionary:@"EnemiesData"];
         int i = 0;
         for(id enemyId in enemiesData){
-            [enemiesList addObject:[[Enemy alloc] initWithScene:mainLayer Type: [[NSString stringWithFormat:@"%d",i] intValue] PosX:nil PosY:nil Life:[[enemyId  valueForKey: @"HP"] intValue]  Damage:[[enemyId  valueForKey: @"Damage"] intValue]  Sprite:[enemyId  valueForKey: @"spriteNormal"] Chord: 0 ]];
+            [enemiesList addObject:[[Enemy alloc] initWithScene:mainLayer Type: [[NSString stringWithFormat:@"%d",i] intValue] PosX:nil PosY:nil Life:[[enemyId  valueForKey: @"HP"] intValue]  Damage:[[enemyId  valueForKey: @"Damage"] intValue]  Sprite:[enemyId  valueForKey: @"spriteNormal"] Fret: 0 ]];
             i++;
         }
         }

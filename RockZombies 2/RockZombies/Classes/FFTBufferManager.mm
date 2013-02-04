@@ -36,22 +36,22 @@ mAudioBufferCurrentIndex(0)
         CT[i] = (double*)malloc(25*sizeof(double));
         for(int j = 0; j < 25; j++){
             switch (i){
-                case 0: //eHigh
+                case 5: //eHigh
                     CT[5][j] = guitarFrequencySpectrum[j + 25 - 1];
                     break;
-                case 1: //B
+                case 4: //B
                     CT[4][j] = guitarFrequencySpectrum[j + 20 - 1];
                     break;
-                case 2: //G
+                case 3: //G
                     CT[3][j] = guitarFrequencySpectrum[j + 16 - 1];
                     break;
-                case 3: //D
+                case 2: //D
                     CT[2][j] = guitarFrequencySpectrum[j + 11 - 1];
                     break;
-                case 4: //A
+                case 1: //A
                     CT[1][j] = guitarFrequencySpectrum[j + 6 - 1];
                     break;
-                case 5: //eLow
+                case 0: //eLow
                     CT[0][j] = guitarFrequencySpectrum[j + 1 - 1];
                     break;
                 default:
@@ -246,13 +246,15 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                 currentFrequency = -1;
             
             if(currentFrequency == CT[0][0] && currentFrequency != prevFreq){
-                printf("Cambia de Arma!!!!\n");
+                printf("Cambio de Arma!!!!\n");
+                [delegateLayer weaponChange];
+                printf("Fin del cambio de arma!!!!\n");
                 prevFreq = currentFrequency;
             }
             
             if(currentFrequency > 0 && currentFrequency != CT[0][0] &&  currentFrequency != prevFreq && numberConflicts < 2){
                 //printf("Frecuency: %.1f (%d) - %d\n", currentFrequency, maxCountFinal, numberConflicts);
-                printf("Dispara al %d", maxIndexFinal);
+                [delegateLayer shootWithFret:[NSNumber numberWithInt:maxIndexFinal]];
                 prevFreq = currentFrequency;
             }
             //else

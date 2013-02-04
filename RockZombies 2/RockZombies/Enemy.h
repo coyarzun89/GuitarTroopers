@@ -33,10 +33,10 @@ typedef enum{
 @property NSString * sprite;;
 @property int originalLife;
 @property int originalPositionX;
-@property NSNumber * chord;
+@property NSNumber * fret;
 @property CCLabelTTF * palabra;
 
--(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)type PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite Chord:(NSNumber *) Chord;
+-(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)type PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite Fret:(NSNumber *) Fret;
 
 
 

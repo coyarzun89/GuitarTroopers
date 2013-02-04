@@ -14,11 +14,11 @@
 @synthesize sprite;
 @synthesize offRealX;
 @synthesize offRealY;
-@synthesize chord;
+@synthesize fret;
 
--(id) initWithLayer:(HelloWorldLayer *) mainLayer SpriteRute:(NSString *) SpriteRute Damage:(int) Damage InitialPosX:(int) InitialPosX InicialPosY:(int)InitialPosY FinalPosX:(int)FinalPosX FinalPosY:(int)FinalPosY Chord:(int) Chord
+-(id) initWithLayer:(HelloWorldLayer *) mainLayer SpriteRute:(NSString *) SpriteRute Damage:(int) Damage InitialPosX:(int) InitialPosX InicialPosY:(int)InitialPosY FinalPosX:(int)FinalPosX FinalPosY:(int)FinalPosY Fret:(int) Fret
 {
-    self.chord = Chord;
+    self.fret = Fret;
     
     CGPoint location = CGPointMake(FinalPosX, FinalPosY);
     

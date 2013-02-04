@@ -26,9 +26,9 @@
 @synthesize originalPositionX;
 @synthesize palabra;
 
--(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)enemyType PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite Chord:(NSNumber *) Chord
+-(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)enemyType PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite Fret:(NSNumber *) Fret
 {
-    self.chord = Chord;
+    self.fret = Fret;
     self.damage = damage;
     self.enemyType = enemyType;
     lifeBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"Progreso.png"]];
@@ -51,7 +51,7 @@
         int actualDuration = (arc4random() % rangeDuration) + minDuration;
         
         CCCallBlockN * actionShoot = [CCCallBlockN actionWithBlock:^(CCNode *node) {
-            Projectile * projectile = [[Projectile alloc] initWithLayer:mainLayer SpriteRute:@"Projectile.png" Damage:damage InitialPosX:monster.position.x InicialPosY:monster.position.y FinalPosX:mainLayer.player.position.x FinalPosY:mainLayer.player.position.y Chord:nil];
+            Projectile * projectile = [[Projectile alloc] initWithLayer:mainLayer SpriteRute:@"Projectile.png" Damage:damage InitialPosX:monster.position.x InicialPosY:monster.position.y FinalPosX:mainLayer.player.position.x FinalPosY:mainLayer.player.position.y Fret:nil];
             [mainLayer addChild: [projectile sprite]];
             [[mainLayer enemyProjectiles] addObject:projectile];
         }];
@@ -68,7 +68,7 @@
         [mainLayer addChild:lifeBar];
         [[mainLayer monsters] addObject:self];
         
-        palabra =[[CCLabelTTF alloc] initWithString: [NSString stringWithFormat:@"%@", Chord] dimensions:CGSizeMake(100.0, 100.0) alignment:kCCTextAlignmentCenter fontName:@"verdana" fontSize:20.0f];
+        palabra =[[CCLabelTTF alloc] initWithString: [NSString stringWithFormat:@"%@", Fret] dimensions:CGSizeMake(100.0, 100.0) alignment:kCCTextAlignmentCenter fontName:@"verdana" fontSize:20.0f];
         palabra.position =ccp(posX, posY + 80);
         [mainLayer addChild:palabra];
         [palabra runAction:[CCSequence actions:[CCMoveTo actionWithDuration:actualDuration position:ccp(posX, 180)], nil]];

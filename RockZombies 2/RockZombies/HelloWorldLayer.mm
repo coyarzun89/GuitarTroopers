@@ -188,7 +188,7 @@
         }
     
     WeaponAux *selectedProjectile = [weaponsList objectAtIndex:selectedWeapon];
-    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Chord:0];
+    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Fret:0];
     [self addChild:[projectile sprite]];
     [projectiles addObject: projectile];
     
@@ -223,12 +223,12 @@
         }
 }
 
--(id) shootWithChord:(NSNumber *)Chord {
+-(id) shootWithFret:(NSNumber *)Fret {
     
     CGPoint location;
     
     for(Enemy *enemy in enemiesList) /*Si hay un enemigo que corresponda a la nota tocada, la bala irá hacia él)*/
-        if(enemy.chord == Chord)
+        if(enemy.fret == Fret)
             location = enemy.monster.position;
     
     if(!CGPointEqualToPoint(location, CGPointZero)) /*Si no hay enemigos que correspondan a la nota, (0, 0) se considera no inicializado)*/
@@ -237,7 +237,7 @@
     CGSize winSize = [[CCDirector sharedDirector] winSize];
         
     WeaponAux *selectedProjectile = [weaponsList objectAtIndex:selectedWeapon];
-    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Chord:0];
+    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Fret:0];
     [self addChild:[projectile sprite]];
     [projectiles addObject: projectile];
     
@@ -251,7 +251,7 @@
         
         NSMutableArray *monstersToDelete = [[NSMutableArray alloc] init];
         for (Enemy *monster in monsters)
-            if (CGRectIntersectsRect([projectile sprite].boundingBox, monster.monster.boundingBox) && [projectile chord] == [monster.chord intValue])
+            if (CGRectIntersectsRect([projectile sprite].boundingBox, monster.monster.boundingBox) && [projectile fret] == [monster.fret intValue])
             {
                 monster.remainingLife -=  50;
                 [monster.lifeBar runAction:[CCProgressFromTo actionWithDuration:0.3f from: monster.lifeBar.percentage to: monster.remainingLife * [monster originalLife] / 100.0]];
@@ -265,7 +265,7 @@
             [self removeChild:monster.monster cleanup:YES];
             [self removeChild:monster.lifeBar cleanup:YES];
             [self removeChild:monster.palabra cleanup:YES];
-            [chordsList addObject: monster.chord];
+            [chordsList addObject: monster.fret];
             [enemiesPositionsList addObject:[NSNumber numberWithFloat:monster.originalPositionX]];
             monstersDestroyed++;
             if (monstersDestroyed > 3) {
