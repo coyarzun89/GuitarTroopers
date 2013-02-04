@@ -30,12 +30,12 @@
     
     BOOL						mute;
     BOOL                        shouldRecord;
-    FFTBufferManager*			fftBufferManager;
 	DCRejectionFilter*			dcFilter;
     CAStreamBasicDescription	thruFormat;
     AURenderCallbackStruct		inputProc;
     Float64						hwSampleRate;
     int32_t*					l_fftData;
+    FFTBufferManager*			fftBufferManager;
     
 }
 
@@ -53,5 +53,6 @@
 - (void)doFFT;
 - (SInt32*) fftData;
 - (NSUInteger) fftLength;
+- (FFTBufferManager*) getFFTBufferManager;
 
 @end
