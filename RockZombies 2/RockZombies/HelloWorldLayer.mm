@@ -37,7 +37,7 @@
 @synthesize maxEnemies;
 @synthesize minEnemies;
 @synthesize enemiesProbability;
-@synthesize enemiesList;
+@synthesize enemiesTypeListAux;
 @synthesize weaponsList;
 @synthesize selectedWeapon;
 @synthesize chords;
@@ -64,7 +64,7 @@
 
 -(void)gameLogic:(ccTime)dt {
     if([enemiesPositionsList count] > 0)
-        [[Helicopter new] initWithScene:self minEnemies:minEnemies maxEnemies:maxEnemies EnemiesList:enemiesList andEnemiesProbability:enemiesProbability];
+        [[Helicopter new] initWithScene:self minEnemies:minEnemies maxEnemies:maxEnemies EnemiesList:enemiesTypeListAux andEnemiesProbability:enemiesProbability];
     int minTime = [LevelManager sharedInstance].curLevel.minTime;
     int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
     [self unschedule:@selector(gameLogic)];
@@ -95,7 +95,7 @@
         NSMutableDictionary *dictionary = [LevelManager sharedInstance].curLevel.enemiesList;
         enemiesProbability = [self enemiesGenerator:dictionary];
         
-        enemiesList = [[[EnemiesReader alloc] initWithScece:self] enemiesList];
+        enemiesTypeListAux = [[[EnemiesReader alloc] initWithScece:self] enemiesList];
         
         weaponsList = [[[WeaponsReader alloc] initWithScene:self] weaponsList];
         
@@ -195,8 +195,6 @@
     [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
 }
 
-
-
 -(void) weaponChange
 {
     for(int i =0; i < 6; i++)
@@ -225,23 +223,26 @@
 
 -(id) shootWithFret:(NSNumber *)Fret {
     
-    CGPoint location;
+    CGPoint location = ccp(0, 0);
+  
+    NSLog(@"NSNumber: %d", Fret);
+    if(monsters.count > 0)
+        for(Enemy * enemy in monsters) /*Si hay un enemigo que corresponda a la nota tocada, la bala irá hacia él)*/
+            if(enemy.fret == Fret)
+                location = enemy.monster.position;
     
-    for(Enemy *enemy in enemiesList) /*Si hay un enemigo que corresponda a la nota tocada, la bala irá hacia él)*/
-        if(enemy.fret == Fret)
-            location = enemy.monster.position;
-    
-    if(!CGPointEqualToPoint(location, CGPointZero)) /*Si no hay enemigos que correspondan a la nota, (0, 0) se considera no inicializado)*/
+    if(CGPointEqualToPoint(location, CGPointZero)) /*Si no hay enemigos que correspondan a la nota, (0, 0) se considera no inicializado)*/
         return self;
     
     CGSize winSize = [[CCDirector sharedDirector] winSize];
         
     WeaponAux *selectedProjectile = [weaponsList objectAtIndex:selectedWeapon];
-    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Fret:0];
+    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Fret: [Fret intValue]];
     [self addChild:[projectile sprite]];
     [projectiles addObject: projectile];
     
     [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+    return self;
 }
 
 - (void)update:(ccTime)dt {

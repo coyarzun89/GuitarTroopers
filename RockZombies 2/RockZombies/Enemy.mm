@@ -25,10 +25,11 @@
 @synthesize originalLife;
 @synthesize originalPositionX;
 @synthesize palabra;
+@synthesize fret;
 
 -(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)enemyType PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite Fret:(NSNumber *) Fret
 {
-    self.fret = Fret;
+    fret = Fret;
     self.damage = damage;
     self.enemyType = enemyType;
     lifeBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"Progreso.png"]];

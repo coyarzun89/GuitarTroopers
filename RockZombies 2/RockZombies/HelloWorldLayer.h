@@ -30,7 +30,7 @@
     int _maxEnemies;
     int _minEnemies;
     NSMutableArray * _enemiesProbability;
-    NSMutableArray * _enemiesList;
+    NSMutableArray * _enemiesTypeListAux;
     NSMutableArray * _weaponsList;
     int selectedWeapon;
     NSMutableArray * _chords;
@@ -56,7 +56,7 @@
 @property NSMutableArray * enemiesProbability;
 @property NSString * enemiesKilled;
 @property CCLabelTTF * label;
-@property NSMutableArray * enemiesList;
+@property NSMutableArray * enemiesTypeListAux;
 @property NSMutableArray * weaponsList;
 @property int selectedWeapon;
 @property NSMutableArray * chords;
