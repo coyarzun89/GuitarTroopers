@@ -24,8 +24,10 @@
 @synthesize remainingLife;
 @synthesize originalLife;
 @synthesize originalPositionX;
+@synthesize originalPositionY;
 @synthesize palabra;
 @synthesize fret;
+@synthesize originalTime;
 
 -(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)enemyType PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite Fret:(NSNumber *) Fret
 {
@@ -40,6 +42,7 @@
   
     if( posX && posY)
     {
+        originalPositionY = posY;
         monster = [CCSprite spriteWithFile:sprite];
         monster.position = ccp(posX, posY);
         if(monster.position.x > mainLayer.player.position.x)
@@ -50,6 +53,7 @@
         int maxDuration = 4.0;
         int rangeDuration = maxDuration - minDuration;
         int actualDuration = (arc4random() % rangeDuration) + minDuration;
+        originalTime = actualDuration;
         
         CCCallBlockN * actionShoot = [CCCallBlockN actionWithBlock:^(CCNode *node) {
             Projectile * projectile = [[Projectile alloc] initWithLayer:mainLayer SpriteRute:@"Projectile.png" Damage:damage InitialPosX:monster.position.x InicialPosY:monster.position.y FinalPosX:mainLayer.player.position.x FinalPosY:mainLayer.player.position.y Fret:nil];
