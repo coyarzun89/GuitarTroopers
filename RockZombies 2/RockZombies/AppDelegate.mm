@@ -395,12 +395,12 @@ static OSStatus	PerformThru(
     return fftData;
 }
 
-- (NSUInteger) fftLength{
-    return fftLength;
+- (FFTBufferManager*) getFFTBufferManager{
+    return fftBufferManager;
 }
 
-- (void)startTheBackgroundJob {
-    [self performSelectorOnMainThread:@selector(soundProcess) withObject:nil waitUntilDone:NO];
+- (NSUInteger) fftLength{
+    return fftLength;
 }
 
 - (void)soundProcess {

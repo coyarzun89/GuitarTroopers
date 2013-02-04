@@ -14,6 +14,9 @@ mAudioBufferSize(inNumberFrames * sizeof(int32_t)),
 mAudioBufferCurrentIndex(0)
 
 {
+    prevFreq = -1;
+    prevIntensidad = 0;
+    //currentLayer = nil;
 	mAudioBuffer = (int32_t*)malloc(mAudioBufferSize * sizeof(int32_t));
 	mSpectrumAnalysis = SpectrumAnalysisCreate(mNumberFrames);
 	OSAtomicIncrement32Barrier(&mNeedsAudioData);
@@ -34,22 +37,22 @@ mAudioBufferCurrentIndex(0)
         for(int j = 0; j < 25; j++){
             switch (i){
                 case 0: //eHigh
-                    CT[0][j] = guitarFrequencySpectrum[j + 25 - 1];
+                    CT[5][j] = guitarFrequencySpectrum[j + 25 - 1];
                     break;
                 case 1: //B
-                    CT[1][j] = guitarFrequencySpectrum[j + 20 - 1];
+                    CT[4][j] = guitarFrequencySpectrum[j + 20 - 1];
                     break;
                 case 2: //G
-                    CT[2][j] = guitarFrequencySpectrum[j + 16 - 1];
+                    CT[3][j] = guitarFrequencySpectrum[j + 16 - 1];
                     break;
                 case 3: //D
-                    CT[3][j] = guitarFrequencySpectrum[j + 11 - 1];
+                    CT[2][j] = guitarFrequencySpectrum[j + 11 - 1];
                     break;
                 case 4: //A
-                    CT[4][j] = guitarFrequencySpectrum[j + 6 - 1];
+                    CT[1][j] = guitarFrequencySpectrum[j + 6 - 1];
                     break;
                 case 5: //eLow
-                    CT[5][j] = guitarFrequencySpectrum[j + 1 - 1];
+                    CT[0][j] = guitarFrequencySpectrum[j + 1 - 1];
                     break;
                 default:
                     break;
@@ -102,15 +105,21 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
             intensidad += outFFTData[i];
         intensidad /= (double)lengthFFT;
         
-        //printf("%lf\n", bw);
+        //printf("%lf\n", intensidad);
+
+        if(0.5*intensidad > prevIntensidad){
+            prevFreq = -1;
+            prevIntensidad = intensidad;
+        }
         
         // 35 con el iRig
         // 100 ambiente leve ruido, guitarra electrica
-        if(intensidad > 25){
+        if(intensidad > 30){
+
             double* aBuscar = (double*)malloc(14*sizeof(double));
             for(int i = 0; i <= 12; i++)
-                aBuscar[i] = CT[0][i];
-            aBuscar[13] = CT[5][0];
+                aBuscar[i] = CT[5][i];
+            aBuscar[13] = CT[0][0];
             
             intensidad *= (double)lengthFFT;
             
@@ -187,39 +196,7 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
             sort(h.begin(), h.end());
             h.erase(unique(h.begin(), h.end()), h.end());
             
-            //for(int i = 0; i < h.size(); i++)
-            //    printf("%.1f ", h[i]);
-            //printf("\n");
-            
-            // Conteo de armonicos
-            /*int32_t* count;
-             count = (int32_t*)malloc(h.size()* sizeof(int32_t));
-             for (int i = 0; i < h.size(); i++){
-             count[i] = 1;
-             for (int k = 2; k <= 20; k++){
-             for (int m = 1; m < h.size(); m++){
-             if (abs(k * h[i] - h[m]) < h[m] * 0.0289){
-             count[i]++;
-             break;
-             }
-             
-             }
-             if (h[i] < 110 && k == 4 && count[i] < 4){
-             count[i] = 0;
-             break;
-             }else if (h[i] >= 110 && h[i] <= 165 && k == 4 && count[i] < 4){
-             count[i] = 0;
-             break;
-             }else if(h[i] > 165 && h[i] <= 660 && k == 4 && count[i] < 4){
-             count[i] = 0;
-             break;
-             }else if(h[i] > 660){
-             count[i] = 0;
-             break;
-             }
-             }
-             }*/
-            
+            // Conteo de armónicos
             int32_t* count;
             count = (int32_t*)malloc(14* sizeof(int32_t));
             for (int i = 0; i < 14; i++){
@@ -232,7 +209,7 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                         }
                     }
                     
-                    if (aBuscar[i] < 110 && k == 6 && count[i] < 6){
+                    if (aBuscar[i] < 110 && k == 7 && count[i] < 7){
                         count[i] = 0;
                         break;
                     }else if (aBuscar[i] >= 110 && aBuscar[i] <= 165 && k == 3 && count[i] < 3 ){
@@ -268,28 +245,45 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
             else
                 currentFrequency = -1;
             
-            if(currentFrequency > 0 && numberConflicts < 2)
-                printf("Frecuency: %.1f (%d) - %d\n", currentFrequency, maxCountFinal, numberConflicts);
+            if(currentFrequency == CT[0][0] && currentFrequency != prevFreq){
+                printf("Cambia de Arma!!!!\n");
+                prevFreq = currentFrequency;
+            }
+            
+            if(currentFrequency > 0 && currentFrequency != CT[0][0] &&  currentFrequency != prevFreq && numberConflicts < 2){
+                //printf("Frecuency: %.1f (%d) - %d\n", currentFrequency, maxCountFinal, numberConflicts);
+                printf("Dispara al %d", maxIndexFinal);
+                prevFreq = currentFrequency;
+            }
+            //else
+              //  prevFreq = -1;
             
             // Se libera la data
             free(sen2);
             free(result);
             free(count);
         }
-        
+        else{
+            prevFreq = -1;
+        }
         // GOGOGOGOGO
         OSAtomicDecrement32Barrier(&mHasAudioData);
 		OSAtomicIncrement32Barrier(&mNeedsAudioData);
 		mAudioBufferCurrentIndex = 0;
 		return true;
 	}
-	else if (mNeedsAudioData == 0)
+	else if (mNeedsAudioData == 0){
 		OSAtomicIncrement32Barrier(&mNeedsAudioData);
-	
+    }
 	return false;
 }
 
 double FFTBufferManager::GetFrequency(int gIndex)
 {
     return guitarFrequencySpectrum[gIndex - 1];
+}
+
+void FFTBufferManager::RegisterDelegate(HelloWorldLayer *layer){
+    delegateLayer = layer;
+    printf("Registered a Delegated HelloWorldLayer\n");
 }

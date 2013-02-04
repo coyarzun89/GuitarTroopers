@@ -49,7 +49,7 @@
 
 #include <AudioToolbox/AudioToolbox.h>
 #include <libkern/OSAtomic.h>
-
+#include "HelloWorldLayer.h"
 #include "SpectrumAnalysis.h"
 
 class FFTBufferManager
@@ -67,6 +67,7 @@ public:
 	void				GrabAudioData(AudioBufferList *inBL);
 	Boolean				ComputeFFT(int32_t *outFFTData);
     double              GetFrequency(int gIndex);
+    void                RegisterDelegate(HelloWorldLayer* layer);
 	
 private:
 	volatile int32_t	mNeedsAudioData;
@@ -82,4 +83,7 @@ private:
 	int32_t				mAudioBufferCurrentIndex;
     double*             guitarFrequencySpectrum;
     double**             CT;
+    HelloWorldLayer*    delegateLayer;
+    double prevFreq;
+    double prevIntensidad;
 };

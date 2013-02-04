@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1929F60D16C00EF500F65D28 /* FFTBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1929F60C16C00EF500F65D28 /* FFTBufferManager.mm */; };
 		1958DE45169E562000A3343B /* GameOverLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1958DE44169E562000A3343B /* GameOverLayer.mm */; };
 		1958DE4C169E570100A3343B /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1958DE47169E570100A3343B /* background-music-aac.caf */; };
 		1958DE4D169E570100A3343B /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1958DE48169E570100A3343B /* pew-pew-lei.caf */; };
@@ -35,7 +36,6 @@
 		19AB0BD2168552C900601699 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 19AB0BD1168552C900601699 /* AppDelegate.mm */; };
 		19AB0BD5168552C900601699 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 19AB0BD4168552C900601699 /* HelloWorldLayer.mm */; };
 		19AB0BD8168552C900601699 /* IntroLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 19AB0BD7168552C900601699 /* IntroLayer.mm */; };
-		19AB0BE91685532200601699 /* FFTBufferManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19AB0BE61685532200601699 /* FFTBufferManager.cpp */; };
 		19AB0BEF1685535100601699 /* rad2fft.c in Sources */ = {isa = PBXBuildFile; fileRef = 19AB0BEB1685535100601699 /* rad2fft.c */; };
 		19AB0BF01685535100601699 /* SpectrumAnalysis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19AB0BED1685535100601699 /* SpectrumAnalysis.cpp */; };
 		19AB0BFD16857FEF00601699 /* CADebugMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19AB0BF616857FEF00601699 /* CADebugMacros.cpp */; };
@@ -496,6 +496,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1929F60C16C00EF500F65D28 /* FFTBufferManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FFTBufferManager.mm; path = Classes/FFTBufferManager.mm; sourceTree = "<group>"; };
 		1958DE43169E562000A3343B /* GameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverLayer.h; sourceTree = "<group>"; };
 		1958DE44169E562000A3343B /* GameOverLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameOverLayer.mm; sourceTree = "<group>"; };
 		1958DE47169E570100A3343B /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
@@ -534,7 +535,6 @@
 		19AB0BD4168552C900601699 /* HelloWorldLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HelloWorldLayer.mm; sourceTree = "<group>"; };
 		19AB0BD6168552C900601699 /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
 		19AB0BD7168552C900601699 /* IntroLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IntroLayer.mm; sourceTree = "<group>"; };
-		19AB0BE61685532200601699 /* FFTBufferManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FFTBufferManager.cpp; path = Classes/FFTBufferManager.cpp; sourceTree = "<group>"; };
 		19AB0BE71685532200601699 /* FFTBufferManager.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = FFTBufferManager.h; path = Classes/FFTBufferManager.h; sourceTree = "<group>"; };
 		19AB0BEB1685535100601699 /* rad2fft.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rad2fft.c; sourceTree = "<group>"; };
 		19AB0BEC1685535100601699 /* rad2fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rad2fft.h; sourceTree = "<group>"; };
@@ -680,8 +680,8 @@
 				62F374BC16A098B000ED2718 /* Helicopter.m */,
 				1958DE43169E562000A3343B /* GameOverLayer.h */,
 				1958DE44169E562000A3343B /* GameOverLayer.mm */,
-				19AB0BE61685532200601699 /* FFTBufferManager.cpp */,
 				19AB0BE71685532200601699 /* FFTBufferManager.h */,
+				1929F60C16C00EF500F65D28 /* FFTBufferManager.mm */,
 				19AB0BD0168552C900601699 /* AppDelegate.h */,
 				19AB0BD1168552C900601699 /* AppDelegate.mm */,
 				19AB0BD3168552C900601699 /* HelloWorldLayer.h */,
@@ -1405,7 +1405,6 @@
 				19AB0BD2168552C900601699 /* AppDelegate.mm in Sources */,
 				19AB0BD5168552C900601699 /* HelloWorldLayer.mm in Sources */,
 				19AB0BD8168552C900601699 /* IntroLayer.mm in Sources */,
-				19AB0BE91685532200601699 /* FFTBufferManager.cpp in Sources */,
 				19AB0BEF1685535100601699 /* rad2fft.c in Sources */,
 				19AB0BF01685535100601699 /* SpectrumAnalysis.cpp in Sources */,
 				19AB0BFD16857FEF00601699 /* CADebugMacros.cpp in Sources */,
@@ -1422,6 +1421,7 @@
 				62FBC32516B3610200CE136E /* Projectile.m in Sources */,
 				62FBC32D16B3789500CE136E /* WeaponsReader.m in Sources */,
 				62FBC33016B37B1700CE136E /* WeaponAux.m in Sources */,
+				1929F60D16C00EF500F65D28 /* FFTBufferManager.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

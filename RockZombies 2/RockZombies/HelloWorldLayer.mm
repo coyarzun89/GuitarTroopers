@@ -75,6 +75,9 @@
 
 - (id) init
 {
+    AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+    [app getFFTBufferManager]->RegisterDelegate(self);
+    
     if ((self = [super initWithColor:ccc4(255,255,255,255)])) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
