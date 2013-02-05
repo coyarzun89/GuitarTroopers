@@ -19,7 +19,9 @@
 @property int offRealY;
 @property int fret;
 @property float originalTime;
+@property CGPoint originalDestination;
 
 -(id) initWithLayer:(HelloWorldLayer *) mainLayer SpriteRute:(NSString *) SpriteRute Damage:(int) Damage InitialPosX:(int) InitialPosX InicialPosY:(int)InitialPosY FinalPosX:(int)FinalPosX FinalPosY:(int)FinalPosY Fret:(int) Fret;
+-(CGPoint) RealDestinationFromX:(float) OrigX Y:(float) OrigY ToX:(float) DestX Y:(float)DestY;
 
 @end
