@@ -94,13 +94,11 @@
     // mute should be on at launch
 	self.mute = YES;
     self.shouldRecord = YES;
+    
     // Initialize our remote i/o unit
-	
 	inputProc.inputProc = PerformThru;
 	inputProc.inputProcRefCon = (__bridge void*) self;
     
-    
-    //CFURLRef url = NULL;
 	try {
 		// Initialize and configure the audio session
 		XThrowIfError(AudioSessionInitialize(NULL, NULL, rioInterruptionListener, (__bridge void*) self), "couldn't initialize audio session");
@@ -115,8 +113,6 @@
 		
 		UInt32 size = sizeof(hwSampleRate);
 		XThrowIfError(AudioSessionGetProperty(kAudioSessionProperty_CurrentHardwareSampleRate, &size, &hwSampleRate), "couldn't get hw sample rate");
-		
-		//XThrowIfError(AudioSessionSetActive(true), "couldn't set audio session active\n");
         
 		XThrowIfError(SetupRemoteIO(rioUnit, inputProc, thruFormat), "couldn't setup remote i/o unit");
 		unitHasBeenCreated = true;
@@ -142,15 +138,12 @@
 		fprintf(stderr, "Error: %s (%s)\n", e.mOperation, e.FormatError(buf));
 		unitIsRunning = 0;
 		if (dcFilter) delete[] dcFilter;
-		//if (url) CFRelease(url);
 	}
 	catch (...) {
 		fprintf(stderr, "An unknown error occurred\n");
 		unitIsRunning = 0;
 		if (dcFilter) delete[] dcFilter;
-		//if (url) CFRelease(url);
 	}
-	
     
     [CDAudioManager initAsynchronously:kAMM_PlayAndRecord];
     
@@ -168,7 +161,6 @@ void rioInterruptionListener(void *inClientData, UInt32 inInterruption)
 	AppController *THIS = (__bridge AppController*)inClientData;
 	
 	if (inInterruption == kAudioSessionEndInterruption) {
-		// make sure we are again the active session
 		XThrowIfError(AudioSessionSetActive(true), "couldn't set audio session active");
 		XThrowIfError(AudioOutputUnitStart(THIS->rioUnit), "couldn't start unit");
 	}
@@ -179,10 +171,7 @@ void rioInterruptionListener(void *inClientData, UInt32 inInterruption)
 }
 
 #pragma mark -Audio Session Property Listener
-void propListener(	void *                  inClientData,
-                  AudioSessionPropertyID	inID,
-                  UInt32                  inDataSize,
-                  const void *            inData)
+void propListener(void* inClientData, AudioSessionPropertyID inID, UInt32 inDataSize, const void* inData)
 {
 	AppController *THIS = (__bridge AppController*)inClientData;
 	if (inID == kAudioSessionProperty_AudioRouteChange)
@@ -227,25 +216,41 @@ void propListener(	void *                  inClientData,
 			XThrowIfError(AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &newRoute), "couldn't get new audio route");
 			if (newRoute)
 			{
+                // Cambio de dispositivo de audio
 				CFShow(newRoute);
-				if (CFStringCompare(newRoute, CFSTR("Headset"), NULL) == kCFCompareEqualTo) // headset plugged in
+				if (CFStringCompare(newRoute, CFSTR("Headset"), NULL) == kCFCompareEqualTo) // Headset bluetooth o algo similar
 				{
-                    
+                    THIS->fftBufferManager->isAmbiental = true;
 				}
-				else if (CFStringCompare(newRoute, CFSTR("Receiver"), NULL) == kCFCompareEqualTo) // headset plugged in
+				else if (CFStringCompare(newRoute, CFSTR("HeadphonesAndMicrophone"), NULL) == kCFCompareEqualTo) // Solo línea de salida, micrófono ambiental
 				{
-					
+					THIS->fftBufferManager->isAmbiental = true;
 				}
-				else
+				else if (CFStringCompare(newRoute, CFSTR("Speaker"), NULL) == kCFCompareEqualTo) // sólo parlantes... posible?
 				{
-					
+                    THIS->fftBufferManager->isAmbiental = true;
 				}
+                else if (CFStringCompare(newRoute, CFSTR("SpeakerAndMicrophone"), NULL) == kCFCompareEqualTo) // headset plugged in
+                {
+                    THIS->fftBufferManager->isAmbiental = true;
+                }
+                else if (CFStringCompare(newRoute, CFSTR("HeadsetInOut"), NULL) == kCFCompareEqualTo) // iRig o audifonos con micrófono
+                {
+                    THIS->fftBufferManager->isAmbiental = false;
+                }
+                else if (CFStringCompare(newRoute, CFSTR("ReceiverAndMicrophone"), NULL) == kCFCompareEqualTo) // Headset bluetooth o algo similar
+                {
+                    THIS->fftBufferManager->isAmbiental = true;
+                }
+                else if (CFStringCompare(newRoute, CFSTR("Lineout"), NULL) == kCFCompareEqualTo) // Solo línea de salida... posible?
+                {
+                    THIS->fftBufferManager->isAmbiental = false;
+                }
 			}
 		} catch (CAXException e) {
 			char buf[256];
 			fprintf(stderr, "Error: %s (%s)\n", e.mOperation, e.FormatError(buf));
 		}
-		
 	}
 }
 
@@ -257,10 +262,7 @@ void propListener(	void *                  inClientData,
 }
 
 #pragma mark -RIO Render Callback
-static OSStatus	PerformThru(
-							void						*inRefCon,
-							AudioUnitRenderActionFlags 	*ioActionFlags,
-							const AudioTimeStamp 		*inTimeStamp,
+static OSStatus	PerformThru(void *inRefCon, AudioUnitRenderActionFlags *ioActionFlags, const AudioTimeStamp *inTimeStamp,
 							UInt32 						inBusNumber,
 							UInt32 						inNumberFrames,
 							AudioBufferList 			*ioData)
@@ -272,53 +274,16 @@ static OSStatus	PerformThru(
 	// Remove DC component
 	for(UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
 		THIS->dcFilter[i].InplaceFilter((SInt32*)(ioData->mBuffers[i].mData), inNumberFrames, 1);
-	
-	/*if (THIS->displayMode == aurioTouchDisplayModeOscilloscopeWaveform)
-     {
-     // The draw buffer is used to hold a copy of the most recent PCM data to be drawn on the oscilloscope
-     if (drawBufferLen != drawBufferLen_alloced)
-     {
-     int drawBuffer_i;
-     
-     // Allocate our draw buffer if needed
-     if (drawBufferLen_alloced == 0)
-     for (drawBuffer_i=0; drawBuffer_i<kNumDrawBuffers; drawBuffer_i++)
-     drawBuffers[drawBuffer_i] = NULL;
-     
-     // Fill the first element in the draw buffer with PCM data
-     for (drawBuffer_i=0; drawBuffer_i<kNumDrawBuffers; drawBuffer_i++)
-     {
-     drawBuffers[drawBuffer_i] = (SInt8 *)realloc(drawBuffers[drawBuffer_i], drawBufferLen);
-     bzero(drawBuffers[drawBuffer_i], drawBufferLen);
-     }
-     
-     drawBufferLen_alloced = drawBufferLen;
-     }
-     
-     int i;
-     
-     SInt8 *data_ptr = (SInt8 *)(ioData->mBuffers[0].mData);
-     for (i=0; i<inNumberFrames; i++)
-     {
-     if ((i+drawBufferIdx) >= drawBufferLen)
-     {
-     cycleOscilloscopeLines();
-     drawBufferIdx = -i;
-     }
-     drawBuffers[0][i + drawBufferIdx] = data_ptr[2];
-     data_ptr += 4;
-     }
-     drawBufferIdx += inNumberFrames;
-     }
-     */
     
     if (THIS->fftBufferManager == NULL)
         return noErr;
     
     if (THIS->fftBufferManager->NeedsNewAudioData())
         THIS->fftBufferManager->GrabAudioData(ioData);
+    
 	if (THIS->mute == YES)
         SilenceData(ioData);
+    
 	return err;
 }
 

@@ -16,7 +16,9 @@ mAudioBufferCurrentIndex(0)
 {
     prevFreq = -1;
     prevIntensidad = 0;
-    //currentLayer = nil;
+    isAmbiental = true;
+    silence = true;
+
 	mAudioBuffer = (int32_t*)malloc(mAudioBufferSize * sizeof(int32_t));
 	mSpectrumAnalysis = SpectrumAnalysisCreate(mNumberFrames);
 	OSAtomicIncrement32Barrier(&mNeedsAudioData);
@@ -59,6 +61,13 @@ mAudioBufferCurrentIndex(0)
             }
         }
     }
+    
+    // Variables Auxiliares
+    lengthFFT = mNumberFrames / 2;
+    maxFreq = 4804.6875;
+    duration = ((double)mNumberFrames / (double)mSampleRate);
+    bw = ((double)mSampleRate / (double)mNumberFrames);
+    lengthUsefulFFT = (int)(maxFreq*duration);
 }
 
 FFTBufferManager::~FFTBufferManager()
@@ -92,29 +101,23 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
         // Realizamos una FFT
 		SpectrumAnalysisProcess(mSpectrumAnalysis, mAudioBuffer, outFFTData, false);
         
-        // Variables Auxiliares
-        int lengthFFT = mNumberFrames / 2;
-        double maxFreq = 4804.6875;
-        double duration = ((double)mNumberFrames / (double)mSampleRate);
-        double bw = ((double)mSampleRate / (double)mNumberFrames);
-        int lengthUsefulFFT = (int)(maxFreq*duration);
-        
         // Cálculo de la intensidad promedio de la señal
         double intensidad = 0;
         for(int i = 0; i < lengthFFT - 1; i++)
             intensidad += outFFTData[i];
         intensidad /= (double)lengthFFT;
         
-        // Verificamos si ha tocado otra nota
-        //if(intensidad > prevIntensidad)
-        //    prevFreq = -1;
-        //prevIntensidad = intensidad;
+        peak = false;
+        // Si está usando el iRig podemos verificar con esto si ha tocado otra nota
+        if(!isAmbiental){
+            if(intensidad > 1.2*prevIntensidad){
+                prevFreq = -1;
+                peak = true;
+            }
+        }
+        prevIntensidad = intensidad;
         
-        printf("%lf\n", intensidad);
-        
-        // 35 con el iRig
-        // 100 ambiente leve ruido, guitarra electrica
-        if(intensidad > 8)
+        if(intensidad > GetIntensityThresold())
         {
             double* aBuscar = (double*)malloc(14*sizeof(double));
             for(int i = 0; i <= 12; i++)
@@ -128,7 +131,7 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
             for(int i = 0; i < lengthUsefulFFT; i++)
             {
                 double value = ((double)outFFTData[i])/((double)(intensidad));
-                result[i] = (value <= 0.005)? (double)0 : value;
+                result[i] = (value <= GetLowerPeakThresold())? (double)0 : value;
             }
             
             // Se obtienen los peaks del espectro, el proceso se hace mediante vecindad definida
@@ -142,7 +145,6 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
             }
             
             int skip = 1;
-            double algo = 0;
             for(int i = threshold; i < lengthUsefulFFT - 1 - threshold; i += skip)
             {
                 if(result[i] > 0)
@@ -161,7 +163,6 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                     if(isMax)
                     {
                         sen2[i] = result[i];
-                        algo += 1;
                         skip = threshold;
                     }
                 }
@@ -171,14 +172,13 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                     skip = 1;
                 }
             }
-            printf("db: %lf\n", algo);
             
             // Se transforman los peaks recolectados a sus valores en frecuencia
             std::vector<double> h;
             h.push_back(((double)8)*bw);
             h.push_back(((double)10)*bw);
             for(int i = 0; i < lengthUsefulFFT - threshold - 1; i++)
-                if(sen2[i] > 0.005)
+                if(sen2[i] > GetLowerPeakThresold())
                     h.push_back(((double)i)*bw);
             
             // Transformamos las frecuencias obtenidas al espectro canónico de la guitarra.
@@ -192,13 +192,13 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                         break;
                     }
             
-            for(int i = 0; i < h.size(); i++)
-                printf("%lf\t", h[i]);
-            printf("\n");
-            
             // Limpieza de repetidos
             sort(h.begin(), h.end());
             h.erase(unique(h.begin(), h.end()), h.end());
+            
+            for(int i = 0; i < h.size(); i++)
+                printf("%lf\t", h[i]);
+            printf("\n");
             
             // Conteo de armónicos
             int32_t* count;
@@ -217,20 +217,34 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                         }
                     }
                     
-                    if (aBuscar[i] < 110 && k == 5 && count[i] < 5) // 7 con el iRig
-                    {
-                        count[i] = 0;
-                        break;
+                    if (aBuscar[i] < 110){
+                        if (isAmbiental && k == 4 && count[i] < 4) {
+                            count[i] = 0;
+                            break;
+                        }else if(!isAmbiental && k == 4 && count[i] < 4){
+                            count[i] = 0;
+                            break;
+                        }
                     }
-                    else if (aBuscar[i] >= 110 && aBuscar[i] <= 165 && k == 4 && count[i] < 4) // 5 con el iRig
+                    else if (aBuscar[i] >= 110 && aBuscar[i] <= 165) // 5 con el iRig
                     {
-                        count[i] = 0;
-                        break;
+                        if (isAmbiental && k == 3 && count[i] < 3) {
+                            count[i] = 0;
+                            break;
+                        }else if(!isAmbiental && k == 3 && count[i] < 3){
+                            count[i] = 0;
+                            break;
+                        }
                     }
-                    else if(aBuscar[i] > 165 && aBuscar[i] <= 660 && k == 3 && count[i] < 3) // 4 con el iRig
+                    else if(aBuscar[i] > 165 && aBuscar[i] <= 660) // 4 con el iRig
                     {
-                        count[i] = 0;
-                        break;
+                        if (isAmbiental && k == 3 && count[i] < 3) {
+                            count[i] = 0;
+                            break;
+                        }else if(!isAmbiental && k == 3 && count[i] < 3){
+                            count[i] = 0;
+                            break;
+                        }
                     }
                     else if(aBuscar[i] > 660)
                     {
@@ -239,6 +253,8 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                     }
                 }
             }
+            
+            printf("El valor es %d.\n", count[10]);
             
             // Busqueda de la fundametal
             int maxIndexFinal = 0;
@@ -262,19 +278,29 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
             else
                 currentFrequency = -1;
             
-            // Verificamos si ha tocado la 6ta cuerda
-            if(currentFrequency == CT[0][0] && currentFrequency != prevFreq) // que sea mas que el 50% de los armonicos
-            {
-                [delegateLayer weaponChange];
-                prevFreq = currentFrequency;
-            }
-            
-            // Si no, verificamos si toco otro traste
-            if(currentFrequency > 0 && currentFrequency != CT[0][0] &&  currentFrequency != prevFreq && numberConflicts < 2 && maxCountFinal > 0.5*(h.size()-1))
-            {
-                printf("Disparar a %d\n", maxIndexFinal);
-                [delegateLayer shootWithFret:[NSNumber numberWithInt:maxIndexFinal]];
-                prevFreq = currentFrequency;
+            if(numberConflicts < 2){
+                if(silence && currentFrequency == CT[0][0]) // Verificamos si ha tocado la 6ta cuerda al aire
+                {
+                    if((isAmbiental /*&& maxCountFinal > h.size()/2*/) || !isAmbiental){
+                        [delegateLayer weaponChange];
+                        silence = false;
+                    }
+                }
+                else if(currentFrequency != CT[0][0] && currentFrequency > 0)
+                {
+                    if( (peak && !isAmbiental && maxCountFinal > (h.size()-1)/2)){
+                        [delegateLayer shootWithFret:[NSNumber numberWithInt:maxIndexFinal]];
+                    }
+                    else if(!peak && !isAmbiental && maxCountFinal > 0.9*(h.size()-1))
+                    {
+                        [delegateLayer shootWithFret:[NSNumber numberWithInt:maxIndexFinal]];
+                    }
+                    else if (maxCountFinal > 0.8*(h.size()-1) && isAmbiental)
+                    {
+                        [delegateLayer shootWithFret:[NSNumber numberWithInt:maxIndexFinal]];
+                    }
+                
+                }
             }
             
             // Se libera la data
@@ -282,8 +308,9 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
             free(result);
             free(count);
         }
-        else
-            prevFreq = -1;
+        else{
+            silence = true;
+        }
         
         // GOGOGOGOGO (dejamos que se recupere más audio)
         OSAtomicDecrement32Barrier(&mHasAudioData);
@@ -306,4 +333,12 @@ double FFTBufferManager::GetFrequency(int gIndex)
 void FFTBufferManager::RegisterDelegate(HelloWorldLayer *layer){
     delegateLayer = layer;
     printf("Registered a Delegated HelloWorldLayer\n");
+}
+
+double FFTBufferManager::GetIntensityThresold(){
+    return isAmbiental? 8 : 100;
+}
+
+double FFTBufferManager::GetLowerPeakThresold(){
+    return isAmbiental? 0.01 : 0.005;
 }

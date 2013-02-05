@@ -57,7 +57,7 @@ class FFTBufferManager
 public:
 	FFTBufferManager(UInt32 inNumberFrames, UInt32 hwSampleRate);
 	~FFTBufferManager();
-	
+	bool isAmbiental;
 	volatile int32_t	HasNewAudioData()	{ return mHasAudioData; }
 	volatile int32_t	NeedsNewAudioData() { return mNeedsAudioData; }
     
@@ -86,4 +86,16 @@ private:
     HelloWorldLayer*    delegateLayer;
     double prevFreq;
     double prevIntensidad;
+    // Variables Auxiliares
+    int lengthFFT;
+    double maxFreq;
+    double duration;
+    double bw;
+    int lengthUsefulFFT;
+    bool silence;
+    bool peak;
+    
+    double              GetIntensityThresold();
+    double              GetLowerPeakThresold();
+    
 };
