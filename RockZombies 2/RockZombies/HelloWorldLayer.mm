@@ -188,7 +188,7 @@
         }
     
     WeaponAux *selectedProjectile = [weaponsList objectAtIndex:selectedWeapon];
-    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Fret:0];
+    Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Fret:nil];
     [self addChild:[projectile sprite]];
     [projectiles addObject: projectile];
     
@@ -294,7 +294,12 @@
     enemiesKilled = [NSString stringWithFormat:@"Enemies kills %d!", monstersDestroyed];
     label.string=enemiesKilled;
     
-    for (id projectile in projectilesToDelete) {
+    for (Projectile * projectile in projectilesToDelete) {
+        for(Projectile * auxProjectile in projectiles)
+            if(projectile.fret == auxProjectile.fret){
+                [projectile RealDestinationFromX:projectile.sprite.position.x  Y:projectile.sprite.position.y ToX:projectile.originalDestination.x Y:projectile.originalDestination.y];
+                [auxProjectile.sprite runAction: [CCMoveTo actionWithDuration: DistanceBetweenTwoPoints(projectile.originalDestination, player.position) / DistanceBetweenTwoPoints(projectile.originalDestination, projectile.sprite.position) * projectile.originalTime position: projectile.originalDestination]];
+            }
         [projectiles removeObject:projectile];
         [self removeChild: [projectile sprite] cleanup:YES];
     }
@@ -303,7 +308,7 @@
     for (id projectile in enemyProjectiles)
         if (CGRectIntersectsRect([projectile sprite].boundingBox, player.boundingBox)){
             [playerLifeBar runAction:[CCProgressFromTo actionWithDuration:0.3f from: playerLifeBar.percentage to: playerLifeBar.percentage - 10]];
-            [enemyProjectilesToDelete addObject:projectile];
+            [enemyProjectilesToDelete addObject:projectile];   
         }
     for (id projectile in enemyProjectilesToDelete) {
         [enemyProjectiles removeObject:projectile];
