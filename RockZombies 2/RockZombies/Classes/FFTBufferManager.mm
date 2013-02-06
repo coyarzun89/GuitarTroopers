@@ -128,16 +128,19 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
             // Copiamos la FFT a un arreglo auxiliar, considerando solo hasta la maxFreq determinada
             // Se escala la magnitud a valores entre 0 y 1
             double* result = (double*)malloc(lengthUsefulFFT * sizeof(double));
+            double algo = 0;
+
             for(int i = 0; i < lengthUsefulFFT; i++)
             {
                 double value = ((double)outFFTData[i])/((double)(intensidad));
                 result[i] = (value <= GetLowerPeakThresold())? (double)0 : value;
+                algo += value;
             }
             
             // Se obtienen los peaks del espectro, el proceso se hace mediante vecindad definida
             // por la variable threshold, es decir, tiene que ser máximo local en un radio
             double* sen2 = (double*)malloc(lengthUsefulFFT*sizeof(double));
-            int32_t threshold = 4;
+            int32_t threshold = 3;
             for(int i = 0; i < threshold; i++)
             {
                 sen2[i] = 0;
@@ -164,6 +167,13 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                     {
                         sen2[i] = result[i];
                         skip = threshold;
+                        for(int k = 1; k < threshold; k++)
+                            sen2[i+k] = 0;
+                    }
+                    else
+                    {
+                        sen2[i] = 0;
+                        skip = 1;
                     }
                 }
                 else
@@ -173,10 +183,14 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                 }
             }
             
+            /*for(int i = 0; i < lengthUsefulFFT - threshold - 1; i++)
+                printf("%lf\t", sen2[i]);
+            printf("\n");*/
+            
             // Se transforman los peaks recolectados a sus valores en frecuencia
             std::vector<double> h;
-            h.push_back(((double)8)*bw);
-            h.push_back(((double)10)*bw);
+            h.push_back(CT[0][0]);
+            h.push_back(CT[1][0]);
             for(int i = 0; i < lengthUsefulFFT - threshold - 1; i++)
                 if(sen2[i] > GetLowerPeakThresold())
                     h.push_back(((double)i)*bw);
@@ -196,16 +210,46 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
             sort(h.begin(), h.end());
             h.erase(unique(h.begin(), h.end()), h.end());
             
+            // Rescatamos las magnitudes por ancho de banda en cada frecuencia
+            std::vector<double> hMagn;
             for(int i = 0; i < h.size(); i++)
-                printf("%lf\t", h[i]);
-            printf("\n");
+                hMagn.push_back(double(0));
+            
+            for(int i = 0; i < lengthUsefulFFT - 1; i++){
+                if(result[i] > 0){
+                    for(int j = 0; j < 118; j++){
+                        if(((double)i)*bw > GetFrequency(j) && ((double)i)*bw < GetFrequency(j + 1)){
+                            double freq = 0;
+                            
+                            if(abs(((double)i)*bw - GetFrequency(j)) < abs(((double)i)*bw - GetFrequency(j + 1)))
+                                freq = GetFrequency(j);
+                            else
+                                freq = GetFrequency(j+1);
+                            
+                            for(int k = 0; k < h.size(); k++)
+                                if(h[k] == freq){
+                                    hMagn[k] += result[i];
+                                    break;
+                                }
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            //for(int i = 0; i < hMagn.size(); i++)
+            //    printf("%lf: %lf\n", h[i], hMagn[i]);
+            //printf("\n");
             
             // Conteo de armónicos
             int32_t* count;
             count = (int32_t*)malloc(14* sizeof(int32_t));
+            double* countMagn;
+            countMagn = (double*)malloc(14* sizeof(double));
             for (int i = 0; i < 14; i++)
             {
                 count[i] = 1;
+                countMagn[i] = 0;
             	for (int k = 2; k <= 10; k++)
                 {
             		for (int m = 1; m < h.size(); m++)
@@ -213,15 +257,18 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
             			if (abs(k * aBuscar[i] - h[m]) < h[m] * 0.0289)
                         {
             				count[i]++;
+                            countMagn[i]+=hMagn[m];
                             break;
                         }
                     }
                     
-                    if (aBuscar[i] < 110){
-                        if (isAmbiental && k == 4 && count[i] < 4) {
+                    /*if (aBuscar[i] < 110){
+                        if (isAmbiental && k == 3 && count[i] < 3) {
                             count[i] = 0;
                             break;
-                        }else if(!isAmbiental && k == 4 && count[i] < 4){
+                        }else
+                     
+                        if(!isAmbiental && k == 4 && count[i] < 4){
                             count[i] = 0;
                             break;
                         }
@@ -250,58 +297,60 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
                     {
                         count[i] = 0;
                         break;
-                    }
+                    }*/
                 }
             }
             
-            printf("El valor es %d.\n", count[10]);
+            //printf("El valor es %d.\n", count[13]);
             
             // Busqueda de la fundametal
             int maxIndexFinal = 0;
-            int maxCountFinal = -1;
+            double maxSumFinal = 0;
             for(int i = 0; i < 14; i++)
-            	if(maxCountFinal < count[i])
+            	if(maxSumFinal < countMagn[i])
                 {
-            		maxCountFinal = count[i];
+            		maxSumFinal = countMagn[i];
             		maxIndexFinal = i;
             	}
             
             // Contamos los empates (no se hace nada si hay conflicto)
             int32_t numberConflicts = 0;
+            
             for(int i = 0; i < 14; i++)
-            	if(maxCountFinal == count[i])
+            	if(maxSumFinal == countMagn[i])
                     numberConflicts++;
             
             // Calculo de la diferencia
-            if(maxCountFinal > 2)
+            if(maxSumFinal > 0.5)
                 currentFrequency = aBuscar[maxIndexFinal];
             else
                 currentFrequency = -1;
             
-            if(numberConflicts < 2){
-                if(silence && currentFrequency == CT[0][0]) // Verificamos si ha tocado la 6ta cuerda al aire
+            
+            printf("%lf\n", maxSumFinal);
+            
+            if(numberConflicts < 2 && prevFreq != currentFrequency){
+                if(currentFrequency == CT[0][0]) // Verificamos si ha tocado la 6ta cuerda al aire
                 {
-                    if((isAmbiental /*&& maxCountFinal > h.size()/2*/) || !isAmbiental){
+                    if(silence && count[13] > 7){
                         [delegateLayer weaponChange];
                         silence = false;
                     }
                 }
                 else if(currentFrequency != CT[0][0] && currentFrequency > 0)
                 {
-                    if( (peak && !isAmbiental && maxCountFinal > (h.size()-1)/2)){
+                    if(!isAmbiental && maxSumFinal > 0.6){
                         [delegateLayer shootWithFret:[NSNumber numberWithInt:maxIndexFinal]];
+                        silence = false;
                     }
-                    else if(!peak && !isAmbiental && maxCountFinal > 0.9*(h.size()-1))
-                    {
-                        [delegateLayer shootWithFret:[NSNumber numberWithInt:maxIndexFinal]];
-                    }
-                    else if (maxCountFinal > 0.8*(h.size()-1) && isAmbiental)
+                    else if (isAmbiental && silence && count[maxIndexFinal] > 6)
                     {
                         [delegateLayer shootWithFret:[NSNumber numberWithInt:maxIndexFinal]];
                     }
                 
                 }
             }
+            prevFreq = currentFrequency;
             
             // Se libera la data
             free(sen2);
@@ -310,6 +359,7 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
         }
         else{
             silence = true;
+            prevFreq = -1;
         }
         
         // GOGOGOGOGO (dejamos que se recupere más audio)
@@ -336,9 +386,9 @@ void FFTBufferManager::RegisterDelegate(HelloWorldLayer *layer){
 }
 
 double FFTBufferManager::GetIntensityThresold(){
-    return isAmbiental? 8 : 100;
+    return isAmbiental? 15 : 100;
 }
 
 double FFTBufferManager::GetLowerPeakThresold(){
-    return isAmbiental? 0.01 : 0.005;
+    return isAmbiental? 0.001 : 0.005;
 }
