@@ -72,6 +72,10 @@ mAudioBufferCurrentIndex(0)
 
 FFTBufferManager::~FFTBufferManager(){
 	free(mAudioBuffer);
+    for(int i = 0; i < 6; i++)
+        free(CT[i]);
+    free(CT);
+    free(guitarFrequencySpectrum);
 	SpectrumAnalysisDestroy(mSpectrumAnalysis);
 }
 
