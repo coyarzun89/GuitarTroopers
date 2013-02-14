@@ -39,7 +39,6 @@
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
--(NSMutableArray *) enemiesGenerator:(NSMutableDictionary *) enemies;
 -(id) shootWithFret:(NSNumber *)Fret;
 -(void) weaponChange;
 

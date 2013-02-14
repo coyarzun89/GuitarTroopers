@@ -12,11 +12,11 @@
 #import "SimpleAudioEngine.h"
 #import "GameOverLayer.h"
 #import "Enemy.h"
-#import "Helicopter.h"
 #import "Enemy.h"
 #import "LevelManager.h"
 #import "EnemiesReader.h"
 #import "WeaponsReader.h"
+#import "Enemy.h"
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
@@ -61,18 +61,6 @@
     return scene;
 }
 
-
--(void)gameLogic:(ccTime)dt {
-    if([enemiesPositionsList count] > 0)
-        [[Helicopter new] initWithScene:self minEnemies:minEnemies maxEnemies:maxEnemies EnemiesList:enemiesTypeListAux andEnemiesProbability:enemiesProbability];
-    int minTime = [LevelManager sharedInstance].curLevel.minTime;
-    int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
-    [self unschedule:@selector(gameLogic)];
-    
-    [self schedule:@selector(gameLogic:) interval:arc4random() % maxTime + minTime];
-    
-}
-
 - (id) init
 {
     AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
@@ -83,17 +71,14 @@
         
         enemiesPositionsList = [[NSMutableArray alloc ] init];
         for(int i = 0; i < 6; i ++)
-            [enemiesPositionsList addObject:[NSNumber numberWithFloat:i * ((winSize.width - 70)/13.0)]];
-        for(int i = 8; i < 14; i ++)
-            [enemiesPositionsList addObject:[NSNumber numberWithFloat:i * ((winSize.width - 70)/13.0)]];
+            [enemiesPositionsList addObject:[NSNumber numberWithFloat:i * ((winSize.height + 70)/7.0)]];
+        
         
         chordsList = [[NSMutableArray alloc ] init];
         for(int i = 0; i < 12; i ++)
             [chordsList addObject:[NSNumber numberWithInt: i]];
                 
         selectedWeapon = 1;
-        NSMutableDictionary *dictionary = [LevelManager sharedInstance].curLevel.enemiesList;
-        enemiesProbability = [self enemiesGenerator:dictionary];
         
         enemiesTypeListAux = [[[EnemiesReader alloc] initWithScece:self] enemiesList];
         
@@ -112,14 +97,8 @@
 
         self.isTouchEnabled = YES;
         player = [CCSprite spriteWithFile:@"shooter.png"];
-        player.position = ccp(winSize.width/2, player.contentSize.height/2);
+        player.position = ccp(player.contentSize.width/2, winSize.height/2);
         [self addChild:player];
-        int minTime = [LevelManager sharedInstance].curLevel.minTime;
-        int maxTime = [LevelManager sharedInstance].curLevel.maxTime;
-        
-        maxEnemies = [LevelManager sharedInstance].curLevel.maxEnemy;
-        minEnemies = [LevelManager sharedInstance].curLevel.minEnemy;
-        [self schedule:@selector(gameLogic:) interval:rand() % maxTime + minTime];
         
         monsters = [[NSMutableArray alloc] init];
         projectiles = [[NSMutableArray alloc] init];
@@ -152,7 +131,6 @@
     }
     return self;
 }
-
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
@@ -225,7 +203,6 @@
     
     CGPoint location = ccp(0, 0);
   
-    NSLog(@"NSNumber: %d", Fret);
     if(monsters.count > 0)
         for(Enemy * enemy in monsters) /*Si hay un enemigo que corresponda a la nota tocada, la bala irá hacia él)*/
             if(enemy.fret == Fret)
@@ -233,8 +210,6 @@
     
     if(CGPointEqualToPoint(location, CGPointZero)) /*Si no hay enemigos que correspondan a la nota, (0, 0) se considera no inicializado)*/
         return self;
-    
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
         
     WeaponAux *selectedProjectile = [weaponsList objectAtIndex:selectedWeapon];
     Projectile *projectile = [[Projectile alloc] initWithLayer:self SpriteRute:[selectedProjectile rutaSprite] Damage:[selectedProjectile damage] InitialPosX:player.position.x InicialPosY:player.position.y FinalPosX: location.x FinalPosY:location.y Fret: [Fret intValue]];
@@ -277,13 +252,12 @@
                 if(monster.remainingLife <= 0)
                     [monstersToDelete addObject:monster];
             }
+        
         for (Enemy *monster in monstersToDelete) {
             [monsters removeObject:monster];
             [self removeChild:monster.monster cleanup:YES];
             [self removeChild:monster.lifeBar cleanup:YES];
             [self removeChild:monster.palabra cleanup:YES];
-            [chordsList addObject: monster.fret];
-            [enemiesPositionsList addObject:[NSNumber numberWithFloat:monster.originalPositionX]];
             monstersDestroyed++;
             if (monstersDestroyed > 3) {
                 CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
@@ -292,7 +266,7 @@
         }
     }
     enemiesKilled = [NSString stringWithFormat:@"Enemies kills %d!", monstersDestroyed];
-    label.string=enemiesKilled;
+    label.string = enemiesKilled;
     
     for (Projectile * projectile in projectilesToDelete) {
         for(Projectile * auxProjectile in projectiles)
@@ -330,24 +304,6 @@
     [[app navController] dismissModalViewControllerAnimated:YES];
 }
 
--(NSMutableArray *) enemiesGenerator:(NSMutableDictionary *) enemies
-{
-    int enemyChoosen;
-    int totalProbabilities = 0;
-    int probability;
-    NSMutableArray * enemyWithProbability = [[NSMutableArray alloc] init];
-    for(int i = 0; i < enemies.count; i++)
-    {
-        probability = [[enemies objectForKey:[NSString stringWithFormat:@"%d",i]] intValue];
-
-        for(int j = 0; j < probability; j++){
-            [enemyWithProbability addObject:[NSNumber numberWithInt:i]];
-            NSLog(@"%@", [enemyWithProbability objectAtIndex:[enemyWithProbability count] - 1]);
-        }
-        totalProbabilities += probability;
-    }
-    return enemyWithProbability;
-}
 
 CGFloat DistanceBetweenTwoPoints(CGPoint point1,CGPoint point2)
 {

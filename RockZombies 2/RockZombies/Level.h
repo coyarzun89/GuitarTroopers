@@ -12,13 +12,8 @@
 @interface Level : NSObject
 
 @property (nonatomic, assign) int levelNum;
-@property (nonatomic, assign) int minTime;
-@property (nonatomic, assign) int maxTime;
-@property (nonatomic, assign) int minEnemy;
-@property (nonatomic, assign) int maxEnemy;
-@property (nonatomic, assign) ccColor4B backgroundColor;
-@property NSMutableDictionary *enemiesList;
+@property NSMutableArray * enemiesList;
 
-- (id)initWithLevelNum:(int)levelNum minTime:(int)minTime maxTime:(int)maxTime minEnemy:(int)minEnemy maxEnemy:(int)maxEnemy backgroundColor:(ccColor4B)backgroundColor andEnemiesList:(NSMutableDictionary *) enemiesList;
+- (id)initWithLevelNum:(int)levelNum EnemiesList:(NSMutableArray *) enemiesList;
 
 @end

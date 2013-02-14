@@ -10,14 +10,10 @@
 
 @implementation Level
 
-- (id)initWithLevelNum:(int)levelNum minTime:(int)minTime maxTime:(int)maxTime minEnemy:(int)minEnemy maxEnemy:(int)maxEnemy backgroundColor:(ccColor4B)backgroundColor andEnemiesList:(NSMutableDictionary *) enemiesList{
+- (id)initWithLevelNum:(int)levelNum EnemiesList:(NSMutableArray *) enemiesList
+{
     if ((self = [super init])) {
         self.levelNum = levelNum;
-        self.minTime = minTime;
-        self.maxTime = maxTime;
-        self.minEnemy = minEnemy;
-        self.maxEnemy = maxEnemy;
-        self.backgroundColor = backgroundColor;
         self.enemiesList = enemiesList;
     }
     return self;

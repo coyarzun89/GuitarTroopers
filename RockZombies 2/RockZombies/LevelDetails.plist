@@ -7,7 +7,47 @@
 		<array>
 			<dict>
 				<key>time</key>
-				<integer>28</integer>
+				<integer>1</integer>
+				<key>fret</key>
+				<integer>3</integer>
+				<key>string</key>
+				<integer>0</integer>
+				<key>enemyType</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>time</key>
+				<integer>2</integer>
+				<key>fret</key>
+				<integer>0</integer>
+				<key>string</key>
+				<integer>1</integer>
+				<key>enemyType</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>time</key>
+				<integer>3</integer>
+				<key>fret</key>
+				<integer>0</integer>
+				<key>string</key>
+				<integer>2</integer>
+				<key>enemyType</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>time</key>
+				<integer>4</integer>
+				<key>fret</key>
+				<integer>0</integer>
+				<key>string</key>
+				<integer>3</integer>
+				<key>enemyType</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>time</key>
+				<integer>5</integer>
 				<key>fret</key>
 				<integer>0</integer>
 				<key>string</key>
@@ -17,51 +57,11 @@
 			</dict>
 			<dict>
 				<key>time</key>
-				<integer>26</integer>
+				<integer>6</integer>
 				<key>fret</key>
 				<integer>0</integer>
 				<key>string</key>
-				<integer>3</integer>
-				<key>enemyType</key>
-				<integer>1</integer>
-			</dict>
-			<dict>
-				<key>time</key>
-				<integer>24</integer>
-				<key>fret</key>
-				<integer>0</integer>
-				<key>string</key>
-				<integer>2</integer>
-				<key>enemyType</key>
-				<integer>1</integer>
-			</dict>
-			<dict>
-				<key>time</key>
-				<integer>22</integer>
-				<key>fret</key>
-				<integer>0</integer>
-				<key>string</key>
-				<integer>1</integer>
-				<key>enemyType</key>
-				<integer>1</integer>
-			</dict>
-			<dict>
-				<key>time</key>
-				<integer>18</integer>
-				<key>fret</key>
-				<integer>0</integer>
-				<key>string</key>
-				<integer>3</integer>
-				<key>enemyType</key>
-				<integer>1</integer>
-			</dict>
-			<dict>
-				<key>time</key>
-				<integer>16</integer>
-				<key>fret</key>
-				<integer>0</integer>
-				<key>string</key>
-				<integer>2</integer>
+				<integer>5</integer>
 				<key>enemyType</key>
 				<integer>1</integer>
 			</dict>

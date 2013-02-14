@@ -42,13 +42,13 @@
 - (id)initWithScece:(HelloWorldLayer *) mainLayer {
     if ((self = [super init])) {
         enemiesList = [[NSMutableArray alloc] init];
-        NSDictionary *enemiesData = [self getDictionary:@"EnemiesData"];
-        int i = 0;
-        for(id enemyId in enemiesData){
-            [enemiesList addObject:[[Enemy alloc] initWithScene:mainLayer Type: [[NSString stringWithFormat:@"%d",i] intValue] PosX:nil PosY:nil Life:[[enemyId  valueForKey: @"HP"] intValue]  Damage:[[enemyId  valueForKey: @"Damage"] intValue]  Sprite:[enemyId  valueForKey: @"spriteNormal"] Fret: 0 ]];
-            i++;
+        NSArray *enemiesData = [self getArray:@"EnemiesData"];
+        for(NSMutableDictionary * enemy in [LevelManager sharedInstance].curLevel.enemiesList)
+        {
+            [enemiesData objectAtIndex:[[enemy valueForKey:@"enemyType"] intValue]];
+        [enemiesList addObject:[[Enemy alloc] initWithScene:mainLayer Type: [enemy valueForKey:@"enemyType"] Time: [enemy valueForKey:@"time"] Life:[[[enemiesData objectAtIndex:[[enemy valueForKey:@"enemyType"] intValue]] valueForKey: @"HP"] intValue] Damage:[[[enemiesData objectAtIndex:[[enemy valueForKey:@"enemyType"] intValue]] valueForKey: @"Damage"] intValue] Sprite:[[enemiesData objectAtIndex:[[enemy valueForKey:@"enemyType"] intValue]] valueForKey: @"spriteNormal"]  String:[[enemy valueForKey:@"string"] floatValue] Fret:[enemy valueForKey:@"fret"]]];
         }
-        }
+    }
     return self;
 }
 

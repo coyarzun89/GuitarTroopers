@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Enemy.h"
+#include "LevelManager.h"
 
 @interface EnemiesReader : NSObject{
     NSMutableArray * _enemiesList;

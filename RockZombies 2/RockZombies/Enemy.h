@@ -13,9 +13,13 @@
 #import "Projectile.h"
 
 typedef enum{
-    LeftToRight,
-    RightToLeft
+    TopDown, /*LeftToRight*/
+    BottomUp /* RightToLeft*/
 } Way;
+
+
+
+
 
 @interface Enemy : NSObject {
 
@@ -38,7 +42,7 @@ typedef enum{
 @property CCLabelTTF * palabra;
 @property int originalTime;
 
--(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)type PosX:(int)posX PosY:(int)posY Life:(int)Life Damage:(int)damage Sprite:(NSString *) sprite Fret:(NSNumber *) Fret;
+-(id)initWithScene:(HelloWorldLayer *)mainLayer Type:(int)type Time:(NSNumber *)Time Life:(int)Life Damage:(int)Damage Sprite:(NSString *) Sprite String: (CGFloat)String Fret:(NSNumber *) Fret;
 
 
 
